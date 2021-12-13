@@ -2,39 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AlgorithmExercises.Chapter1
 {
-	public static class Section1
+	public class Section1
 	{
-		/// <summary>
-		/// Give the value of each of the expressions
-		/// </summary>
-		public static void Exercise1()
-		{
-			Console.WriteLine();
-			Console.WriteLine("1.1.1");
-			Console.WriteLine($"a. (0 + 15) / 2 = {(0 + 15) / 2}");
-			Console.WriteLine($"b. 2.0e-6 * 100000000.1 = {2.0e-6 * 100000000.1}");
-			Console.WriteLine($"c. true && false || true && true = {true && false || true && true}");
-		}
-
 		/// <summary>
 		/// Give the type and value of the expressions
 		/// </summary>
-		public static void Exercise2()
+		public static T Exercises1and2<T>(Func<T> func, out Type type)
 		{
-			Console.WriteLine();
-			Console.WriteLine("1.1.2");
-			var a = (1 + 2.236) / 2;
-			Console.WriteLine($"a. (1 + 2.236) / 2 = {a} {a.GetType()}");
-			var b = 1 + 2 + 3 + 4.0;
-			Console.WriteLine($"b. 1 + 2 + 3 + 4.0 = {b} {b.GetType()}");
-			var c = 4.1 >= 4;
-			Console.WriteLine($"c. 4.1 >= 4 = {c} {c.GetType()}");
-			var d = 1 + 2 + "3";
-			Console.WriteLine($"d. 1 + 2 + \"3\" = {d} {d.GetType()}");
+			var result = func();
+			type = result.GetType();
+			return result;
 		}
 
 		/// <summary>
@@ -61,11 +43,34 @@ namespace AlgorithmExercises.Chapter1
 				}
 				if (int.TryParse(entries[0], out int entry1) && int.TryParse(entries[1], out int entry2) && int.TryParse(entries[2], out int entry3))
 				{
-					Console.WriteLine($"All three equal: {entry1 == entry2 && entry2 == entry3}");
+					Console.WriteLine($"All three equal: {AllEqual(entry1, entry2, entry3)}");
 					continue;
 				}
 				Console.WriteLine("Error: One or more entry could not be parsed to an integer");
 			}
+		}
+
+		/// <summary>
+		/// Returns if all given <paramref name="values"/> are equal.
+		/// </summary>
+		/// <param name="values">The values to test for equality.</param>
+		/// <returns>True if all equal, otherwise false. An empty array returns false. A single value returns true.</returns>
+		public static bool AllEqual(params int[] values)
+		{
+			if (values is null)
+			{
+				throw new ArgumentNullException(nameof(values));
+			}
+			if (values.Length == 0)
+			{
+				return false;
+			}
+			if (values.Length == 1)
+			{
+				return true;
+			}
+			var first = values.First();
+			return values.All(v => v == first);
 		}
 
 		/// <summary>
@@ -86,6 +91,13 @@ namespace AlgorithmExercises.Chapter1
 			Console.WriteLine();
 			Console.Write("d. if (a > b) c = 0 else b = 0; ");
 			Console.Write("Missing semicolon after c = 0");
+		}
+
+		public bool ValidateIfStatement(string ifStatement)
+		{
+			Regex ifRegex = new Regex(@"^if\s+\(\s*(""\w""|\d+)\s+(>|>=|<|<=|==)\s+(""\w""|\d+)\s*)\s+{?.+}?;$");
+			return ifRegex.Match(ifStatement).Success;
+			
 		}
 	}
 }

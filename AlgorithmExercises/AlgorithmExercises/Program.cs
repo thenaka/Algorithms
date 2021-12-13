@@ -7,16 +7,9 @@ namespace AlgorithmExercises
 	{
 		public static void Main(string[] args)
 		{
-			Chapter1Section1Exercises();
+			Section1.Exercise3();
 			Console.ReadKey();
 		}
 
-		private static void Chapter1Section1Exercises()
-		{
-			Section1.Exercise1();
-			Section1.Exercise2();
-			Section1.Exercise3();
-			Section1.Exercise4();
-		}
 	}
 }
