@@ -74,30 +74,38 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
-		/// What (if anything) is wrong with each of the following statements?
+		/// Validates if-statements
 		/// </summary>
-		public static void Exercise4()
+		/// <param name="ifStatement">if-statement to validate.</param>
+		/// <returns>True if valid, otherwise false.</returns>
+		/// <remarks>This method was written with test driven development so it validates if-statements up to the complexity of what is given.</remarks>
+		public static bool ValidateIfStatement(string ifStatement)
 		{
-			Console.WriteLine();
-			Console.WriteLine("1.1.4");
-			Console.Write("a. if (a > b) then c = 0; ");
-			Console.Write("If-statements should not have 'then'");
-			Console.WriteLine();
-			Console.Write("b. if a > b { c = 0; } ");
-			Console.Write("Missing parentheses around a > b");
-			Console.WriteLine();
-			Console.Write("c. if (a > b) c = 0; ");
-			Console.Write("Nothing wrong");
-			Console.WriteLine();
-			Console.Write("d. if (a > b) c = 0 else b = 0; ");
-			Console.Write("Missing semicolon after c = 0");
+			Regex ifRegex = new Regex(@"^if \([a-z] > [a-z]\) {* *[a-z] = 0; *}*");
+			return ifRegex.Match(ifStatement).Success;
 		}
 
-		public bool ValidateIfStatement(string ifStatement)
+		/// <summary>
+		/// Returns if both <paramref name="x"/> and <paramref name="y"/> and strictly within the range of 0 to 1.
+		/// </summary>
+		/// <param name="x">X value to check.</param>
+		/// <param name="y">Y value to check.</param>
+		/// <returns>True if both in the range of 0 to 1, otherwise false.</returns>
+		public static bool BothInRange(double x, double y)
 		{
-			Regex ifRegex = new Regex(@"^if\s+\(\s*(""\w""|\d+)\s+(>|>=|<|<=|==)\s+(""\w""|\d+)\s*)\s+{?.+}?;$");
-			return ifRegex.Match(ifStatement).Success;
-			
+			return InRange(x, 0, 1) && InRange(y, 0, 1);
+		}
+
+		/// <summary>
+		/// Returns if <paramref name="value"/> is strictly within the given <paramref name="min"/> and <paramref name="max"/>.
+		/// </summary>
+		/// <param name="value">Value to check if in range.</param>
+		/// <param name="min">Minimum value.</param>
+		/// <param name="max">Maximum value.</param>
+		/// <returns>True if the value is strictly within the given range.</returns>
+		private static bool InRange(double value, double min, double max)
+		{
+			return min < value && value < max;
 		}
 	}
 }
