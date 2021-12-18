@@ -552,5 +552,51 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(fibTime, Is.LessThan(recurFibTime));
 		}
+
+		[TestCase(1, 0, TestName = "Exercise20_LogFact_When1_ReturnsExpected")]
+		[TestCase(2, 0.69314718055994529, TestName = "Exercise20_LogFact_When2_ReturnsExpected")]
+		[TestCase(10, 15.104412573075518, TestName = "Exercise20_LogFact_When10_ReturnsExpected")]
+		public void Exercise20_LogFact_ReturnsExpected(int n, double expected)
+		{
+			// Arrange
+
+			// Act
+			var result = Section1.LogFact(n);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(0, TestName = "Exercise20_LogFact_When0_ThrowsArgumentException")]
+		[TestCase(-1, TestName = "Exercise20_LogFact_WhenNeg1_ThrowsArgumentException")]
+		public void Exercise20_LogFact_WhenLessThanOne_ThrowsArgumentException(int n)
+		{
+			// Arrange
+			// Act and Assert
+			Assert.Throws<ArgumentException>(() => Section1.LogFact(n));
+		}
+
+		[TestCase(5, new int[] { }, -1, TestName = "Exercise22_Rank_WhenValuesEmpty_ReturnsNeg1")]
+		[TestCase(5, new int[] { 2, 3, 5, 8, 9, 20, 31 }, 2, TestName = "Exercise22_Rank_WhenKeyInValues_ReturnsIndex")]
+		[TestCase(4, new int[] { 2, 3, 5, 8, 9, 20, 31 }, -1, TestName = "Exercise22_Rank_WhenKeyNotInValues_ReturnsNeg1")]
+		public void Exercise22_Rank_FindsKeyInValues(int key, int[] values, int expected)
+		{
+			// Arrange
+
+			// Act
+			var result = Section1.Rank(key, values);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void Exercise22_Rank_WhenValuesNull_ThrowsArgumentNullException()
+		{
+			// Arrange
+
+			// Act and Assert
+			Assert.Throws<ArgumentNullException>(() => Section1.Rank(1, null));
+		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -319,6 +320,89 @@ namespace AlgorithmExercises.Chapter1
 				else fibs[i] = fibs[i - 1] + fibs[i - 2];
 			}
 			return fibs[n];
+		}
+
+		/// <summary>
+		/// Get the natural log of the factorial of <paramref name="n"/>.
+		/// </summary>
+		/// <param name="n">The number to calculate the log of its factorial.</param>
+		/// <returns>The natural log of the factorial of <paramref name="n"/>.</returns>
+		/// <exception cref="ArgumentException">Thrown if <paramref name="n"/> is less than zero.</exception>
+		public static double LogFact(int n)
+		{
+			if (n < 1)
+			{
+				throw new ArgumentException("Must be 1 or greater", nameof(n));
+			}
+			if (n == 1)
+			{
+				return 0;
+			}
+
+			return LogFact(n - 1) + Math.Log(n);
+		}
+
+		/// <summary>
+		/// Reads in lines from standard input with each line containing a name and two integers and then prints
+		/// a table with a column of the names, the integers, and the result of dividing the first by the second,
+		/// accurate to three decimal places
+		/// </summary>
+		public static void Exercise21()
+		{
+			Console.WriteLine();
+			Console.WriteLine("1.1.21");
+			while (true)
+			{
+				Console.Write("Enter a name and two integers (Q or q to quit): ");
+				string rawEntry = Console.ReadLine();
+				if (rawEntry.Equals("q", StringComparison.OrdinalIgnoreCase))
+				{
+					break;
+				}
+				var entries = rawEntry.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+				var entriesCount = entries.Length;
+				if (entriesCount != 3)
+				{
+					Console.WriteLine($"You entered {entriesCount} when three entries required");
+					continue;
+				}
+				if (int.TryParse(entries[1], out int val1) && int.TryParse(entries[2], out int val2))
+				{
+					Console.WriteLine($"{entries[0]} | {val1} | {val2} | {(double)val1 / val2:n3}");
+					continue;
+				}
+				Console.WriteLine("Error: One or more entry could not be parsed to an integer");
+			}
+		}
+
+		/// <summary>
+		/// Get the index of <paramref name="key"/> in <paramref name="values"/>.
+		/// </summary>
+		/// <param name="key">Value to search for in <paramref name="values"/>.</param>
+		/// <param name="values">Sorted array of values.</param>
+		/// <returns>The index of <paramref name="key"/> in <paramref name="values"/>. Returns -1 if not found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
+		public static int Rank(int key, int[] values)
+		{
+			if (values is null)
+			{
+				throw new ArgumentNullException(nameof(values));
+			}
+			if (values.Length == 0)
+			{
+				return -1;
+			}
+			return Rank(key, values, 0, values.Length - 1, 0);
+		}
+
+		private static int Rank(int key, int[] values, int lo, int hi, int depth)
+		{
+			Console.WriteLine($"{new string('\t', depth)}lo:{lo} hi{hi}");
+			if (lo > hi) return -1;
+			int mid = lo + (hi - lo) / 2;
+			if (key < values[mid]) return Rank(key, values, lo, mid - 1, depth + 1);
+			else if (key > values[mid]) return Rank(key, values, mid + 1, hi, depth + 1);
+			else return mid;
 		}
 	}
 }
