@@ -20,4 +20,13 @@
     <ProjectReference Include="..\AlgorithmExercises\AlgorithmExercises.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Chapter1\Data\tinyAllowlist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Chapter1\Data\tinyText.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

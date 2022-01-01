@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace AlgorithmExercisesTests.Chapter1
 {
@@ -576,18 +577,26 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.Throws<ArgumentException>(() => Section1.LogFact(n));
 		}
 
-		[TestCase(5, new int[] { }, -1, TestName = "Exercise22_Rank_WhenValuesEmpty_ReturnsNeg1")]
-		[TestCase(5, new int[] { 2, 3, 5, 8, 9, 20, 31 }, 2, TestName = "Exercise22_Rank_WhenKeyInValues_ReturnsIndex")]
-		[TestCase(4, new int[] { 2, 3, 5, 8, 9, 20, 31 }, -1, TestName = "Exercise22_Rank_WhenKeyNotInValues_ReturnsNeg1")]
-		public void Exercise22_Rank_FindsKeyInValues(int key, int[] values, int expected)
+		[TestCase(5, new int[] { }, -1, "", TestName = "Exercise22_Rank_WhenValuesEmpty_ReturnsNeg1")]
+		[TestCase(5, new int[] { 2, 3, 5, 8, 9, 20, 31 }, 2, "lo:0 hi6\r\n\tlo:0 hi2\r\n\t\tlo:2 hi2\r\n", TestName = "Exercise22_Rank_WhenKeyInValues_ReturnsIndex")]
+		[TestCase(4, new int[] { 2, 3, 5, 8, 9, 20, 31 }, -1, "lo:0 hi6\r\n\tlo:0 hi2\r\n\t\tlo:2 hi2\r\n\t\t\tlo:2 hi1\r\n", TestName = "Exercise22_Rank_WhenKeyNotInValues_ReturnsNeg1")]
+		public void Exercise22_Rank_FindsKeyInValues(int key, int[] values, int expected, string expectedLoHi)
 		{
 			// Arrange
 
 			// Act
-			var result = Section1.Rank(key, values);
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
 
-			// Assert
-			Assert.That(result, Is.EqualTo(expected));
+				Console.SetOut(consoleOutput);
+				var result = Section1.Rank(key, values, true);
+
+				// Assert
+				Assert.That(result, Is.EqualTo(expected));
+				Assert.That(consoleOutput.ToString().Equals(expectedLoHi));
+			}
+			Console.SetOut(consoleOut);
 		}
 
 		[Test]
@@ -597,6 +606,25 @@ namespace AlgorithmExercisesTests.Chapter1
 
 			// Act and Assert
 			Assert.Throws<ArgumentNullException>(() => Section1.Rank(1, null));
+		}
+
+		[TestCase("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", '+', "50\r\n99\r\n13\r\n", TestName = "Exercise23_PrintsValuesNotInWhitelist")]
+		[TestCase("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", '-', "23\r\n10\r\n18\r\n23\r\n98\r\n84\r\n11\r\n10\r\n48\r\n77\r\n54\r\n98\r\n77\r\n77\r\n68\r\n", TestName = "Exercise23_PrintsValuesInWhitelist")]
+		public void Exercise23_PrintInOutWhitelist(string whitelistFile, string testFile, char shouldPrint, string expected)
+		{
+			// Arrange
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+				Console.SetOut(consoleOutput);
+
+				// Act
+				Section1.Exercise23(whitelistFile, testFile, shouldPrint);
+
+				// Assert
+				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
+			}
+			Console.SetOut(consoleOut);
 		}
 	}
 }

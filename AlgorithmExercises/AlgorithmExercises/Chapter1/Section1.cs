@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -384,6 +384,19 @@ namespace AlgorithmExercises.Chapter1
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
 		public static int Rank(int key, int[] values)
 		{
+			return Rank(key, values, false);
+		}
+
+		/// <summary>
+		/// Get the index of <paramref name="key"/> in <paramref name="values"/>.
+		/// </summary>
+		/// <param name="key">Value to search for in <paramref name="values"/>.</param>
+		/// <param name="values">Sorted array of values.</param>
+		/// <param name="shouldTrace">True if should write to Console the lo and hi values with each pass.</param>
+		/// <returns>The index of <paramref name="key"/> in <paramref name="values"/>. Returns -1 if not found.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
+		public static int Rank(int key, int[] values, bool shouldTrace)
+		{
 			if (values is null)
 			{
 				throw new ArgumentNullException(nameof(values));
@@ -392,17 +405,79 @@ namespace AlgorithmExercises.Chapter1
 			{
 				return -1;
 			}
-			return Rank(key, values, 0, values.Length - 1, 0);
+			return Rank(key, values, 0, values.Length - 1, 0, shouldTrace);
 		}
 
-		private static int Rank(int key, int[] values, int lo, int hi, int depth)
+		private static int Rank(int key, int[] values, int lo, int hi, int depth = 0, bool shouldTrace = false)
 		{
-			Console.WriteLine($"{new string('\t', depth)}lo:{lo} hi{hi}");
+			if (shouldTrace) Console.WriteLine($"{new string('\t', depth)}lo:{lo} hi{hi}");
+
 			if (lo > hi) return -1;
+
 			int mid = lo + (hi - lo) / 2;
-			if (key < values[mid]) return Rank(key, values, lo, mid - 1, depth + 1);
-			else if (key > values[mid]) return Rank(key, values, mid + 1, hi, depth + 1);
+			if (key < values[mid]) return Rank(key, values, lo, mid - 1, depth + 1, shouldTrace);
+			else if (key > values[mid]) return Rank(key, values, mid + 1, hi, depth + 1, shouldTrace);
 			else return mid;
+		}
+
+		/// <summary>
+		/// Writes to Console numbers in the <paramref name="testFile"/> that do not appear in the <paramref name="whitelistFile"/>
+		/// when <paramref name="shouldPrint"/> is '+'. When <paramref name="shouldPrint"/> is '-' writes to Console the numbers that
+		/// are in the <paramref name="whitelistFile"/>.
+		/// </summary>
+		/// <param name="whitelistFile">A file with whitelisted integers separated by line breaks.</param>
+		/// <param name="testFile">A file with test integers seperated by line breaks.</param>
+		/// <param name="shouldPrint">Either '+' or '-'.</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="whitelistFile"/> or <paramref name="testFile"/> is null.</exception>
+		/// <exception cref="ArgumentException">The <paramref name="whitelistFile"/> or <paramref name="testFile"/> are not a paths to a valid file.-or-
+		/// The third argument is not a '-' or '+'.</exception>
+		/// <exception cref="FormatException">The values in <paramref name="whitelistFile"/> or <paramref name="testFile"/> cannot be parsed into an integer.</exception>
+		/// <exception cref="IOException">An I/O error occurred while opening the <paramref name="whitelistFile"/> or the <paramref name="testFile"/>.</exception>
+		/// <exception cref="System.Security.SecurityException">The caller does not have the required permission to open <paramref name="whitelistFile"/> or <paramref name="testFile"/>.</exception>
+		/// <exception cref="UnauthorizedAccessException">Path to <paramref name="whitelistFile"/> or <paramref name="testFile"/> are read-only.-or-
+		/// The caller does not have the required permission.</exception>
+		public static void Exercise23(string whitelistFile, string testFile, char shouldPrint)
+		{
+			if (whitelistFile is null)
+			{
+				throw new ArgumentNullException(nameof(whitelistFile));
+			}
+			if (testFile is null)
+			{
+				throw new ArgumentNullException(nameof(testFile));
+			}
+			if (!File.Exists(whitelistFile))
+			{
+				throw new ArgumentException("The first argument must contain valid path to a whitelist file");
+			}
+			var whitelist = File.ReadAllLines(whitelistFile).Select(f => int.Parse(f)).OrderBy(i => i).ToArray();
+			if (!File.Exists(testFile))
+			{
+				throw new ArgumentException("The second argument must contain valid path to a test file");
+			}
+			var testNumbers = File.ReadAllLines(testFile).Select(f => int.Parse(f)).ToArray();
+			if (shouldPrint != '-' && shouldPrint != '+')
+			{
+				throw new ArgumentException("Must be a '+' or '-'", nameof(shouldPrint));
+			}
+
+			foreach (int testNumber in testNumbers)
+			{
+				if (Rank(testNumber, whitelist) == -1) // testNumber is not in the whitelist
+				{
+					if (shouldPrint == '+')
+					{
+						Console.WriteLine(testNumber);
+					}
+				}
+				else // testNumber is in the whitelist
+				{
+					if (shouldPrint == '-')
+					{
+						Console.WriteLine(testNumber);
+					}
+				}
+			}
 		}
 	}
 }
