@@ -626,5 +626,18 @@ namespace AlgorithmExercisesTests.Chapter1
 			}
 			Console.SetOut(consoleOut);
 		}
+
+		[Test]
+		public void Exercise23_ShouldThrow()
+		{
+			Assert.Multiple(() =>
+			{
+				Assert.Throws<ArgumentNullException>(() => Section1.Exercise23(null, "Chapter1\\Data\\tinyText.txt", '+'));
+				Assert.Throws<ArgumentNullException>(() => Section1.Exercise23("Chapter1\\Data\\tinyAllowlist.txt", null, '+'));
+				Assert.Throws<ArgumentException>(() => Section1.Exercise23("Chapter1\\Data\\NonExistentFile.txt", "Chapter1\\Data\\tinyText.txt", '+'));
+				Assert.Throws<ArgumentException>(() => Section1.Exercise23("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\NonExistentFile.txt", '+'));
+				Assert.Throws<ArgumentException>(() => Section1.Exercise23("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", 'x'));
+			});
+		}
 	}
 }

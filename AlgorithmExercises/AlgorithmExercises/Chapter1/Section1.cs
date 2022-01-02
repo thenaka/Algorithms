@@ -479,5 +479,19 @@ namespace AlgorithmExercises.Chapter1
 				}
 			}
 		}
+
+		/// <summary>
+		/// Returns the greatest common denominator of <paramref name="high"/> and <paramref name="low"/>.
+		/// </summary>
+		/// <param name="high">The higher of the two numbers.</param>
+		/// <param name="low">The lower of the two numbers.</param>
+		/// <returns>The greatest common denominator</returns>
+		/// <remarks>Uses Euclid's algorithm.</remarks>
+		public static int GCD(int high, int low)
+		{
+			if (low == 0) return high;
+			int candidate = high % low;
+			return GCD(low, candidate);
+		}
 	}
 }
