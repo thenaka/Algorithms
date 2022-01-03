@@ -436,7 +436,7 @@ namespace AlgorithmExercises.Chapter1
 		/// <exception cref="System.Security.SecurityException">The caller does not have the required permission to open <paramref name="whitelistFile"/> or <paramref name="testFile"/>.</exception>
 		/// <exception cref="UnauthorizedAccessException">Path to <paramref name="whitelistFile"/> or <paramref name="testFile"/> are read-only.-or-
 		/// The caller does not have the required permission.</exception>
-		public static void Exercise23(string whitelistFile, string testFile, char shouldPrint)
+		public static void BinarySearch(string whitelistFile, string testFile, char shouldPrint)
 		{
 			if (whitelistFile is null)
 			{
@@ -481,17 +481,31 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
-		/// Returns the greatest common denominator of <paramref name="high"/> and <paramref name="low"/>.
+		/// Returns the greatest common denominator of <paramref name="p"/> and <paramref name="q"/>.
 		/// </summary>
-		/// <param name="high">The higher of the two numbers.</param>
-		/// <param name="low">The lower of the two numbers.</param>
+		/// <param name="p">First value.</param>
+		/// <param name="q">Second value.</param>
 		/// <returns>The greatest common denominator</returns>
 		/// <remarks>Uses Euclid's algorithm.</remarks>
-		public static int GCD(int high, int low)
+		public static int Euclid(int p, int q)
 		{
-			if (low == 0) return high;
-			int candidate = high % low;
-			return GCD(low, candidate);
+			return Euclid(p, q, false);
+		}
+
+		/// <summary>
+		/// Returns the greatest common denominator of <paramref name="p"/> and <paramref name="q"/>.
+		/// </summary>
+		/// <param name="p">First value.</param>
+		/// <param name="q">Second value.</param>
+		/// <param name="shouldPrint">True if should write to Console <paramref name="p"/>, <paramref name="q"/>, and remainder values.</param>
+		/// <returns>The greatest common denominator</returns>
+		/// <remarks>Uses Euclid's algorithm.</remarks>
+		public static int Euclid(int p, int q, bool shouldPrint)
+		{
+			if (q == 0) return p;
+			int candidate = p % q;
+			if (shouldPrint) Console.WriteLine($"High {p} Low {q} Remainder {candidate}");
+			return Euclid(q, candidate, shouldPrint);
 		}
 	}
 }

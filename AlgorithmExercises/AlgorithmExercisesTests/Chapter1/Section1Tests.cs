@@ -608,9 +608,9 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.Throws<ArgumentNullException>(() => Section1.Rank(1, null));
 		}
 
-		[TestCase("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", '+', "50\r\n99\r\n13\r\n", TestName = "Exercise23_PrintsValuesNotInWhitelist")]
-		[TestCase("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", '-', "23\r\n10\r\n18\r\n23\r\n98\r\n84\r\n11\r\n10\r\n48\r\n77\r\n54\r\n98\r\n77\r\n77\r\n68\r\n", TestName = "Exercise23_PrintsValuesInWhitelist")]
-		public void Exercise23_PrintInOutWhitelist(string whitelistFile, string testFile, char shouldPrint, string expected)
+		[TestCase("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", '+', "50\r\n99\r\n13\r\n", TestName = "Exercise23_BinarySearch_PrintsValuesNotInWhitelist")]
+		[TestCase("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", '-', "23\r\n10\r\n18\r\n23\r\n98\r\n84\r\n11\r\n10\r\n48\r\n77\r\n54\r\n98\r\n77\r\n77\r\n68\r\n", TestName = "Exercise23_BinarySearch_PrintsValuesInWhitelist")]
+		public void Exercise23_BinarySearch_PrintInOutWhitelist(string whitelistFile, string testFile, char shouldPrint, string expected)
 		{
 			// Arrange
 			var consoleOut = Console.Out;
@@ -619,7 +619,7 @@ namespace AlgorithmExercisesTests.Chapter1
 				Console.SetOut(consoleOutput);
 
 				// Act
-				Section1.Exercise23(whitelistFile, testFile, shouldPrint);
+				Section1.BinarySearch(whitelistFile, testFile, shouldPrint);
 
 				// Assert
 				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
@@ -628,16 +628,76 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[Test]
-		public void Exercise23_ShouldThrow()
+		public void Exercise23_BinarySearch_ShouldThrow()
 		{
 			Assert.Multiple(() =>
 			{
-				Assert.Throws<ArgumentNullException>(() => Section1.Exercise23(null, "Chapter1\\Data\\tinyText.txt", '+'));
-				Assert.Throws<ArgumentNullException>(() => Section1.Exercise23("Chapter1\\Data\\tinyAllowlist.txt", null, '+'));
-				Assert.Throws<ArgumentException>(() => Section1.Exercise23("Chapter1\\Data\\NonExistentFile.txt", "Chapter1\\Data\\tinyText.txt", '+'));
-				Assert.Throws<ArgumentException>(() => Section1.Exercise23("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\NonExistentFile.txt", '+'));
-				Assert.Throws<ArgumentException>(() => Section1.Exercise23("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", 'x'));
+				Assert.Throws<ArgumentNullException>(() => Section1.BinarySearch(null, "Chapter1\\Data\\tinyText.txt", '+'));
+				Assert.Throws<ArgumentNullException>(() => Section1.BinarySearch("Chapter1\\Data\\tinyAllowlist.txt", null, '+'));
+				Assert.Throws<ArgumentException>(() => Section1.BinarySearch("Chapter1\\Data\\NonExistentFile.txt", "Chapter1\\Data\\tinyText.txt", '+'));
+				Assert.Throws<ArgumentException>(() => Section1.BinarySearch("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\NonExistentFile.txt", '+'));
+				Assert.Throws<ArgumentException>(() => Section1.BinarySearch("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", 'x'));
 			});
+		}
+
+		[TestCase(24, 16, 8, TestName = "Exercise24_Euclid_WhenNotOne_GetsGCD")]
+		[TestCase(8567, 561, 1, TestName = "Exercise24_Euclid_WhenOne_GetsGCD")]
+		public void Exercise24_Euclid_GetsGCD(int high, int low, int expected)
+		{
+			// Arrange
+
+			// Act
+			int result = Section1.Euclid(high, low);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void Exercise24_WhenGetGCD_ShouldPrint()
+		{
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+				Console.SetOut(consoleOutput);
+
+				// Act
+				int result = Section1.Euclid(1234567, 1111111, true);
+
+				// Assert
+				Assert.That(result, Is.EqualTo(1));
+				Assert.That(consoleOutput.ToString(), Is.EqualTo("High 1234567 Low 1111111 Remainder 123456\r\nHigh 1111111 Low 123456 Remainder 7\r\nHigh 123456 Low 7 Remainder 4\r\nHigh 7 Low 4 Remainder 3\r\nHigh 4 Low 3 Remainder 1\r\nHigh 3 Low 1 Remainder 0\r\n"));
+			}
+			Console.SetOut(consoleOut);
+		}
+
+		[Test]
+		public void Exercise25_Euclid_Proof()
+		{
+			// Source https://www.whitman.edu/mathematics/higher_math_online/section03.03.html
+			// Lemma: Suppose a and b are not both zero.
+			//	a. (a, b) = (b, a),
+			//	b. if a > 0 and a | b then(a, b) = a,
+			//	c. if a ≡ c (mod b), then(a, b) = (c, b).
+
+			// Part a. (a, b) = (b, a)
+			int a = 16;
+			int b = 24;
+			Assert.That(Section1.Euclid(a, b), Is.EqualTo(Section1.Euclid(b, a)), "Prove that GCD(a,b) is equal to GCD(b,a)");
+
+			// Part b. if a > 0 and a | b then(a, b) = a
+			a = 8;
+			b = 24;
+			Assert.That(a > 0, "Prove a is greater than 0");
+			Assert.That(b % a, Is.EqualTo(0), "Prove b is evenly divisible by a");
+			Assert.That(a, Is.EqualTo(Section1.Euclid(a, b)), "Prove the GCD(a,b) is equal to a");
+
+			// Part c. if a ≡ c (mod b), then(a, b) = (c, b).
+			a = 12;
+			b = 24;
+			int c = 60;
+			Assert.That(a, Is.EqualTo(c % b), "Prove that a is equal to c mod b");
+			Assert.That(Section1.Euclid(a, b), Is.EqualTo(Section1.Euclid(c, b)), "Prove that GCD(a,b) is equal to GCD(c,b)");
 		}
 	}
 }
