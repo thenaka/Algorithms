@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text.RegularExpressions;
 
 namespace AlgorithmExercises.Chapter1
@@ -506,6 +507,63 @@ namespace AlgorithmExercises.Chapter1
 			int candidate = p % q;
 			if (shouldPrint) Console.WriteLine($"High {p} Low {q} Remainder {candidate}");
 			return Euclid(q, candidate, shouldPrint);
+		}
+
+		/// <summary>
+		/// Sorts the three given integers in ascending order.
+		/// </summary>
+		/// <param name="a">First value to sort.</param>
+		/// <param name="b">Second value to sort.</param>
+		/// <param name="c">Third value to sort.</param>
+		/// <returns>Values sorted in ascending order.</returns>
+		public static IEnumerable<int> Sort(int a, int b, int c)
+		{
+			int t;
+			if (a > b) { t = a; a = b; b = t; }
+			if (a > c) { t = a; a = c; c = t; }
+			if (b > c) { t = b; b = c; c = t; }
+			return new[] { a, b, c };
+		}
+
+		/// <summary>
+		/// The probability of successfully getting a certain number of occurences out of a total number of trials
+		/// </summary>
+		/// <param name="trials">Number of trials</param>
+		/// <param name="successes">Number of successes</param>
+		/// <param name="probability">Probability of success</param>
+		/// <returns>The likelihood of the number of successes</returns>
+		public static double RecursiveBinomial(int trials, int successes, double probability)
+		{
+			if ((trials == 0) && (successes == 0)) return 1.0;
+			if ((trials < 0) || (successes < 0)) return 0.0;
+			return (1 - probability) * RecursiveBinomial(trials - 1, successes, probability) + probability * RecursiveBinomial(trials - 1, successes - 1, probability);
+		}
+
+		/// <summary>
+		/// The probability of successfully getting a certain number of occurences out of a total number of trials
+		/// </summary>
+		/// <param name="trials">Number of trials</param>
+		/// <param name="successes">Number of successes</param>
+		/// <param name="probability">Probability of success</param>
+		/// <returns>The likelihood of the number of successes</returns>
+		public static double Binomial(int trials, int successes, double probability)
+		{
+			return BinomialFactorial(trials, successes) * Math.Pow(probability, successes) * Math.Pow(1 - probability, trials - successes);
+		}
+
+		public static BigInteger Factorial(int n)
+		{
+			BigInteger factorial = new BigInteger(1);
+			for (int i = n; i > 0; i--)
+			{
+				factorial *= i;
+			}
+			return factorial;
+		}
+
+		private static double BinomialFactorial(int trials, int successes)
+		{
+			return (double)(Factorial(trials) / (Factorial(trials - successes) * Factorial(successes)));
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Numerics;
 
 namespace AlgorithmExercisesTests.Chapter1
 {
@@ -698,6 +699,69 @@ namespace AlgorithmExercisesTests.Chapter1
 			int c = 60;
 			Assert.That(a, Is.EqualTo(c % b), "Prove that a is equal to c mod b");
 			Assert.That(Section1.Euclid(a, b), Is.EqualTo(Section1.Euclid(c, b)), "Prove that GCD(a,b) is equal to GCD(c,b)");
+		}
+
+		[TestCase(3, 2, 1, new[] { 1, 2, 3 }, TestName = "Exercise26_Sort_SortDescendingToAscending")]
+		[TestCase(1, 2, 3, new[] { 1, 2, 3 }, TestName = "Exercise26_Sort_SortAscendingToAscending")]
+		[TestCase(3, 1, 2, new[] { 1, 2, 3 }, TestName = "Exercise26_Sort_SortAscendingToAscending")]
+		[TestCase(1, 1, 1, new[] { 1, 1, 1 }, TestName = "Exercise26_Sort_SortsSameValues")]
+		public void Exercise26_Sort_ShouldSort(int a, int b, int c, IEnumerable<int> expected)
+		{
+			// Arrange
+
+			// Act
+			var result = Section1.Sort(a, b, c);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(10, 5, 0.25, 0.058399200439453125, TestName = "Exercise27_BinomialRecursive_Trials10_Successes5_ShouldCalculateLikelihood")]
+		[TestCase(10, 3, 0.25, 0.25028228759765625, TestName = "Exercise27_BinomialRecursive_Trials10_Successes3_ShouldCalculateLikelihood")]
+		[TestCase(10, 2, 0.25, 0.2815675735473633, TestName = "Exercise27_BinomialRecursive_Trials10_Successes2_ShouldCalculateLikelihood")]
+		[TestCase(10, 1, 0.25, 0.18771171569824219d, TestName = "Exercise27_BinomialRecursive_Trials10_Successes1_ShouldCalculateLikelihood")]
+		public void Exercise27_BinomialRecursive_ShouldCalculateLikelihood(int trials, int successes, double probability, double expected)
+		{
+			// Arrange
+			// The book example binomial(100, 50, 0.25) runs for too long to get a result
+
+			// Assert
+			var result = Section1.RecursiveBinomial(trials, successes, probability);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(1, 1, TestName = "Exercise27_Factorial1_ShouldCalculate")]
+		[TestCase(2, 2, TestName = "Exercise27_Factorial2_ShouldCalculate")]
+		[TestCase(3, 6, TestName = "Exercise27_Factorial3_ShouldCalculate")]
+		[TestCase(4, 24, TestName = "Exercise27_Factorial4_ShouldCalculate")]
+		[TestCase(5, 120, TestName = "Exercise27_Factorial5_ShouldCalculate")]
+		public void Exercise27_Factorial_ShouldCalculate(int value, int expected)
+		{
+			// Arrange
+
+			// Act
+			BigInteger result = Section1.Factorial(value);
+
+			// Assert
+			Assert.That((int)result, Is.EqualTo(expected));
+		}
+
+		[TestCase(100, 50, 0.25, 4.5073108750863822E-08d, TestName = "Exercise27_Recursive_Trials100_Successes50_ShouldCalculateLikelihood")]
+		[TestCase(10, 5, 0.25, 0.058399200439453125, TestName = "Exercise27_Recursive_Trials10_Successes5_ShouldCalculateLikelihood")]
+		[TestCase(10, 3, 0.25, 0.25028228759765625, TestName = "Exercise27_Recursive_Trials10_Successes3_ShouldCalculateLikelihood")]
+		[TestCase(10, 2, 0.25, 0.2815675735473633, TestName = "Exercise27_Recursive_Trials10_Successes2_ShouldCalculateLikelihood")]
+		[TestCase(10, 1, 0.25, 0.18771171569824219, TestName = "Exercise27_Recursive_Trials10_Successes1_ShouldCalculateLikelihood")]
+		public void Exercise27_Binomial_ShouldCalculateLikelihood(int trials, int successes, double probability, double expected)
+		{
+			// Arrange
+
+			// Assert
+			var result = Section1.Binomial(trials, successes, probability);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
 		}
 	}
 }
