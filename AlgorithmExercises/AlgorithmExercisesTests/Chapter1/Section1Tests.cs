@@ -723,7 +723,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		public void Exercise27_BinomialRecursive_ShouldCalculateLikelihood(int trials, int successes, double probability, double expected)
 		{
 			// Arrange
-			// The book example binomial(100, 50, 0.25) runs for too long to get a result
+			// The book example binomial(100, 50, 0.25) runs recursively for too long to get a result
 
 			// Assert
 			var result = Section1.RecursiveBinomial(trials, successes, probability);
@@ -759,6 +759,38 @@ namespace AlgorithmExercisesTests.Chapter1
 
 			// Assert
 			var result = Section1.Binomial(trials, successes, probability);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(0, new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 0, TestName = "Exercise29_RankLess0_ReturnsNumberOfValuesLess")]
+		[TestCase(1, new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 0, TestName = "Exercise29_RankLess1_ReturnsNumberOfValuesLess")]
+		[TestCase(5, new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 4, TestName = "Exercise29_RankLess5_ReturnsNumberOfValuesLess")]
+		[TestCase(5, new[] { 1, 2, 3, 4, 5, 5, 6, 7, 8, 9 }, 4, TestName = "Exercise29_RankLess5_WhenTwo5s_ReturnsNumberOfValuesLess")]
+		[TestCase(5, new[] { 1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 9 }, 4, TestName = "Exercise29_RankLess5_WhenThree5s_ReturnsNumberOfValuesLess")]
+		public void Exercise29_RankLess_ReturnsNumberOfValuesLess(int key, int[] values, int expected)
+		{
+			// Arrange
+
+			// Act
+			int result = Section1.RankLess(key, values);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(0, new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 0, TestName = "Exercise29_Count0_ReturnsCount")]
+		[TestCase(1, new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1, TestName = "Exercise29_Count1_ReturnsCount")]
+		[TestCase(5, new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1, TestName = "Exercise29_Count5_ReturnsCount")]
+		[TestCase(5, new[] { 1, 2, 3, 4, 5, 5, 6, 7, 8, 9 }, 2, TestName = "Exercise29_Count5_WhenTwo5s_ReturnsCount")]
+		[TestCase(5, new[] { 1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 9 }, 3, TestName = "Exercise29_Count5_WhenThree5s_ReturnsCount")]
+		public void Exercise29_RankCount_ReturnsCountOfKey(int key, int[] values, int expected)
+		{
+			// Arrange
+
+			// Act
+			int result = Section1.RankCount(key, values);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));

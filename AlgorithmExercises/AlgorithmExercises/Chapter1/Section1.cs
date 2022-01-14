@@ -377,6 +377,38 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
+		/// Get the number of values less than of <paramref name="key"/> in <paramref name="values"/>.
+		/// </summary>
+		/// <param name="key">Value to search for in <paramref name="values"/>.</param>
+		/// <param name="values">Sorted array of values.</param>
+		/// <returns>The number of values less than of <paramref name="key"/> in <paramref name="values"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
+		public static int RankLess(int key, int[] values)
+		{
+			int index =  Rank(key, values.Distinct().ToArray(), false);
+			return index == -1 ? 0 : index;
+		}
+
+		/// <summary>
+		/// Get the count of <paramref name="key"/> in <paramref name="values"/>.
+		/// </summary>
+		/// <param name="key">Value to search for in <paramref name="values"/>.</param>
+		/// <param name="values">Sorted array of values.</param>
+		/// <returns>The count of <paramref name="key"/> in <paramref name="values"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
+		public static int RankCount(int key, int[] values)
+		{
+			int index = RankLess(key, values);
+			int count = values[index] == key ? 1 : 0;
+			for (int i = index + 1; i < values.Length; i++)
+			{
+				if (key == values[i]) count++;
+				else break;
+			}
+			return count;
+		}
+
+		/// <summary>
 		/// Get the index of <paramref name="key"/> in <paramref name="values"/>.
 		/// </summary>
 		/// <param name="key">Value to search for in <paramref name="values"/>.</param>
@@ -451,7 +483,8 @@ namespace AlgorithmExercises.Chapter1
 			{
 				throw new ArgumentException("The first argument must contain valid path to a whitelist file");
 			}
-			var whitelist = File.ReadAllLines(whitelistFile).Select(f => int.Parse(f)).OrderBy(i => i).ToArray();
+			// Added Distinct() for Exercise 28
+			var whitelist = File.ReadAllLines(whitelistFile).Select(f => int.Parse(f)).Distinct().OrderBy(i => i).ToArray();
 			if (!File.Exists(testFile))
 			{
 				throw new ArgumentException("The second argument must contain valid path to a test file");
