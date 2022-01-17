@@ -377,15 +377,15 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
-		/// Get the number of values less than of <paramref name="key"/> in <paramref name="values"/>.
+		/// Get the number of values less than <paramref name="key"/> in <paramref name="values"/>.
 		/// </summary>
-		/// <param name="key">Value to search for in <paramref name="values"/>.</param>
+		/// <param name="key">The number to find lesser values in <paramref name="values"/>.</param>
 		/// <param name="values">Sorted array of values.</param>
 		/// <returns>The number of values less than of <paramref name="key"/> in <paramref name="values"/>.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
 		public static int RankLess(int key, int[] values)
 		{
-			int index =  Rank(key, values.Distinct().ToArray(), false);
+			int index = Rank(key, values.Distinct().ToArray(), false);
 			return index == -1 ? 0 : index;
 		}
 
@@ -584,6 +584,11 @@ namespace AlgorithmExercises.Chapter1
 			return BinomialFactorial(trials, successes) * Math.Pow(probability, successes) * Math.Pow(1 - probability, trials - successes);
 		}
 
+		/// <summary>
+		/// Returns the factorial of <paramref name="n"/>.
+		/// </summary>
+		/// <param name="n">Number to get the factorial.</param>
+		/// <returns>The factorial of <paramref name="n"/>.</returns>
 		public static BigInteger Factorial(int n)
 		{
 			BigInteger factorial = new BigInteger(1);
@@ -597,6 +602,27 @@ namespace AlgorithmExercises.Chapter1
 		private static double BinomialFactorial(int trials, int successes)
 		{
 			return (double)(Factorial(trials) / (Factorial(trials - successes) * Factorial(successes)));
+		}
+
+		/// <summary>
+		/// Returns a two dimensional boolean array where each i,j is true if the only common factor is one for the i and j positions.
+		/// </summary>
+		/// <param name="dimension">The dimensions of the array.</param>
+		/// <returns>A two dimensional boolean array where each i,j is true if the only common factor is one for the i and j positions.</returns>
+		public static bool[,] RelativelyPrime(int dimension)
+		{
+			bool[,] areRelativelyPrime = new bool[dimension, dimension];
+			for (int i = 0; i < dimension; i++)
+			{
+				for (int j = 0; j < dimension; j++)
+				{
+					if (Euclid(i,j) == 1)
+					{
+						areRelativelyPrime[i, j] = true;
+					}
+				}
+			}
+			return areRelativelyPrime;
 		}
 	}
 }

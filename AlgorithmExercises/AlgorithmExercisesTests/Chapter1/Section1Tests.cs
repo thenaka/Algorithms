@@ -795,5 +795,28 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
 		}
+
+		[TestCaseSource("RelativelyPrimeBools")]
+		public void Exercise30(int dimension, bool[,] expected)
+		{
+			// Act
+			var result = Section1.RelativelyPrime(dimension);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		public static IEnumerable<TestCaseData> RelativelyPrimeBools()
+		{
+			TestCaseData testCaseData = new TestCaseData(0, new bool[,] { });
+			testCaseData.SetName("Exercise30_RelativelyPrime_WhenZero_ReturnsEmpty");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(2, new bool[,] { { false, true }, { true, true } });
+			testCaseData.SetName("Exercise30_RelativelyPrime_When2x2_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(3, new bool[,] { { false, true, false }, { true, true, true }, { false, true, false } });
+			testCaseData.SetName("Exercise30_RelativelyPrime_When3x3_ReturnsExpected");
+			yield return testCaseData;
+		}
 	}
 }
