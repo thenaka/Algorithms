@@ -591,7 +591,7 @@ namespace AlgorithmExercises.Chapter1
 		/// <returns>The factorial of <paramref name="n"/>.</returns>
 		public static BigInteger Factorial(int n)
 		{
-			BigInteger factorial = new BigInteger(1);
+			BigInteger factorial = new(1);
 			for (int i = n; i > 0; i--)
 			{
 				factorial *= i;
@@ -616,13 +616,66 @@ namespace AlgorithmExercises.Chapter1
 			{
 				for (int j = 0; j < dimension; j++)
 				{
-					if (Euclid(i,j) == 1)
+					if (Euclid(i, j) == 1)
 					{
 						areRelativelyPrime[i, j] = true;
 					}
 				}
 			}
 			return areRelativelyPrime;
+		}
+
+		/// <summary>
+		/// Creates <paramref name="n"/> equally spaced points on a unit circle. Every pair of points may be connected
+		/// based on <paramref name="probability"/>.
+		/// </summary>
+		/// <param name="n">The number of points to create on a unit circle.</param>
+		/// <param name="probability">The probability any two points are connected. Must be from 0 to 1.</param>
+		public static IEnumerable<PointPair> RandomConnections(int n, double probability)
+		{
+			if (n < 2) throw new ArgumentException("Must be at lease two points", nameof(n));
+			if (probability < 0 || probability > 1.0) throw new ArgumentException("Must be from 0 to 1", nameof(probability));
+
+			double pointAngle = 360.0 / n;
+			List<Point> points = new();
+			for (int i = 0; i < n; i++)
+			{
+				points.Add(new Point(Math.Cos(pointAngle), Math.Sin(pointAngle)));
+			}
+
+			List<PointPair> pointPairs = new();
+			Random random = new();
+			for (int j = 0; j < n; j++)
+			{
+				if (j + 1 == n) break;
+				PointPair pointPair = new(points[j], points[j + 1]);
+				pointPair.Connected = random.NextDouble() <= probability;
+				pointPairs.Add(pointPair);
+			}
+			return pointPairs;
+		}
+	}
+
+	public class PointPair
+	{
+		public bool Connected { get; set; }
+		public Point Point1 { get; init; }
+		public Point Point2 { get; init; }
+		public PointPair(Point p1, Point p2)
+		{
+			Point1 = p1;
+			Point2 = p2;
+		}
+	}
+
+	public class Point
+	{
+		public double X { get; init; }
+		public double Y { get; init; }
+		public Point(double x, double y)
+		{
+			X = x;
+			Y = y;
 		}
 	}
 }
