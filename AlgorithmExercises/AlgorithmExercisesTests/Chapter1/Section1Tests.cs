@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 
 namespace AlgorithmExercisesTests.Chapter1
@@ -817,6 +818,29 @@ namespace AlgorithmExercisesTests.Chapter1
 			testCaseData = new TestCaseData(3, new bool[,] { { false, true, false }, { true, true, true }, { false, true, false } });
 			testCaseData.SetName("Exercise30_RelativelyPrime_When3x3_ReturnsExpected");
 			yield return testCaseData;
+		}
+
+		[TestCase(2, 0, TestName = "Exercise31_When2PointAnd0Probability_ReturnsExpected")]
+		[TestCase(4, 0, TestName = "Exercise31_When4PointAnd0Probability_ReturnsExpected")]
+		[TestCase(6, 1, TestName = "Exercise31_When6PointAnd100Probability_ReturnsExpected")]
+		[TestCase(12, 1, TestName = "Exercise31_When12PointAnd100Probability_ReturnsExpected")]
+		public void Exercise31(int number, double probability)
+		{
+			// Arrange
+
+			// Act
+			var pointPairs = Section1.RandomConnections(number, probability);
+
+			// Assert
+			double angle = 360.0 / number;
+			for (int i = 0; i < number; i++)
+			{
+				double angleInRadians = angle * i * Math.PI / 180;
+				Assert.That(pointPairs.ElementAt(i).Point1.X, Is.EqualTo(Math.Cos(angleInRadians)));
+				Assert.That(pointPairs.ElementAt(i).Point1.Y, Is.EqualTo(Math.Sin(angleInRadians)));
+				if (probability == 0) Assert.That(pointPairs.ElementAt(i).Connected, Is.False);
+				else Assert.That(pointPairs.ElementAt(i).Connected, Is.True);
+			}
 		}
 	}
 }

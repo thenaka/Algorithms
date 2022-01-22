@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace AlgorithmExercises.Chapter1
 {
-	public class Section1
+	public static class Section1
 	{
 		/// <summary>
 		/// Give the type and value of the expressions
@@ -640,15 +640,23 @@ namespace AlgorithmExercises.Chapter1
 			List<Point> points = new();
 			for (int i = 0; i < n; i++)
 			{
-				points.Add(new Point(Math.Cos(pointAngle), Math.Sin(pointAngle)));
+				double angleInRadians = pointAngle * i * Math.PI / 180;
+				points.Add(new Point(Math.Cos(angleInRadians), Math.Sin(angleInRadians)));
 			}
 
 			List<PointPair> pointPairs = new();
 			Random random = new();
 			for (int j = 0; j < n; j++)
 			{
-				if (j + 1 == n) break;
-				PointPair pointPair = new(points[j], points[j + 1]);
+				PointPair pointPair;
+				if (j + 1 == n)
+				{
+					pointPair = new(points[j], points[0]);
+					pointPair.Connected = random.NextDouble() <= probability;
+					pointPairs.Add(pointPair);
+					break;
+				}
+				pointPair = new(points[j], points[j + 1]);
 				pointPair.Connected = random.NextDouble() <= probability;
 				pointPairs.Add(pointPair);
 			}
