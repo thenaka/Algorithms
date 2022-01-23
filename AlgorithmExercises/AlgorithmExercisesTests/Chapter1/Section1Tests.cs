@@ -838,8 +838,21 @@ namespace AlgorithmExercisesTests.Chapter1
 				double angleInRadians = angle * i * Math.PI / 180;
 				Assert.That(pointPairs.ElementAt(i).Point1.X, Is.EqualTo(Math.Cos(angleInRadians)));
 				Assert.That(pointPairs.ElementAt(i).Point1.Y, Is.EqualTo(Math.Sin(angleInRadians)));
+
 				if (probability == 0) Assert.That(pointPairs.ElementAt(i).Connected, Is.False);
 				else Assert.That(pointPairs.ElementAt(i).Connected, Is.True);
+
+				if ((i + 1) == number)
+				{
+					Assert.That(pointPairs.ElementAt(i).Point2.X, Is.EqualTo(Math.Cos(0)));
+					Assert.That(pointPairs.ElementAt(i).Point2.Y, Is.EqualTo(Math.Sin(0)));
+				}
+				else
+				{
+					double nextAngleInRadians = angle * (i + 1) * Math.PI / 180;
+					Assert.That(pointPairs.ElementAt(i).Point2.X, Is.EqualTo(Math.Cos(nextAngleInRadians)));
+					Assert.That(pointPairs.ElementAt(i).Point2.Y, Is.EqualTo(Math.Sin(nextAngleInRadians)));
+				}
 			}
 		}
 	}
