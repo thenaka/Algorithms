@@ -662,6 +662,39 @@ namespace AlgorithmExercises.Chapter1
 			}
 			return pointPairs;
 		}
+
+		/// <summary>
+		/// Given a <paramref name="sequence"/> this method console writes a histogram of the values that fall into
+		/// intervals given by (<paramref name="right"/> - <paramref name="left"/>) / <paramref name="number"/>. 
+		/// </summary>
+		/// <param name="sequence">Sequence of numbers to create a histogram.</param>
+		/// <param name="number">Number of intervals.</param>
+		/// <param name="left">Bottom of the interval.</param>
+		/// <param name="right">Top of the interval.</param>
+		public static void Histogram(double[] sequence, int number, double left, double right)
+		{
+			int[] histogram = new int[number];
+			double average = (right - left) / number;
+			for (int i = 0; i < sequence.Length; i++) // iterate through all numbers in sequence
+			{
+				for (int j = 0; j < number; j++) // iterate through each interval
+				{
+					if (sequence[i] >= average * j && sequence[i] < average * (j + 1)) // does sequence number fall in this interval?
+					{
+						histogram[j] += 1;
+					}
+				}
+			}
+
+			for (int i = 0; i < histogram.Length; i++)
+			{
+				for (int j = 0; j < histogram[i]; j++)
+				{
+					Console.Write("x");
+				}
+				Console.WriteLine();
+			}
+		}
 	}
 
 	public class PointPair
