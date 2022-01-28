@@ -874,5 +874,19 @@ namespace AlgorithmExercisesTests.Chapter1
 			}
 			Console.SetOut(consoleOut);
 		}
+
+		[TestCase(new double[] { 7, 8 }, new double[] { 9, 10 }, 143, TestName = "Exercise33_VectorProduct_With2Dimensions_ReturnsExpected")]
+		[TestCase(new double[] { 1, 2, 3 }, new double[] { 4, 5, 6 }, 32, TestName = "Exercise33_VectorProduct_With3Dimensions_ReturnsExpected")]
+		[TestCase(new double[] { 1, 11, 12, 94 }, new double[] { 0, 9, 27, 66 }, 6627, TestName = "Exercise33_VectorProduct_With4Dimensions_ReturnsExpected")]
+		public void Exercise33_VectorProduct(double[] a, double[] b, double expected)
+		{
+			// Arrange
+
+			// Act
+			var result = Section1.VectorDot(a, b);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
 	}
 }

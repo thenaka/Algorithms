@@ -696,6 +696,51 @@ namespace AlgorithmExercises.Chapter1
 			}
 			return histogram;
 		}
+
+		/// <summary>
+		/// Get the vector dot product.
+		/// </summary>
+		/// <param name="a">The first vector to calculate. Must be the same length as <paramref name="b"/>.</param>
+		/// <param name="b">The second vector to calculat. Must be the same length as <paramref name="a"/>.</param>
+		/// <returns>The vector dot product of <paramref name="a"/> and <paramref name="b"/>.</returns>
+		public static double VectorDot(double[] a, double[] b)
+		{
+			if (a is null) throw new ArgumentNullException(nameof(a));
+			if (b is null) throw new ArgumentNullException(nameof(b));
+			if (a.Length != b.Length) throw new ArgumentException($"Length of {nameof(a)} must equal the length {nameof(b)}");
+
+			double dotProduct = 0;
+			for (int i = 0; i < a.Length; i++)
+			{
+				dotProduct += a[i] * b[i];
+			}
+
+			return dotProduct;
+		}
+
+		public static double[,] MatrixProduct(double[,] a, double[,] b)
+		{
+			double[,] result = new double[1, 1];
+			return result;
+		}
+
+		public static double[,] MatrixTranspose(double[,] a)
+		{
+			double[,] result = new double[a.GetLength(1), a.GetLength(0)];
+			return result;
+		}
+
+		public static double[] MatrixVectorProduct(double[,] a, double[] x)
+		{
+			double[] result = new double[x.GetLength(0)];
+			return result;
+		}
+
+		public static double[] VectorMatrixProduct(double[] y, double[,] a)
+		{
+			double[] result = new double[y.GetLength(0)];
+			return result;
+		}
 	}
 
 	public class PointPair
