@@ -665,19 +665,19 @@ namespace AlgorithmExercises.Chapter1
 
 		/// <summary>
 		/// Given a <paramref name="sequence"/> this method console writes a histogram of the values that fall into
-		/// intervals given by (<paramref name="right"/> - <paramref name="left"/>) / <paramref name="number"/>. 
+		/// intervals given by (<paramref name="right"/> - <paramref name="left"/>) / <paramref name="intervals"/>. 
 		/// </summary>
 		/// <param name="sequence">Sequence of numbers to create a histogram.</param>
-		/// <param name="number">Number of intervals.</param>
+		/// <param name="intervals">Number of intervals.</param>
 		/// <param name="left">Bottom of the interval.</param>
 		/// <param name="right">Top of the interval.</param>
-		public static void Histogram(double[] sequence, int number, double left, double right)
+		public static int[] Histogram(double[] sequence, int intervals, double left, double right)
 		{
-			int[] histogram = new int[number];
-			double average = (right - left) / number;
+			int[] histogram = new int[intervals];
+			double average = (right - left) / intervals;
 			for (int i = 0; i < sequence.Length; i++) // iterate through all numbers in sequence
 			{
-				for (int j = 0; j < number; j++) // iterate through each interval
+				for (int j = 0; j < intervals; j++) // iterate through each interval
 				{
 					if (sequence[i] >= average * j && sequence[i] < average * (j + 1)) // does sequence number fall in this interval?
 					{
@@ -694,6 +694,7 @@ namespace AlgorithmExercises.Chapter1
 				}
 				Console.WriteLine();
 			}
+			return histogram;
 		}
 	}
 

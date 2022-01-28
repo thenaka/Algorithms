@@ -820,10 +820,10 @@ namespace AlgorithmExercisesTests.Chapter1
 			yield return testCaseData;
 		}
 
-		[TestCase(2, 0, TestName = "Exercise31_When2PointAnd0Probability_ReturnsExpected")]
-		[TestCase(4, 0, TestName = "Exercise31_When4PointAnd0Probability_ReturnsExpected")]
-		[TestCase(6, 1, TestName = "Exercise31_When6PointAnd100Probability_ReturnsExpected")]
-		[TestCase(12, 1, TestName = "Exercise31_When12PointAnd100Probability_ReturnsExpected")]
+		[TestCase(2, 0, TestName = "Exercise31_When2PointsAnd0Probability_ReturnsExpected")]
+		[TestCase(4, 0, TestName = "Exercise31_When4PointsAnd0Probability_ReturnsExpected")]
+		[TestCase(6, 1, TestName = "Exercise31_When6PointsAnd100Probability_ReturnsExpected")]
+		[TestCase(12, 1, TestName = "Exercise31_When12PointsAnd100Probability_ReturnsExpected")]
 		public void Exercise31(int number, double probability)
 		{
 			// Arrange
@@ -854,6 +854,25 @@ namespace AlgorithmExercisesTests.Chapter1
 					Assert.That(pointPairs.ElementAt(i).Point2.Y, Is.EqualTo(Math.Sin(nextAngleInRadians)));
 				}
 			}
+		}
+
+		[TestCase(new double[] { 85, 79, 41, 21, 64, 4, 42, 31, 87, 81 }, 5, 20, 120, new int[] { 1, 2, 2, 2, 3 }, "x\r\nxx\r\nxx\r\nxx\r\nxxx\r\n", TestName = "Exercise32_Histogram1_OutputsExpected")]
+		[TestCase(new double[] { 70, 35, 39, 90, 29, 23, 2, 88, 16, 82 }, 5, 20, 120, new int[] { 2, 4, 0, 1, 3 }, "xx\r\nxxxx\r\n\r\nx\r\nxxx\r\n", TestName = "Exercise32_Histogram2_OutputsExpected")]
+		[TestCase(new double[] { 99, 19, 60, 13, 72, 68, 36, 57, 43, 9 }, 5, 20, 120, new int[] { 3, 1, 2, 3, 1 }, "xxx\r\nx\r\nxx\r\nxxx\r\nx\r\n", TestName = "Exercise32_Histogram3_OutputsExpected")]
+		public void Exercise32(double[] sequence, int intervals, double left, double right, int[] expected, string expectedConsoleOut)
+		{
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+
+				Console.SetOut(consoleOutput);
+				var result = Section1.Histogram(sequence, intervals, left, right);
+
+				// Assert
+				Assert.That(result, Is.EqualTo(expected));
+				Assert.That(consoleOutput.ToString().Equals(expectedConsoleOut));
+			}
+			Console.SetOut(consoleOut);
 		}
 	}
 }
