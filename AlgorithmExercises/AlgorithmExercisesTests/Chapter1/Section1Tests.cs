@@ -950,5 +950,53 @@ namespace AlgorithmExercisesTests.Chapter1
 			testCaseData.SetName("Exercise33_MatrixTranspose_When1x1_ReturnsExpected");
 			yield return testCaseData;
 		}
+
+		[TestCaseSource("MatrixVectorProduct")]
+		public void Exercise33_MatrixVectorProduct(double[,] a, double[] x, double[] expected)
+		{
+			// Arrange
+
+			// Act
+			var result = Section1.MatrixVectorProduct(a, x);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		public static IEnumerable<TestCaseData> MatrixVectorProduct()
+		{
+			TestCaseData testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, new double[] { 1, 2, 3 },
+				new double[] { 14, 32, 50 });
+			testCaseData.SetName("Exercise33_MatrixVectorProduct_When3x3_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } }, new double[] { 1, 2, 3, 4 },
+				new double[] { 30, 70 });
+			testCaseData.SetName("Exercise33_MatrixVectorProduct_When4x2_ReturnsExpected");
+			yield return testCaseData;
+		}
+
+		[TestCaseSource("VectorMatrixProduct")]
+		public void Exercise33_VectorMatrixProduct(double[] y, double[,] a, double[] expected)
+		{
+			// Arrange
+
+			// Act
+			var result = Section1.VectorMatrixProduct(y, a);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		public static IEnumerable<TestCaseData> VectorMatrixProduct()
+		{
+			TestCaseData testCaseData = new TestCaseData(new double[] { 1, 2, 3 }, new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
+				new double[] { 14, 32, 50 });
+			testCaseData.SetName("Exercise33_VectorMatrixProduct_When3x3_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[] { 1, 2, 3, 4 }, new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } },
+				new double[] { 30, 70 });
+			testCaseData.SetName("Exercise33_VectorMatrixProduct_When4x2_ReturnsExpected");
+			yield return testCaseData;
+		}
 	}
 }

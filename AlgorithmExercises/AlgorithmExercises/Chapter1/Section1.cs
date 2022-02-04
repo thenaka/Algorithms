@@ -773,6 +773,11 @@ namespace AlgorithmExercises.Chapter1
 			return result;
 		}
 
+		/// <summary>
+		/// Returns matrix <paramref name="a"/> transposed.
+		/// </summary>
+		/// <param name="a">Matrix to transpose.</param>
+		/// <returns>Matrix transposed.</returns>
 		public static double[,] MatrixTranspose(double[,] a)
 		{
 			double[,] transposed = new double[a.GetLength(1), a.GetLength(0)];
@@ -787,16 +792,56 @@ namespace AlgorithmExercises.Chapter1
 			return transposed;
 		}
 
+		/// <summary>
+		/// Returns the product of matrix <paramref name="a"/> by vector <paramref name="x"/>.
+		/// </summary>
+		/// <param name="a">Matrix to multiply.</param>
+		/// <param name="x">Vector to multiply.</param>
+		/// <returns>The product of the matrix by the vector.</returns>
 		public static double[] MatrixVectorProduct(double[,] a, double[] x)
 		{
-			double[] result = new double[x.GetLength(0)];
-			return result;
+			double[,] b = new double[x.Length, 1];
+			for (int i = 0; i < x.Length; i++)
+			{
+				b[i, 0] = x[i];
+			}
+
+			var matrixProduct = MatrixProduct(a, b);
+
+			int aRows = a.GetLength(0);
+			double[] product = new double[aRows];
+			for (int i = 0; i < aRows; i++)
+			{
+				product[i] = matrixProduct[i, 0];
+			}
+
+			return product;
 		}
 
+		/// <summary>
+		/// Returns the product of vector <paramref name="y"/> by matrix <paramref name="a"/>.
+		/// </summary>
+		/// <param name="y">Vector to multiply.</param>
+		/// <param name="a">Matrix to multiply.</param>
+		/// <returns>The product of the vector by matrix.</returns>
 		public static double[] VectorMatrixProduct(double[] y, double[,] a)
 		{
-			double[] result = new double[y.GetLength(0)];
-			return result;
+			double[,] b = new double[y.Length, 1];
+			for (int i = 0; i < y.Length; i++)
+			{
+				b[i, 0] = y[i];
+			}
+
+			var matrixProduct = MatrixProduct(a, b);
+
+			int aRows = a.GetLength(0);
+			double[] product = new double[aRows];
+			for (int i = 0; i < aRows; i++)
+			{
+				product[i] = matrixProduct[i, 0];
+			}
+
+			return product;
 		}
 	}
 
