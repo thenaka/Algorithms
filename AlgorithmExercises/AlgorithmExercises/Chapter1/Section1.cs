@@ -775,8 +775,16 @@ namespace AlgorithmExercises.Chapter1
 
 		public static double[,] MatrixTranspose(double[,] a)
 		{
-			double[,] result = new double[a.GetLength(1), a.GetLength(0)];
-			return result;
+			double[,] transposed = new double[a.GetLength(1), a.GetLength(0)];
+			for (int i = 0; i < a.GetLength(0); i++)
+			{
+				for (int j = 0; j < a.GetLength(1); j++)
+				{
+					transposed[j, i] = a[i, j];
+				}
+			}
+
+			return transposed;
 		}
 
 		public static double[] MatrixVectorProduct(double[,] a, double[] x)

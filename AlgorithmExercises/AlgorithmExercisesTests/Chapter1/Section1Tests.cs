@@ -889,7 +889,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(result, Is.EqualTo(expected));
 		}
 
-		[TestCaseSource("Matrices")]
+		[TestCaseSource("MatrixProduct")]
 		public void Exercise33_MatrixProduct(double[,] a, double[,] b, double[,] expected)
 		{
 			// Arrange
@@ -901,7 +901,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(result, Is.EqualTo(expected));
 		}
 
-		public static IEnumerable<TestCaseData> Matrices()
+		public static IEnumerable<TestCaseData> MatrixProduct()
 		{
 			TestCaseData testCaseData = new TestCaseData(new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } },
 				new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } }, new double[,] { { 15, 18, 21 }, { 42, 54, 66 }, { 69, 90, 111 } });
@@ -922,6 +922,32 @@ namespace AlgorithmExercisesTests.Chapter1
 			testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 } },
 				new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } }, new double[,] { { 1, 2, 3 } });
 			testCaseData.SetName("Exercise33_MatrixProduct_WhenMultByIdentity_ReturnsExpected");
+			yield return testCaseData;
+		}
+
+		[TestCaseSource("MatrixTranspose")]
+		public void Exercise33_MatrixTranspose(double[,] a, double[,] expected)
+		{
+			// Act
+
+			// Arrange
+			var result = Section1.MatrixTranspose(a);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		public static IEnumerable<TestCaseData> MatrixTranspose()
+		{
+			TestCaseData testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
+				new double[,] { { 1, 4, 7 }, { 2, 5, 8 }, { 3, 6, 9 } });
+			testCaseData.SetName("Exercise33_MatrixTranspose_When3x3_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 } }, new double[,] { { 1 }, { 2 }, { 3 } });
+			testCaseData.SetName("Exercise33_MatrixTranspose_When1x3_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[,] { { 1 } }, new double[,] { { 1 } });
+			testCaseData.SetName("Exercise33_MatrixTranspose_When1x1_ReturnsExpected");
 			yield return testCaseData;
 		}
 	}
