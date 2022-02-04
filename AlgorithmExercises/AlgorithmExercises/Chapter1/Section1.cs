@@ -698,11 +698,13 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
-		/// Get the vector dot product.
+		/// Returns the vector dot product of vector <paramref name="a"/> and vector <paramref name="b"/>.
 		/// </summary>
 		/// <param name="a">The first vector to calculate. Must be the same length as <paramref name="b"/>.</param>
 		/// <param name="b">The second vector to calculat. Must be the same length as <paramref name="a"/>.</param>
 		/// <returns>The vector dot product of <paramref name="a"/> and <paramref name="b"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
+		/// <exception cref="ArgumentException">Throw if the lengths of each parameter are not equal.</exception>
 		public static double VectorDot(double[] a, double[] b)
 		{
 			if (a is null) throw new ArgumentNullException(nameof(a));
@@ -718,9 +720,56 @@ namespace AlgorithmExercises.Chapter1
 			return dotProduct;
 		}
 
+		/// <summary>
+		/// Returns the dot product of matrix <paramref name="a"/> and matrix <paramref name="b"/>.
+		/// </summary>
+		/// <param name="a">The first matrix to calculate the dot product.</param>
+		/// <param name="b">The second matrix to calculate the dot product.</param>
+		/// <returns>The product of matrix <paramref name="a"/> and matrix <paramref name="b"/>.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
+		/// <exception cref="ArgumentException">Thrown if the number of rows of <paramref name="a"/> is not equal to the columns of <paramref name="b"/> or
+		/// the numbers of columns of <paramref name="a"/> is not equal to the rows of <paramref name="b"/>.</exception>
 		public static double[,] MatrixProduct(double[,] a, double[,] b)
 		{
-			double[,] result = new double[1, 1];
+			if (a is null) throw new ArgumentNullException(nameof(a));
+			if (b is null) throw new ArgumentNullException(nameof(b));
+
+			int aRows = a.GetLength(0);
+			int aCols = a.GetLength(1);
+			int bRows = b.GetLength(0);
+			int bCols = b.GetLength(1);
+			if (aRows != bCols && aCols != bRows) throw new ArgumentException(
+				$"The number rows of {nameof(a)} must equal the columns of {nameof(b)} or the columns of {nameof(a)} must equal the rows of {nameof(b)}");
+
+			List<double[]> aVectors = new();
+			for (int i = 0; i < aRows; i++)
+			{
+				double[] aVector = new double[aCols];
+				for (int j = 0; j < aCols; j++)
+				{
+					aVector[j] = a[i, j];
+				}
+				aVectors.Add(aVector);
+			}
+			List<double[]> bVectors = new();
+			for (int i = 0; i < bCols; i++)
+			{
+				double[] bVector = new double[bRows];
+				for (int j = 0; j < bRows; j++)
+				{
+					bVector[j] = b[j, i];
+				}
+				bVectors.Add(bVector);
+			}
+
+			double[,] result = new double[aRows, bCols];
+			for (int i = 0; i < aRows; i++)
+			{
+				for (int j = 0; j < bCols; j++)
+				{
+					result[i, j] = VectorDot(aVectors[i], bVectors[j]);
+				}
+			}
 			return result;
 		}
 

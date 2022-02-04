@@ -888,5 +888,41 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
 		}
+
+		[TestCaseSource("Matrices")]
+		public void Exercise33_MatrixProduct(double[,] a, double[,] b, double[,] expected)
+		{
+			// Arrange
+
+			// Act
+			var result = Section1.MatrixProduct(a, b);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		public static IEnumerable<TestCaseData> Matrices()
+		{
+			TestCaseData testCaseData = new TestCaseData(new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } },
+				new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } }, new double[,] { { 15, 18, 21 }, { 42, 54, 66 }, { 69, 90, 111 } });
+			testCaseData.SetName("Exercise33_MatrixProduct_When3x3_Mult3x3_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[,] { { 3, 4, 2 } },
+				new double[,] { { 13, 9, 7, 15 }, { 8, 7, 4, 6 }, { 6, 4, 0, 3 } }, new double[,] { { 83, 63, 37, 75 } });
+			testCaseData.SetName("Exercise33_MatrixProduct_When1x3_Mult3x4_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 } },
+				new double[,] { { 4 }, { 5 }, { 6 } }, new double[,] { { 32 } });
+			testCaseData.SetName("Exercise33_MatrixProduct_When1x3_Mult3x1_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[,] { { 4 }, { 5 }, { 6 } },
+				new double[,] { { 1, 2, 3 } }, new double[,] { { 4, 8, 12 }, { 5, 10, 15 }, { 6, 12, 18 } });
+			testCaseData.SetName("Exercise33_MatrixProduct_When3x1_Mult1x3_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 } },
+				new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } }, new double[,] { { 1, 2, 3 } });
+			testCaseData.SetName("Exercise33_MatrixProduct_WhenMultByIdentity_ReturnsExpected");
+			yield return testCaseData;
+		}
 	}
 }
