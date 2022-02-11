@@ -316,6 +316,19 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.AreEqual(result, expected);
 		}
 
+		public static IEnumerable<TestCaseData> TwoDimensionalBools()
+		{
+			TestCaseData testCaseData = new TestCaseData(new bool[,] { }, new char[,] { });
+			testCaseData.SetName("Exercise11_BoolToStars_WhenEmpty_ReturnsEmpty");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new bool[,] { { true, false }, { false, true } }, new char[,] { { '*', ' ' }, { ' ', '*' } });
+			testCaseData.SetName("Exercise11_BoolToStars_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new TestCaseData(new bool[,] { { true, false, true }, { false, true, false } }, new char[,] { { '*', ' ', '*' }, { ' ', '*', ' ' } });
+			testCaseData.SetName("Exercise11_BoolToStars_When3x3_ReturnsExpected");
+			yield return testCaseData;
+		}
+
 		[Test]
 		public void Exercise11_BoolToStars_WhenBoolsNull_ThrowsArgumentNullException()
 		{
@@ -323,19 +336,6 @@ namespace AlgorithmExercisesTests.Chapter1
 
 			// Act and Assert
 			Assert.Throws<ArgumentNullException>(() => Section1.BoolToStars(null));
-		}
-
-		public static IEnumerable<TestCaseData> TwoDimensionalBools()
-		{
-			TestCaseData testCaseData = new TestCaseData(new bool[,] { }, new char[,] { });
-			testCaseData.SetName("Exercise11_BoolToStars_WhenEmpty_ReturnsEmpty");
-			yield return testCaseData;
-			testCaseData = new TestCaseData(new bool[,] { { true, false }, { false, true } }, new char[,] { { '*', ' ' }, { ' ', '*' } });
-			testCaseData.SetName("Exercise11_BoolToStars_When2x2_ReturnsExpected");
-			yield return testCaseData;
-			testCaseData = new TestCaseData(new bool[,] { { true, false, true }, { false, true, false } }, new char[,] { { '*', ' ', '*' }, { ' ', '*', ' ' } });
-			testCaseData.SetName("Exercise11_BoolToStars_When3x3_ReturnsExpected");
-			yield return testCaseData;
 		}
 
 		[Test]
@@ -369,7 +369,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		public static IEnumerable<TestCaseData> TwoDimensionalInts()
 		{
 			TestCaseData testCaseData = new TestCaseData(new int[,] { { 1, 2, 3 }, { 4, 5, 6 } }, new int[,] { { 1, 4 }, { 2, 5 }, { 3, 6 } });
-			testCaseData.SetName("Exercise13_Transpose_When2x3_ReturnsExpected");
+			testCaseData.SetName("Exercise13_Transpose_ReturnsExpected");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, new int[,] { { 1, 4, 7 }, { 2, 5, 8 }, { 3, 6, 9 } });
 			testCaseData.SetName("Exercise13_Transpose_When3x3_ReturnsExpected");
@@ -798,7 +798,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[TestCaseSource("RelativelyPrimeBools")]
-		public void Exercise30(int dimension, bool[,] expected)
+		public void Exercise30_RelativelyPrime_ReturnsExpected(int dimension, bool[,] expected)
 		{
 			// Act
 			var result = Section1.RelativelyPrime(dimension);
@@ -813,7 +813,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			testCaseData.SetName("Exercise30_RelativelyPrime_WhenZero_ReturnsEmpty");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(2, new bool[,] { { false, true }, { true, true } });
-			testCaseData.SetName("Exercise30_RelativelyPrime_When2x2_ReturnsExpected");
+			testCaseData.SetName("Exercise30_RelativelyPrime_ReturnsExpected");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(3, new bool[,] { { false, true, false }, { true, true, true }, { false, true, false } });
 			testCaseData.SetName("Exercise30_RelativelyPrime_When3x3_ReturnsExpected");
@@ -890,7 +890,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[TestCaseSource("MatrixProduct")]
-		public void Exercise33_MatrixProduct(double[,] a, double[,] b, double[,] expected)
+		public void Exercise33_MatrixProduct_ReturnsExpected(double[,] a, double[,] b, double[,] expected)
 		{
 			// Arrange
 
@@ -905,7 +905,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		{
 			TestCaseData testCaseData = new TestCaseData(new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } },
 				new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } }, new double[,] { { 15, 18, 21 }, { 42, 54, 66 }, { 69, 90, 111 } });
-			testCaseData.SetName("Exercise33_MatrixProduct_When3x3_Mult3x3_ReturnsExpected");
+			testCaseData.SetName("Exercise33_MatrixProduct_ReturnsExpected");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(new double[,] { { 3, 4, 2 } },
 				new double[,] { { 13, 9, 7, 15 }, { 8, 7, 4, 6 }, { 6, 4, 0, 3 } }, new double[,] { { 83, 63, 37, 75 } });
@@ -926,7 +926,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[TestCaseSource("MatrixTranspose")]
-		public void Exercise33_MatrixTranspose(double[,] a, double[,] expected)
+		public void Exercise33_MatrixTranspose_ReturnsExpected(double[,] a, double[,] expected)
 		{
 			// Act
 
@@ -941,7 +941,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		{
 			TestCaseData testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
 				new double[,] { { 1, 4, 7 }, { 2, 5, 8 }, { 3, 6, 9 } });
-			testCaseData.SetName("Exercise33_MatrixTranspose_When3x3_ReturnsExpected");
+			testCaseData.SetName("Exercise33_MatrixTranspose_ReturnsExpected");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 } }, new double[,] { { 1 }, { 2 }, { 3 } });
 			testCaseData.SetName("Exercise33_MatrixTranspose_When1x3_ReturnsExpected");
@@ -952,7 +952,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[TestCaseSource("MatrixVectorProduct")]
-		public void Exercise33_MatrixVectorProduct(double[,] a, double[] x, double[] expected)
+		public void Exercise33_MatrixVectorProduct_ReturnsExpected(double[,] a, double[] x, double[] expected)
 		{
 			// Arrange
 
@@ -967,7 +967,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		{
 			TestCaseData testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, new double[] { 1, 2, 3 },
 				new double[] { 14, 32, 50 });
-			testCaseData.SetName("Exercise33_MatrixVectorProduct_When3x3_ReturnsExpected");
+			testCaseData.SetName("Exercise33_MatrixVectorProduct_ReturnsExpected");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } }, new double[] { 1, 2, 3, 4 },
 				new double[] { 30, 70 });
@@ -976,7 +976,7 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[TestCaseSource("VectorMatrixProduct")]
-		public void Exercise33_VectorMatrixProduct(double[] y, double[,] a, double[] expected)
+		public void Exercise33_VectorMatrixProduct_ReturnsExpected(double[] y, double[,] a, double[] expected)
 		{
 			// Arrange
 
@@ -991,12 +991,123 @@ namespace AlgorithmExercisesTests.Chapter1
 		{
 			TestCaseData testCaseData = new TestCaseData(new double[] { 1, 2, 3 }, new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
 				new double[] { 14, 32, 50 });
-			testCaseData.SetName("Exercise33_VectorMatrixProduct_When3x3_ReturnsExpected");
+			testCaseData.SetName("Exercise33_VectorMatrixProduct_ReturnsExpected");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(new double[] { 1, 2, 3, 4 }, new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } },
 				new double[] { 30, 70 });
 			testCaseData.SetName("Exercise33_VectorMatrixProduct_When4x2_ReturnsExpected");
 			yield return testCaseData;
+		}
+
+		[TestCaseSource("MinMax")]
+		public void Exercise34_MinMax_ReturnsExpected(double[] values, (double min, double max) expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			// Act
+			(double min, double max) result = (0, 0);
+			foreach (double value in values)
+			{
+				result = section1.MinMax(value);
+			}
+
+			// Assert
+			Assert.That(result == expected);
+		}
+
+		public static IEnumerable<TestCaseData> MinMax()
+		{
+			TestCaseData testCaseData = new(new double[] { 1, 2, 3, 4, 5, 6, 7 }, (1d, 7d));
+			testCaseData.SetName("Exercise34_MinMax_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new(new double[] { -7, -6, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7 }, (-7d, 7d));
+			testCaseData.SetName("Exercise34_MinMax_WhenMinNeg7And7_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new(new double[] { 3 }, (3d, 3d));
+			testCaseData.SetName("Exercise34_MinMax_WhenOneValue_ReturnsExpected");
+			yield return testCaseData;
+			testCaseData = new(new double[] { 32, 81, 4, 79, 22, 16, 15, 39, 100, 41 }, (4d, 100d));
+			testCaseData.SetName("Exercise34_MinMax_WhenValuesUnordered_ReturnsExpected");
+			yield return testCaseData;
+		}
+
+		[TestCase(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 5.5, TestName = "Exercise34_Median_WhenEvenCount_ReturnsExpected")]
+		[TestCase(new double[] { 1, 2, 3, 4, 5, 6, 7 }, 4, TestName = "Exercise34_Median_WhenOddCount_ReturnsExpected")]
+		[TestCase(new double[] { 7 }, 7, TestName = "Exercise34_Median_WhenOneValue_ReturnsExpected")]
+		[TestCase(new double[] { 60, 74, 30, 77, 58, 43, 44, 53, 86, 66 }, 59, TestName = "Exercise34_Median_WhenValuesUnordered_ReturnsExpected")]
+		public void Exercise34_Median_ReturnsExpected(double[] values, double expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			// Act
+			double result = 0;
+			foreach (double value in values)
+			{
+				result = section1.Median(value);
+			}
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 0, 1, TestName = "Exercise34_Smallest_WhenIndex0_ReturnsExpected")]
+		[TestCase(new double[] { 1, 2, 3, 4, 5, 6, 7 }, 2, 3, TestName = "Exercise34_Smallest_WhenIndex2_ReturnsExpected")]
+		[TestCase(new double[] { 7 }, 0, 7, TestName = "Exercise34_Smallest_WhenOneValue_ReturnsExpected")]
+		[TestCase(new double[] { 7 }, 1, double.NaN, TestName = "Exercise34_Smallest_WhenIndexOutOfRange_ReturnsExpected")]
+		[TestCase(new double[] { 60, 74, 30, 77, 58, 43, 44, 53, 86, 66 }, 9, 86, TestName = "Exercise34_Smallest_WhenLastIndex_ReturnsExpected")]
+		public void Exercise34_Smallest_ReturnsExpected(double[] values, int index, double expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			// Act
+			double result = 0;
+			foreach (double value in values)
+			{
+				result = section1.Smallest(value, index);
+			}
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(new double[] { 1, 6, 2, 12, 15, 11 }, 531, TestName = "Exercise34_SumOfSquares_ReturnsExpected")]
+		[TestCase(new double[] { 0 }, 0, TestName = "Exercise34_SumOfSquares_WhenValue0_ReturnsExpected")]
+		[TestCase(new double[] { -6, 3, 8, -4 }, 125, TestName = "Exercise34_SumOfSquares_WhenNegValues_ReturnsExpected")]
+		public void Exercise34_SumOfSquares_ReturnsExpected(double[] values, double expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			// Act
+			double result = 0;
+			foreach (double value in values)
+			{
+				result = section1.SumOfSquares(value);
+			}
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(new double[] { 1, 2, 3, 4, 5, 6, 7 }, 4, TestName = "Exercise34_Average_ReturnsExpected")]
+		[TestCase(new double[] { 4 }, 4, TestName = "Exercise34_Average_WhenOneValue_ReturnsExpected")]
+		public void Exercise34_Average_ReturnsExpected(double[] values, double expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			// Act
+			double result = 0;
+			foreach (double value in values)
+			{
+				result = section1.Average(value);
+			}
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
 		}
 	}
 }

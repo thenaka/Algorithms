@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlgorithmExercises.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace AlgorithmExercises.Chapter1
 {
-	public static class Section1
+	public class Section1
 	{
 		/// <summary>
 		/// Give the type and value of the expressions
@@ -843,28 +844,96 @@ namespace AlgorithmExercises.Chapter1
 
 			return product;
 		}
-	}
 
-	public class PointPair
-	{
-		public bool Connected { get; set; }
-		public Point Point1 { get; init; }
-		public Point Point2 { get; init; }
-		public PointPair(Point p1, Point p2)
+		private double _min = double.MaxValue;
+		private double _max = double.MinValue;
+
+		/// <summary>
+		/// Returns the minimum and maximum values for a series of calls.
+		/// </summary>
+		/// <param name="value">The current value to evaluate against the current minimum and maximum.</param>
+		/// <returns>The current minimum and maximum values.</returns>
+		/// <remarks>This method tracks the minimum and maximum via filtering without having to save every value in an array.</remarks>
+		public (double min, double max) MinMax(double value)
 		{
-			Point1 = p1;
-			Point2 = p2;
+			if (value < _min) _min = value;
+			if (value > _max) _max = value;
+
+			return (_min, _max);
 		}
-	}
 
-	public class Point
-	{
-		public double X { get; init; }
-		public double Y { get; init; }
-		public Point(double x, double y)
+		private List<double> _median = new();
+
+		/// <summary>
+		/// Returns the median value for all given values.
+		/// </summary>
+		/// <param name="value">Value to add to list of median values.</param>
+		/// <returns>The median is the midpoint of all sorted values. For an odd length list it is the exact midpoint,
+		/// for an even length list then the average of the two middle numbers. This method does require saving all 
+		/// given values.</returns>
+		public double Median(double value)
 		{
-			X = x;
-			Y = y;
+			_median.SortedInsert(value);
+
+			bool isEventLength = _median.Count % 2 == 0;
+			int midPoint = _median.Count / 2;
+
+			return isEventLength ? (_median[midPoint] + _median[midPoint - 1]) / 2.0 : _median[midPoint];
+		}
+
+		private List<double> _smallest = new();
+
+		/// <summary>
+		/// Gets the index of teh smalles value given over multiple calls.
+		/// </summary>
+		/// <param name="value">Value to add to the list.</param>
+		/// <param name="index">The index of the smallest element.</param>
+		/// <returns>The smallest element given.</returns>
+		/// <remarks>The smallest element is in the 0th position. The given values are stored in ascending order.</remarks>
+		public double Smallest(double value, int index)
+		{
+			_smallest.SortedInsert(value);
+
+			return _smallest.Count > index ? _smallest[index] : double.NaN;
+		}
+
+		private double _sumOfSquares = 0;
+
+		/// <summary>
+		/// Returns the sum of squares of all given values.
+		/// </summary>
+		/// <param name="value">Value to square then add to all previous values.</param>
+		/// <returns>The sum of the squares of all given values.</returns>
+		public double SumOfSquares(double value)
+		{
+			_sumOfSquares += Math.Pow(value, 2);
+			return _sumOfSquares;
+		}
+
+		private double _averageSum = 0;
+		private double _averageCount = 0;
+
+		/// <summary>
+		/// Gets the average of all given values.
+		/// </summary>
+		/// <param name="value">Value to average.</param>
+		/// <returns>The average of all given values.</returns>
+		public double Average(double value)
+		{
+			_averageCount++;
+			_averageSum += value;
+			return _averageSum / _averageCount;
+		}
+
+		private List<double> _percentGreater = new();
+
+		public double PercentGreater(double value)
+		{
+			_percentGreater.SortedInsert(value);
+
+			double averageCeiling = Math.Ceiling(_percentGreater.Average());
+
+			return 0;
 		}
 	}
 }
