@@ -22,7 +22,8 @@ namespace AlgorithmExercisesTests.Common
 		}
 
 		[TestCase(new int[] { 1, 2, 3 }, 2, 1, TestName = "GetIndex_ReturnsExpected")]
-		[TestCase(new int[] { 1, 2, 3 }, 4, 3, TestName = "GetIndex_WhenValueNotInValues_ReturnsExpected")]
+		[TestCase(new int[] { 1, 2, 3 }, 4, 3, TestName = "GetIndex_WhenValueExceedsAllValues_ReturnsExpected")]
+		[TestCase(new int[] {1, 2, 3, 5, 6, 7, 8}, 4, 3, TestName ="GetIndex_WhenValueNotInValues_ReturnsExpected")]
 		[TestCase(new int[] { 1, 2, 2, 3 }, 2, 1, TestName = "GetIndex_WhenTwoDuplicates_ReturnsExpected")]
 		[TestCase(new int[] { 1, 2, 2, 2, 3 }, 2, 2, TestName = "GetIndex_WhenThreeDuplicates_ReturnsExpected")]
 		public void GetIndex(int[] values, int value, int expected)

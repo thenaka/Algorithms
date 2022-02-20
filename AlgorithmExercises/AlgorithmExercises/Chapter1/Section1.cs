@@ -927,13 +927,60 @@ namespace AlgorithmExercises.Chapter1
 
 		private List<double> _percentGreater = new();
 
+		/// <summary>
+		/// Returns the percent of all given numbers that are greater than the average.
+		/// </summary>
+		/// <param name="value">Value to add to collection.</param>
+		/// <returns>The percent of all given numbers that are greater than the average.</returns>
 		public double PercentGreater(double value)
 		{
 			_percentGreater.SortedInsert(value);
 
-			double averageCeiling = Math.Ceiling(_percentGreater.Average());
+			double average = _percentGreater.Average();
+			int count = _percentGreater.Count;
 
-			return 0;
+			int index = _percentGreater.GetIndex(average);
+			while (index < count && _percentGreater[index] <= average)
+			{
+				index++;
+			}
+
+			return (count - index) * 1.0 / count;
+		}
+
+		private List<double> _inOrder = new();
+
+		/// <summary>
+		/// Prints all given numbers in order.
+		/// </summary>
+		/// <param name="value">Number to print in order.</param>
+		public void PrintInOrder(double value)
+		{
+			_inOrder.SortedInsert(value);
+			_inOrder.ForEach(v => Console.Write($"{v} "));
+			Console.WriteLine();
+		}
+
+		private List<double> _randomOrder = new();
+		private Random _random = new Random();
+
+		/// <summary>
+		/// Prints the given numbers in random order.
+		/// </summary>
+		/// <param name="value">Value to print in random order.</param>
+		public void PrintRandom(double value)
+		{
+			_randomOrder.Add(value);
+
+			var randomCopy = new List<double>(_randomOrder);
+
+			for (int i = 0; i < _randomOrder.Count; i++)
+			{
+				int index = _random.Next(randomCopy.Count);
+				Console.Write($"{randomCopy[index]} ");
+				randomCopy.RemoveAt(index);
+			}
+			Console.WriteLine();
 		}
 	}
 }

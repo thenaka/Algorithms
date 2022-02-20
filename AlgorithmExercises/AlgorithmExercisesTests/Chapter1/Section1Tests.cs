@@ -1109,5 +1109,73 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
 		}
+
+		[TestCase(new double[] { 1, 2, 3, 4, 5, 6, 7 }, 0.42857142857142855, TestName = "Exercise34_PercentGreaterThanAverage_ReturnsExpected")]
+		[TestCase(new double[] { 2, 8, 16, 24, 32, 40 }, 0.5, TestName = "Exercise34_PercentGreaterThanAverage_WhenHalfGreater_ReturnsExpected")]
+		[TestCase(new double[] { 2 }, 0, TestName = "Exercise34_PercentGreaterThanAverage_WhenOneValue_ReturnsExpected")]
+		public void Exercise34_PercentGreaterThanAverage_ReturnsExpected(double[] values, double expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			// Act
+			double result = 0;
+			foreach (double value in values)
+			{
+				result = section1.PercentGreater(value);
+			}
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(new double[] { 14, 77, 29, 59, 64 }, "14 \r\n14 77 \r\n14 29 77 \r\n14 29 59 77 \r\n14 29 59 64 77 \r\n", TestName = "Exercise34_PrintInOrder_ReturnsExpected")]
+		[TestCase(new double[] { 88 }, "88 \r\n", TestName = "Exercise34_PrintInOrder_WhenOneValue_ReturnsExpected")]
+		public void Exercise34_PrintInOrder_ReturnsExpected(double[] values, string expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+
+				Console.SetOut(consoleOutput);
+
+				// Act
+				foreach (double value in values)
+				{
+					section1.PrintInOrder(value);
+				}
+
+				// Assert
+				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
+			}
+			Console.SetOut(consoleOut);
+		}
+
+		[TestCase(new double[] { 88 }, "88 \r\n", TestName = "Exercise34_PrintRandom_WhenOneValue_ReturnsExpected")]
+		public void Exercise34_PrintRandom_WhenOneValue_ReturnsExpected(double[] values, string expected)
+		{
+			// Arrange
+			var section1 = new Section1();
+
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+
+				Console.SetOut(consoleOutput);
+
+				// Act
+				foreach (double value in values)
+				{
+					section1.PrintRandom(value);
+				}
+
+				// Assert
+				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
+			}
+			Console.SetOut(consoleOut);
+		}
 	}
 }
