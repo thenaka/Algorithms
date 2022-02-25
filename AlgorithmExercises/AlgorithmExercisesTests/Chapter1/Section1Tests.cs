@@ -318,7 +318,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 		public static IEnumerable<TestCaseData> TwoDimensionalBools()
 		{
-			TestCaseData testCaseData = new TestCaseData(new bool[,] { }, new char[,] { });
+			TestCaseData testCaseData = new(new bool[,] { }, new char[,] { });
 			testCaseData.SetName("Exercise11_BoolToStars_WhenEmpty_ReturnsEmpty");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(new bool[,] { { true, false }, { false, true } }, new char[,] { { '*', ' ' }, { ' ', '*' } });
@@ -368,7 +368,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 		public static IEnumerable<TestCaseData> TwoDimensionalInts()
 		{
-			TestCaseData testCaseData = new TestCaseData(new int[,] { { 1, 2, 3 }, { 4, 5, 6 } }, new int[,] { { 1, 4 }, { 2, 5 }, { 3, 6 } });
+			TestCaseData testCaseData = new(new int[,] { { 1, 2, 3 }, { 4, 5, 6 } }, new int[,] { { 1, 4 }, { 2, 5 }, { 3, 6 } });
 			testCaseData.SetName("Exercise13_Transpose_ReturnsExpected");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, new int[,] { { 1, 4, 7 }, { 2, 5, 8 }, { 3, 6, 9 } });
@@ -809,7 +809,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 		public static IEnumerable<TestCaseData> RelativelyPrimeBools()
 		{
-			TestCaseData testCaseData = new TestCaseData(0, new bool[,] { });
+			TestCaseData testCaseData = new(0, new bool[,] { });
 			testCaseData.SetName("Exercise30_RelativelyPrime_WhenZero_ReturnsEmpty");
 			yield return testCaseData;
 			testCaseData = new TestCaseData(2, new bool[,] { { false, true }, { true, true } });
@@ -903,7 +903,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 		public static IEnumerable<TestCaseData> MatrixProduct()
 		{
-			TestCaseData testCaseData = new TestCaseData(new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } },
+			TestCaseData testCaseData = new(new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } },
 				new double[,] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 } }, new double[,] { { 15, 18, 21 }, { 42, 54, 66 }, { 69, 90, 111 } });
 			testCaseData.SetName("Exercise33_MatrixProduct_ReturnsExpected");
 			yield return testCaseData;
@@ -939,7 +939,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 		public static IEnumerable<TestCaseData> MatrixTranspose()
 		{
-			TestCaseData testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
+			TestCaseData testCaseData = new(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
 				new double[,] { { 1, 4, 7 }, { 2, 5, 8 }, { 3, 6, 9 } });
 			testCaseData.SetName("Exercise33_MatrixTranspose_ReturnsExpected");
 			yield return testCaseData;
@@ -965,7 +965,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 		public static IEnumerable<TestCaseData> MatrixVectorProduct()
 		{
-			TestCaseData testCaseData = new TestCaseData(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, new double[] { 1, 2, 3 },
+			TestCaseData testCaseData = new(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, new double[] { 1, 2, 3 },
 				new double[] { 14, 32, 50 });
 			testCaseData.SetName("Exercise33_MatrixVectorProduct_ReturnsExpected");
 			yield return testCaseData;
@@ -989,7 +989,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 		public static IEnumerable<TestCaseData> VectorMatrixProduct()
 		{
-			TestCaseData testCaseData = new TestCaseData(new double[] { 1, 2, 3 }, new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
+			TestCaseData testCaseData = new(new double[] { 1, 2, 3 }, new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
 				new double[] { 14, 32, 50 });
 			testCaseData.SetName("Exercise33_VectorMatrixProduct_ReturnsExpected");
 			yield return testCaseData;
@@ -1176,6 +1176,51 @@ namespace AlgorithmExercisesTests.Chapter1
 				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
 			}
 			Console.SetOut(consoleOut);
+		}
+
+		[TestCase(6, TestName = "Exercise35_DiceSimulation_FindsRollsToReachDistribution")]
+		public void Exercise35_DiceSimulation_FindsRollsToReachDistribution(int sides)
+		{
+			var test = Section1.DiceDistribution(sides);
+
+			int rolls = 2;
+			while (true)
+			{
+				var simulation = Section1.DiceSimulation(sides, rolls);
+				try
+				{
+					Assert.That(test, Is.EqualTo(simulation).Within(0.001));
+					break;
+				}
+				catch
+				{
+					rolls *= 2;
+				}
+			}
+			Assert.Pass($"Rolls {rolls:N0}");
+		}
+
+		[TestCase(10, 100, TestName = "Exercise36_ShuffleTest_ExpectedDistribution")]
+		[TestCase(10, 1000, TestName = "Exercise36_ShuffleTest_When1000Shuffles_ExpectedDistribution")]
+		[TestCase(10, 10000, TestName = "Exercise36_ShuffleTest_When10000Shuffles_ExpectedDistribution")]
+		public void Exercise36_ShuffleTest_ExpectedDistribution(int arrayLength, int shuffles)
+		{
+			var values = new double[arrayLength];
+			for (int i = 0; i < arrayLength; i++)
+			{
+				values[i] = i;
+			}
+
+			var dist = Section1.ShuffleTest(values, shuffles);
+			var delta = 0.1;
+			for (int i = 0; i < arrayLength; i++)
+			{
+				for (int j = 0; j < arrayLength; j++)
+				{
+					Assert.That(dist[i, j] / shuffles, Is.EqualTo(delta).Within(delta * 1.5));
+				}
+			}
+
 		}
 	}
 }

@@ -82,7 +82,7 @@ namespace AlgorithmExercises.Chapter1
 		/// <remarks>This method was written with test driven development so it validates if-statements up to the complexity of what is given.</remarks>
 		public static bool ValidateIfStatement(string ifStatement)
 		{
-			Regex ifRegex = new Regex(@"^if \([a-z] > [a-z]\) {* *[a-z] = 0; *}*");
+			Regex ifRegex = new(@"^if \([a-z] > [a-z]\) {* *[a-z] = 0; *}*");
 			return ifRegex.Match(ifStatement).Success;
 		}
 
@@ -105,11 +105,11 @@ namespace AlgorithmExercises.Chapter1
 		{
 			int f = 0;
 			int g = 1;
-			List<int> fibonacci = new List<int>();
+			List<int> fibonacci = new();
 			for (int i = 0; i <= count; i++)
 			{
 				fibonacci.Add(f);
-				f = f + g;
+				f += g;
 				g = f - g;
 			}
 			return fibonacci;
@@ -862,7 +862,7 @@ namespace AlgorithmExercises.Chapter1
 			return (_min, _max);
 		}
 
-		private List<double> _median = new();
+		private readonly List<double> _median = new();
 
 		/// <summary>
 		/// Returns the median value for all given values.
@@ -881,7 +881,7 @@ namespace AlgorithmExercises.Chapter1
 			return isEventLength ? (_median[midPoint] + _median[midPoint - 1]) / 2.0 : _median[midPoint];
 		}
 
-		private List<double> _smallest = new();
+		private readonly List<double> _smallest = new();
 
 		/// <summary>
 		/// Gets the index of teh smalles value given over multiple calls.
@@ -925,7 +925,7 @@ namespace AlgorithmExercises.Chapter1
 			return _averageSum / _averageCount;
 		}
 
-		private List<double> _percentGreater = new();
+		private readonly List<double> _percentGreater = new();
 
 		/// <summary>
 		/// Returns the percent of all given numbers that are greater than the average.
@@ -948,7 +948,7 @@ namespace AlgorithmExercises.Chapter1
 			return (count - index) * 1.0 / count;
 		}
 
-		private List<double> _inOrder = new();
+		private readonly List<double> _inOrder = new();
 
 		/// <summary>
 		/// Prints all given numbers in order.
@@ -961,8 +961,8 @@ namespace AlgorithmExercises.Chapter1
 			Console.WriteLine();
 		}
 
-		private List<double> _randomOrder = new();
-		private Random _random = new Random();
+		private readonly List<double> _randomOrder = new();
+		private readonly Random _random = new();
 
 		/// <summary>
 		/// Prints the given numbers in random order.
@@ -981,6 +981,101 @@ namespace AlgorithmExercises.Chapter1
 				randomCopy.RemoveAt(index);
 			}
 			Console.WriteLine();
+		}
+
+		/// <summary>
+		/// Returns the standard distribution for two dice with <paramref name="sides"/>.
+		/// </summary>
+		/// <param name="sides">The number of side fo the two dice.</param>
+		/// <returns>The standard distribution for two dice with <paramref name="sides"/>.</returns>
+		public static IEnumerable<double> DiceDistribution(int sides)
+		{
+			double[] dist = new double[2 * sides + 1];
+			for (int i = 1; i <= sides; i++)
+			{
+				for (int j = 1; j <= sides; j++)
+				{
+					dist[i + j] += 1.0;
+				}
+			}
+
+			for (int k = 2; k <= 2 * sides; k++)
+			{
+				dist[k] /= 36.0;
+			}
+			return dist;
+		}
+
+		/// <summary>
+		/// Simulates rolling two dice with <paramref name="sides"/> for <paramref name="rolls"/>.
+		/// </summary>
+		/// <param name="sides">Number of sides of the two dice.</param>
+		/// <param name="rolls">Number of times to roll the two dice.</param>
+		/// <returns>The distribution of rolls.</returns>
+		public static IEnumerable<double> DiceSimulation(int sides, int rolls)
+		{
+			Random random = new();
+			double[] dist = new double[2 * sides + 1];
+			int roll1;
+			int roll2;
+			for (int i = 0; i < rolls; i++)
+			{
+				roll1 = random.Next(1, sides + 1);
+				roll2 = random.Next(1, sides + 1);
+				dist[roll1 + roll2] += 1;
+			}
+
+			for (int k = 2; k <= 2 * sides; k++)
+			{
+				dist[k] /= rolls;
+			}
+
+			return dist;
+		}
+
+		/// <summary>
+		/// Randomly shuffles <paramref name="values"/>. The given array is unchanged.
+		/// </summary>
+		/// <param name="values">Values to shuffle.</param>
+		/// <returns><paramref name="values"/> randomly shuffled.</returns>
+		public static IEnumerable<double> Shuffle(double[] values)
+		{
+			var valuesCopy = new double[values.Length];
+			Array.Copy(values, valuesCopy, values.Length);
+
+			int n = valuesCopy.Length;
+			Random random = new();
+			for (int i = 0; i < n; i++)
+			{
+				int r = i + random.Next(0, n - i);
+				double temp = valuesCopy[i];
+				valuesCopy[i] = valuesCopy[r];
+				valuesCopy[r] = temp;
+			}
+
+			return valuesCopy;
+		}
+
+		/// <summary>
+		/// Tests <see cref="Shuffle(double[])"/> with <paramref name="values"/>, where value[i] = i, with <paramref name="shuffles"/>.
+		/// </summary>
+		/// <param name="values">Array where values[i] = i.</param>
+		/// <param name="shuffles">Number of times to shuffle <paramref name="values"/>.</param>
+		/// <returns>Distribution of the number of times each value appeared in each position.</returns>
+		public static double[,] ShuffleTest(double[] values, int shuffles)
+		{
+			int length = values.Length;
+			double[,] dist = new double[length, length];
+			for (int i = 0; i < shuffles; i++)
+			{
+				var shuffled = Shuffle(values);
+				for (int j = 0; j < length; j++)
+				{
+					int value = (int)shuffled.ElementAt(j);
+					dist[value, j] += 1;
+				}
+			}
+			return dist;
 		}
 	}
 }
