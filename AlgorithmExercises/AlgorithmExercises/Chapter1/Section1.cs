@@ -1131,5 +1131,22 @@ namespace AlgorithmExercises.Chapter1
 			}
 			return values;
 		}
+
+		/// <summary>
+		/// Returns a collection of all vales from <paramref name="candidate"/> that are int <paramref name="list"/>.
+		/// </summary>
+		/// <param name="candidate">Sorted collection of numbers to check if they are in<paramref name="list"/>.</param>
+		/// <param name="list">Sorted list of number to check.</param>
+		/// <returns>Sorted collection of values from <paramref name="candidate"/> that are in <paramref name="list"/>.</returns>
+		public static IEnumerable<int> InCollection(int[] candidate, int[] list)
+		{
+			List<int> inList = new();
+			for (int i = 0; i < candidate.Length; i++)
+			{
+				if (Rank(candidate[i], list) != -1)
+					inList.Add(candidate[i]);
+			}
+			return inList;
+		}
 	}
 }

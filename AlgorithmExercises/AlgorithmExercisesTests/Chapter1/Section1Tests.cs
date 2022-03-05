@@ -1240,7 +1240,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			{
 				for (int j = 0; j < arrayLength; j++)
 				{
-					Assert.That(dist[i, j] / shuffles, Is.Not.EqualTo(delta).Within(0.01));
+					Assert.That(dist[i, j] / shuffles, Is.Not.EqualTo(delta).Within(0.005));
 				}
 			}
 		}
@@ -1268,6 +1268,28 @@ namespace AlgorithmExercisesTests.Chapter1
 
 			// Assert
 			Assert.Pass($"Brute Force Time:{bruteForceTime} Binary Time:{binaryTime}");
+		}
+
+		[TestCase(1000, 10, TestName = "Exercise39_RandomCollections_InList_Trials")]
+		[TestCase(1000, 100, TestName = "Exercise39_RandomCollections_InList_100Trials")]
+		[TestCase(1000, 1000, TestName = "Exercise39_RandomCollections_InList_1000Trials")]
+		[TestCase(1000, 10000, TestName = "Exercise39_RandomCollections_InList_10000Trials")]
+		public void Exercise39_RandomCollections_InList_Trials(int n, int trials)
+		{
+			// Arrange
+			
+			// Act
+			List<int> allValues = new();
+			for (int i = 0; i < trials; i++)
+			{
+				var candidates = Section1.GenerateRandomCollection(n, max: 999_999).OrderBy(x => x).ToArray();
+				var list = Section1.GenerateRandomCollection(n, max: 999_999).OrderBy(x => x).ToArray();
+
+				var inList = Section1.InCollection(candidates, list);
+				allValues.AddRange(inList);
+			}
+
+			Assert.Pass($"Trial average {allValues.Average()}");
 		}
 	}
 }
