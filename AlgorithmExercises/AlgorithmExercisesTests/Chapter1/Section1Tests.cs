@@ -1222,5 +1222,52 @@ namespace AlgorithmExercisesTests.Chapter1
 			}
 
 		}
+
+		[TestCase(10, 100, TestName = "Exercise37_BadShuffleTest_ExpectedDistribution")]
+		[TestCase(10, 1000, TestName = "Exercise37_BadShuffleTest_When1000Shuffles_ExpectedDistribution")]
+		[TestCase(10, 10000, TestName = "Exercise37_BadShuffleTest_When10000Shuffles_ExpectedDistribution")]
+		public void Exercise37_BadShuffleTest_ExpectedDistribution(int arrayLength, int shuffles)
+		{
+			var values = new double[arrayLength];
+			for (int i = 0; i < arrayLength; i++)
+			{
+				values[i] = i;
+			}
+
+			var dist = Section1.ShuffleTest(values, shuffles);
+			var delta = 0.01;
+			for (int i = 0; i < arrayLength; i++)
+			{
+				for (int j = 0; j < arrayLength; j++)
+				{
+					Assert.That(dist[i, j] / shuffles, Is.Not.EqualTo(delta).Within(0.01));
+				}
+			}
+		}
+
+		[TestCase(100, TestName = "Exercise38_BruteForceSearch")]
+		[TestCase(1000, TestName = "Exercise38_BruteForceSearch_When1000")]
+		[TestCase(10000, TestName = "Exercise38_BruteForceSearch_When10000")]
+		public void Exercise38_BruteForceSearch(int n)
+		{
+			// Arrange
+			var values = Section1.GenerateRandomCollection(n).OrderBy(x => x).ToArray();
+			Random random = new();
+			int value = random.Next(0, n);
+
+			// Act
+			Stopwatch sw = Stopwatch.StartNew();
+			Section1.BruteForceSearch(value, values);
+			sw.Stop();
+			var bruteForceTime = sw.Elapsed;
+
+			sw.Restart();
+			Section1.Rank(value, values);
+			sw.Stop();
+			var binaryTime = sw.Elapsed;
+
+			// Assert
+			Assert.Pass($"Brute Force Time:{bruteForceTime} Binary Time:{binaryTime}");
+		}
 	}
 }

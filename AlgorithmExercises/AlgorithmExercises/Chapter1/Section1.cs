@@ -1043,11 +1043,34 @@ namespace AlgorithmExercises.Chapter1
 			var valuesCopy = new double[values.Length];
 			Array.Copy(values, valuesCopy, values.Length);
 
-			int n = valuesCopy.Length;
+			int valuesLength = valuesCopy.Length;
 			Random random = new();
-			for (int i = 0; i < n; i++)
+			for (int i = 0; i < valuesLength; i++)
 			{
-				int r = i + random.Next(0, n - i);
+				int r = i + random.Next(0, valuesLength - i);
+				double temp = valuesCopy[i];
+				valuesCopy[i] = valuesCopy[r];
+				valuesCopy[r] = temp;
+			}
+
+			return valuesCopy;
+		}
+
+		/// <summary>
+		/// Badly shuffles <paramref name="values"/>. The given array is unchanged.
+		/// </summary>
+		/// <param name="values">Values to shuffle.</param>
+		/// <returns><paramref name="values"/> badly shuffled.</returns>
+		public static IEnumerable<double> BadShuffle(double[] values)
+		{
+			var valuesCopy = new double[values.Length];
+			Array.Copy(values, valuesCopy, values.Length);
+
+			int valuesLength = valuesCopy.Length;
+			Random random = new();
+			for (int i = 0; i < valuesLength; i++)
+			{
+				int r = random.Next(0, valuesLength - i);
 				double temp = valuesCopy[i];
 				valuesCopy[i] = valuesCopy[r];
 				valuesCopy[r] = temp;
@@ -1076,6 +1099,37 @@ namespace AlgorithmExercises.Chapter1
 				}
 			}
 			return dist;
+		}
+
+		/// <summary>
+		/// Searches an array for the given value returning the index of the value or -1 if not found.
+		/// </summary>
+		/// <param name="value">Value to search for.</param>
+		/// <param name="a">Array to search.</param>
+		/// <returns>The index of the value or -1 if not found.</returns>
+		public static int BruteForceSearch(int value, int[] a)
+		{
+			for (int i = 0; i < a.Length; i++)
+				if (a[i] == value) return i;
+			return -1;
+		}
+
+		/// <summary>
+		/// Generates a collection of <paramref name="n"/> random values.
+		/// </summary>
+		/// <param name="n">Number of random values to generate.</param>
+		/// <param name="min">Minimum value to generate. Default is 100,000.</param>
+		/// <param name="max">Maximum value to generate. Defualt is 100,000.</param>
+		/// <returns>Random collection of values within the <paramref name="min"/> and <paramref name="max"/>.</returns>
+		public static IEnumerable<int> GenerateRandomCollection(int n, int min = 100_000, int max = 100_000 )
+		{
+			Random random = new();
+			List<int> values = new(n);
+			for (int i = 0; i < n; i++)
+			{
+				values.Add(random.Next(0, max + 1));
+			}
+			return values;
 		}
 	}
 }
