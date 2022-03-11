@@ -10,6 +10,8 @@ namespace AlgorithmExercises.Chapter1
 {
 	public class Section1
 	{
+		private static readonly Random _random = new();
+
 		/// <summary>
 		/// Give the type and value of the expressions
 		/// </summary>
@@ -646,19 +648,18 @@ namespace AlgorithmExercises.Chapter1
 			}
 
 			List<PointPair> pointPairs = new();
-			Random random = new();
 			for (int j = 0; j < n; j++)
 			{
 				PointPair pointPair;
 				if (j + 1 == n)
 				{
 					pointPair = new(points[j], points[0]);
-					pointPair.Connected = random.NextDouble() <= probability;
+					pointPair.Connected = _random.NextDouble() <= probability;
 					pointPairs.Add(pointPair);
 					break;
 				}
 				pointPair = new(points[j], points[j + 1]);
-				pointPair.Connected = random.NextDouble() <= probability;
+				pointPair.Connected = _random.NextDouble() <= probability;
 				pointPairs.Add(pointPair);
 			}
 			return pointPairs;
@@ -962,7 +963,6 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		private readonly List<double> _randomOrder = new();
-		private readonly Random _random = new();
 
 		/// <summary>
 		/// Prints the given numbers in random order.
@@ -1014,14 +1014,13 @@ namespace AlgorithmExercises.Chapter1
 		/// <returns>The distribution of rolls.</returns>
 		public static IEnumerable<double> DiceSimulation(int sides, int rolls)
 		{
-			Random random = new();
 			double[] dist = new double[2 * sides + 1];
 			int roll1;
 			int roll2;
 			for (int i = 0; i < rolls; i++)
 			{
-				roll1 = random.Next(1, sides + 1);
-				roll2 = random.Next(1, sides + 1);
+				roll1 = _random.Next(1, sides + 1);
+				roll2 = _random.Next(1, sides + 1);
 				dist[roll1 + roll2] += 1;
 			}
 
@@ -1044,10 +1043,9 @@ namespace AlgorithmExercises.Chapter1
 			Array.Copy(values, valuesCopy, values.Length);
 
 			int valuesLength = valuesCopy.Length;
-			Random random = new();
 			for (int i = 0; i < valuesLength; i++)
 			{
-				int r = i + random.Next(0, valuesLength - i);
+				int r = i + _random.Next(0, valuesLength - i);
 				double temp = valuesCopy[i];
 				valuesCopy[i] = valuesCopy[r];
 				valuesCopy[r] = temp;
@@ -1067,10 +1065,9 @@ namespace AlgorithmExercises.Chapter1
 			Array.Copy(values, valuesCopy, values.Length);
 
 			int valuesLength = valuesCopy.Length;
-			Random random = new();
 			for (int i = 0; i < valuesLength; i++)
 			{
-				int r = random.Next(0, valuesLength - i);
+				int r = _random.Next(0, valuesLength - i);
 				double temp = valuesCopy[i];
 				valuesCopy[i] = valuesCopy[r];
 				valuesCopy[r] = temp;
@@ -1123,11 +1120,10 @@ namespace AlgorithmExercises.Chapter1
 		/// <returns>Random collection of values within the <paramref name="min"/> and <paramref name="max"/>.</returns>
 		public static IEnumerable<int> GenerateRandomCollection(int n, int min = 100_000, int max = 100_000 )
 		{
-			Random random = new();
 			List<int> values = new(n);
 			for (int i = 0; i < n; i++)
 			{
-				values.Add(random.Next(0, max + 1));
+				values.Add(_random.Next(0, max + 1));
 			}
 			return values;
 		}
