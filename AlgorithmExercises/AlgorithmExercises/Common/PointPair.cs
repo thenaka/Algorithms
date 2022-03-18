@@ -21,5 +21,10 @@
 			X = x;
 			Y = y;
 		}
+
+		public override string ToString()
+		{
+			return $"x:{X:N2},y:{Y:N2}";
+		}
 	}
 }
