@@ -46,18 +46,17 @@ namespace AlgorithmExercisesTests.Chapter1
 		public void Exercise2_Lines_DoIntersect(int n)
 		{
 			// Arrange
-			var randomPoints = Section2.GetRandomPoints(n);
-			var combinations = new Combinations<Point>(randomPoints, 4);
+			var randomLines = Section2.GetRandomLLines(n);
+			var combinations = new Combinations<Line>(randomLines, 2);
 
 			// Act/Assert
 			for (int i = 0; i < combinations.Count(); i++)
 			{
-				Point point1 = combinations.ElementAt(i).ElementAt(0);
-				Point point2 = combinations.ElementAt(i).ElementAt(1);
-				Point point3 = combinations.ElementAt(i).ElementAt(2);
-				Point point4 = combinations.ElementAt(i).ElementAt(3);
-				bool intersect = Section2.DoIntersect(point1, point2, point3, point4);
-				Console.WriteLine($"{intersect}: line segment {point1} to {point2} intersects line segment {point3} to {point4}");
+				Line line1 = combinations.ElementAt(i).ElementAt(0);
+				Line line2 = combinations.ElementAt(i).ElementAt(1);
+
+				bool intersect = Section2.DoIntersect(line1, line2);
+				Console.WriteLine($"{intersect}: line {line1} intersects line {line2}");
 			}
 			Assert.Pass();
 		}

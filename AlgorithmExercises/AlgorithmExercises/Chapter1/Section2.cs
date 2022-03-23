@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlgorithmExercises.Chapter1
 {
@@ -27,6 +25,17 @@ namespace AlgorithmExercises.Chapter1
 				points.Add(new Point(x, y));
 			}
 			return points;
+		}
+
+		public static IEnumerable<Line> GetRandomLLines(int n)
+		{
+			List<Line> lines = new();
+			IEnumerable<Point> points = GetRandomPoints(n * 2);
+			for (int i = 0; i < n; i++)
+			{
+				lines.Add(new Line(points.ElementAt(i), points.ElementAt(i + 1)));
+			}
+			return lines;
 		}
 
 		/// <summary>
@@ -69,6 +78,17 @@ namespace AlgorithmExercises.Chapter1
 			if (val == 0) return Rotation.Collinear; // collinear
 
 			return (val > 0) ? Rotation.Clockwise : Rotation.Counterclockwise;
+		}
+
+		/// <summary>
+		/// Determines if <paramref name="line1"/> intersects <paramref name="line2"/>.
+		/// </summary>
+		/// <param name="line1">First line to check.</param>
+		/// <param name="line2">Second line to check.</param>
+		/// <returns>True if <paramref name="line1"/> intersects <paramref name="line2"/>, otherwise false.</returns>
+		public static bool DoIntersect(Line line1, Line line2)
+		{
+			return DoIntersect(line1.Point1, line1.Point2, line2.Point1, line2.Point2);
 		}
 
 		/// <summary>
