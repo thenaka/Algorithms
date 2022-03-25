@@ -27,6 +27,11 @@ namespace AlgorithmExercises.Chapter1
 			return points;
 		}
 
+		/// <summary>
+		/// Returns <paramref name="n"/> lines that start and end within a unit square.
+		/// </summary>
+		/// <param name="n">Number of random lines to return.</param>
+		/// <returns><paramref name="n"/> lines that start and end within a unit square.</returns>
 		public static IEnumerable<Line> GetRandomLLines(int n)
 		{
 			List<Line> lines = new();
@@ -39,45 +44,37 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
-		/// Given three collinear points p, q, r, the function checks if point q lies on line segment 'pr'
+		/// Returns <paramref name="n"/> line pairs that start and end within a unit square.
 		/// </summary>
-		/// <param name="p">Start point in line segment.</param>
-		/// <param name="q">Point to check if lies on pr.</param>
-		/// <param name="r">End point in line segment.</param>
-		/// <returns>True if q lies on segment pr, otherwise false.</returns>
-		private static bool OnSegment(Point p, Point q, Point r)
+		/// <param name="n">Number of line pairs to return.</param>
+		/// <returns><paramref name="n"/> line pairs that start and end within a unit square.</returns>
+		public static IEnumerable<LinePair> GetRandomLinePairs(int n)
 		{
-			return q.X <= Math.Max(p.X, r.X) && q.X >= Math.Min(p.X, r.X) &&
-				   q.Y <= Math.Max(p.Y, r.Y) && q.Y >= Math.Min(p.Y, r.Y);
+			List<LinePair> pairs = new();
+			IEnumerable<Line> lines = GetRandomLLines(n * 2);
+			for (int i = 0; i < n; i++)
+			{
+				pairs.Add(new LinePair(lines.ElementAt(i), lines.ElementAt(i + 1)));
+			}
+			return pairs;
 		}
 
 		/// <summary>
-		/// Rotation direction.
+		/// Determines if either line in <paramref name="linePair1"/> intersects either line in <paramref name="linePair2"/>.
 		/// </summary>
-		public enum Rotation
+		/// <param name="linePair1">First pair of lines to check.</param>
+		/// <param name="linePair2">Second pair of lines to check.</param>
+		/// <returns>True if either line in <paramref name="linePair1"/> intersects either line in <paramref name="linePair2"/>.</returns>
+		public static bool DoIntersect(LinePair linePair1, LinePair linePair2)
 		{
-			Collinear,
-			Clockwise,
-			Counterclockwise
-		}
+			if (linePair1 is null) throw new ArgumentNullException(nameof(linePair1));
+			if (linePair2 is null) throw new ArgumentNullException(nameof(linePair2));
 
-		/// <summary>
-		/// Find orientation of ordered triplet (p, q, r).
-		/// </summary>
-		/// <param name="p">Start point of a line segment.</param>
-		/// <param name="q">End point of a line segment.</param>
-		/// <param name="r">Rotation point.</param>
-		/// <returns><see cref="Rotation"/>.</returns>
-		private static Rotation Orientation(Point p, Point q, Point r)
-		{
-			// See https://www.geeksforgeeks.org/orientation-3-ordered-points/
-			// for details of below formula.
-			double val = (q.Y - p.Y) * (r.X - q.X) -
-					(q.X - p.X) * (r.Y - q.Y);
-
-			if (val == 0) return Rotation.Collinear; // collinear
-
-			return (val > 0) ? Rotation.Clockwise : Rotation.Counterclockwise;
+			if (DoIntersect(linePair1.Line1, linePair2.Line1)) return true;
+			if (DoIntersect(linePair1.Line1, linePair2.Line2)) return true;
+			if (DoIntersect(linePair1.Line2, linePair2.Line1)) return true;
+			if (DoIntersect(linePair1.Line2, linePair2.Line2)) return true;
+			return false;
 		}
 
 		/// <summary>
@@ -88,6 +85,9 @@ namespace AlgorithmExercises.Chapter1
 		/// <returns>True if <paramref name="line1"/> intersects <paramref name="line2"/>, otherwise false.</returns>
 		public static bool DoIntersect(Line line1, Line line2)
 		{
+			if (line1 is null) throw new ArgumentNullException(nameof(line1));
+			if (line2 is null) throw new ArgumentNullException(nameof(line2));
+
 			return DoIntersect(line1.Point1, line1.Point2, line2.Point1, line2.Point2);
 		}
 
@@ -102,6 +102,11 @@ namespace AlgorithmExercises.Chapter1
 		/// <remarks>Code sour</remarks>
 		public static bool DoIntersect(Point p1, Point q1, Point p2, Point q2)
 		{
+			if (p1 is null) throw new ArgumentNullException(nameof(p1));
+			if (q1 is null) throw new ArgumentNullException(nameof(q1));
+			if (p2 is null) throw new ArgumentNullException(nameof(p2));
+			if (q2 is null) throw new ArgumentNullException(nameof(q2));
+
 			// Find the four orientations needed for general and special cases
 			Rotation o1 = Orientation(p1, q1, p2);
 			Rotation o2 = Orientation(p1, q1, q2);
@@ -127,5 +132,51 @@ namespace AlgorithmExercises.Chapter1
 
 			return false; // Doesn't fall in any of the above cases
 		}
+
+		/// <summary>
+		/// Given three collinear points p, q, r, the function checks if point q lies on line segment 'pr'
+		/// </summary>
+		/// <param name="p">Start point in line segment.</param>
+		/// <param name="q">Point to check if lies on pr.</param>
+		/// <param name="r">End point in line segment.</param>
+		/// <returns>True if q lies on segment pr, otherwise false.</returns>
+		private static bool OnSegment(Point p, Point q, Point r)
+		{
+			return q.X <= Math.Max(p.X, r.X) && q.X >= Math.Min(p.X, r.X) &&
+				   q.Y <= Math.Max(p.Y, r.Y) && q.Y >= Math.Min(p.Y, r.Y);
+		}
+
+		/// <summary>
+		/// Rotation direction.
+		/// </summary>
+		private enum Rotation
+		{
+			Collinear,
+			Clockwise,
+			Counterclockwise
+		}
+
+		/// <summary>
+		/// Find orientation of ordered triplet (p, q, r).
+		/// </summary>
+		/// <param name="p">Start point of a line segment.</param>
+		/// <param name="q">End point of a line segment.</param>
+		/// <param name="r">Rotation point.</param>
+		/// <returns><see cref="Rotation"/>.</returns>
+		private static Rotation Orientation(Point p, Point q, Point r)
+		{
+			// See https://www.geeksforgeeks.org/orientation-3-ordered-points/
+			// for details of below formula.
+			double val = (q.Y - p.Y) * (r.X - q.X) -
+					(q.X - p.X) * (r.Y - q.Y);
+
+			if (val == 0) return Rotation.Collinear; // collinear
+
+			return (val > 0) ? Rotation.Clockwise : Rotation.Counterclockwise;
+		}
+
+		//https://github.com/morrxy/algs4/blob/master/exercise/1.2.03/Interval2D_client.java
+		//https://stackoverflow.com/questions/17639548/algorithms-by-sedgewick-wayne-exercise-1-2-3
+		// public static bool IsBounded(LinePair boundingPair, LinePair linePair)
 	}
 }

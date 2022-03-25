@@ -1,4 +1,6 @@
-﻿namespace AlgorithmExercises.Common
+﻿using System;
+
+namespace AlgorithmExercises.Common
 {
 	public class PointPair
 	{
@@ -7,8 +9,8 @@
 		public Point Point2 { get; init; }
 		public PointPair(Point p1, Point p2)
 		{
-			Point1 = p1;
-			Point2 = p2;
+			Point1 = p1 ?? throw new ArgumentNullException(nameof(p1));
+			Point2 = p2 ?? throw new ArgumentNullException(nameof(p2));
 		}
 	}
 

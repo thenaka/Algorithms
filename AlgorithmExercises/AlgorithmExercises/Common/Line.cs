@@ -17,14 +17,19 @@ namespace AlgorithmExercises.Common
 		}
 	}
 
-	public class Line2D
+	public class LinePair
 	{
 		public Line Line1 { get; }
 		public Line Line2 { get; }
-		public Line2D(Line line1, Line line2)
+		public LinePair(Line line1, Line line2)
 		{
 			Line1 = line1 ?? throw new ArgumentNullException(nameof(line1));
 			Line2 = line2 ?? throw new ArgumentNullException(nameof(line2));
+		}
+
+		public override string ToString()
+		{
+			return $"Line Pair: {Line1} and {Line2}";
 		}
 	}
 }
