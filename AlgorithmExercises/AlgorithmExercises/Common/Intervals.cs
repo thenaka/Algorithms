@@ -46,6 +46,10 @@ namespace AlgorithmExercises.Common
 		{
 			return Contains(interval.Min) || Contains(interval.Max);
 		}
+		public override string ToString()
+		{
+			return $"Interval min:{Min:N2} max:{Max:N2}";
+		}
 	}
 
 	public class Interval2D

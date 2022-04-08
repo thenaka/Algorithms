@@ -10,21 +10,35 @@ namespace AlgorithmExercises.Chapter1
 		private static readonly Random _random = new();
 
 		/// <summary>
-		/// Get <paramref name="n"/> number of random points all within a unit square.
+		/// Get <paramref name="n"/> number of random <see cref="Point"/> all within a unit square.
 		/// </summary>
-		/// <param name="n">Number of points to randomly generate.</param>
-		/// <returns><paramref name="n"/> number of random points within a unit square.</returns>
+		/// <param name="n">Number of <see cref="Point"/> to randomly generate.</param>
+		/// <returns><paramref name="n"/> number of random <see cref="Point"/> within a unit square.</returns>
 		public static IEnumerable<Point> GetRandomPoints(int n)
 		{
-			List<Point> points = new();
-
 			for (int i = 0; i < n; i++)
 			{
 				double x = _random.NextDouble();
 				double y = _random.NextDouble();
-				points.Add(new Point(x, y));
+				Point point = new Point(x, y);
+				yield return point;
 			}
-			return points;
+		}
+
+		/// <summary>
+		/// Get <paramref name="n"/> number of random <see cref="Interval1D"/>.
+		/// </summary>
+		/// <param name="n">Number of <see cref="Interval1D"/> to randomly generate.</param>
+		/// <returns><paramref name="n"/> number of random <see cref="Interval1D"/>.</returns>
+		public static IEnumerable<Interval1D> GetRandomInterval1D(int n)
+		{
+			for (int i = 0; i < n; i++)
+			{
+				double val1 = _random.NextDouble();
+				double val2 = _random.NextDouble();
+				Interval1D interval1D = new Interval1D(Math.Min(val1, val2), Math.Max(val1, val2));
+				yield return interval1D;
+			}
 		}
 
 		/// <summary>
