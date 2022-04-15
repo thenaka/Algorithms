@@ -37,7 +37,8 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[TestCase(10, TestName = "Exercise2_Interval1D_DoIntersect")]
-		[TestCase(20, TestName = "Exercise2_Interval1D_DoIntersect")]
+		[TestCase(20, TestName = "Exercise2_Interval1D_When20_DoIntersect")]
+		[TestCase(30, TestName = "Exercise2_Interval1D_When30_DoIntersect")]
 		public void Exercise2_Interval1D_DoIntersect(int n)
 		{
 			var randomInterval1D = Section2.GetRandomInterval1D(n);
@@ -51,6 +52,46 @@ namespace AlgorithmExercisesTests.Chapter1
 				if (intersect)
 				{
 					Console.WriteLine($"{firstInterval1D} intersects {secondInterval1D}");
+				}
+			}
+			Assert.Pass();
+		}
+
+		[TestCase(10, TestName = "Exercise3_Interval2D_DoIntersect")]
+		[TestCase(20, TestName = "Exercise3_Interval2D_When20_DoIntersect")]
+		[TestCase(30, TestName = "Exercise3_Interval2D_When30_DoIntersect")]
+		public void Exercise3_Interval2D_DoIntersect(int n)
+		{
+			var randomInterval2D = Section2.GetRandomInterval2D(n);
+			var combinations = new Combinations<Interval2D>(randomInterval2D, 2);
+
+			for (int i = 0; i < combinations.Count(); i++)
+			{
+				var firstInterval2D = combinations.ElementAt(i).ElementAt(0);
+				var secondInterval2D = combinations.ElementAt(i).ElementAt(1);
+				if (firstInterval2D.Intersects(secondInterval2D))
+				{
+					Console.WriteLine($"{firstInterval2D} intersects {secondInterval2D}");
+				}
+			}
+			Assert.Pass();
+		}
+
+		[TestCase(10, TestName = "Exercise3_Interval2D_Contains")]
+		[TestCase(20, TestName = "Exercise3_Interval2D_When20_Contains")]
+		[TestCase(30, TestName = "Exercise3_Interval2D_When30_Contains")]
+		public void Exercise3_Interval2D_Contains(int n)
+		{
+			var randomInterval2D = Section2.GetRandomInterval2D(n);
+			var combinations = new Combinations<Interval2D>(randomInterval2D, 2);
+
+			for (int i = 0; i < combinations.Count(); i++)
+			{
+				var firstInterval2D = combinations.ElementAt(i).ElementAt(0);
+				var secondInterval2D = combinations.ElementAt(i).ElementAt(1);
+				if (firstInterval2D.Contains(secondInterval2D))
+				{
+					Console.WriteLine($"{firstInterval2D} contains {secondInterval2D}");
 				}
 			}
 			Assert.Pass();
