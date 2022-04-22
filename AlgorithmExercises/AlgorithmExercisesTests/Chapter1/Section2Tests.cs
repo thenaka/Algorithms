@@ -174,8 +174,8 @@ namespace AlgorithmExercisesTests.Chapter1
 			var originalB = b;
 
 			// Act
-			var t = a; 
-			a = b; 
+			var t = a;
+			a = b;
 			b = t;
 
 			// Assert
@@ -203,6 +203,43 @@ namespace AlgorithmExercisesTests.Chapter1
 				Assert.That(consoleOutput.ToString(), Is.EqualTo(expectedKeysExamined));
 			}
 			Console.SetOut(consoleOut);
+		}
+
+		[TestCase(3, 3, 3, 3, TestName = "Exercise10_VisualCounter_IncrementsToMax")]
+		[TestCase(3, 3, 4, 3, TestName = "Exercise10_VisualCounter_WhenOpertionsExceedMaxOp_OnlyIncrementsToMax")]
+		[TestCase(10, 3, 10, 3, TestName = "Exercise10_VisualCounter_DoesNotExceedMaxValue")]
+		public void Exercise10_VisualCounter_IncrementsToMax(int maxOp, int maxVal, int operations, int expected)
+		{
+			// Arrange
+			var visualCounter = new VisualCounter(maxOp, maxVal);
+			int currentVal = 0;
+
+			// Act
+			for (int i = 0; i < operations; i++)
+			{
+				currentVal = visualCounter.Increment();
+			}
+
+			// Assert
+			Assert.That(currentVal, Is.EqualTo(expected));
+		}
+
+		[TestCase(3, 3, 3, -3, TestName = "Exercise10_VisualCounter_Decrements")]
+		[TestCase(3, 3, 4, -3, TestName = "Exercise10_VisualCounter_WhenOpertionsExceedMaxOp_OnlyIncrementsToMaxOp")]
+		public void Exercise10_VisualCounter_Decrements(int maxOp, int maxVal, int operations, int expected)
+		{
+			// Arrange
+			var visualCounter = new VisualCounter(maxOp, maxVal);
+			int currentVal = 0;
+
+			// Act
+			for (int i = 0; i < operations; i++)
+			{
+				currentVal = visualCounter.Decrement();
+			}
+
+			// Assert
+			Assert.That(currentVal, Is.EqualTo(expected));
 		}
 	}
 }
