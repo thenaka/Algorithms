@@ -60,24 +60,38 @@ namespace AlgorithmExercises.Common
 		/// <param name="key">Value to search for in <paramref name="values"/>.</param>
 		/// <param name="values">Sorted array of values.</param>
 		/// <param name="shouldTrace">True if should write to Console the lo and hi values with each pass.</param>
+		/// <param name="shouldWriteKeysExamined">True if should write to Console the number of keys examined. Default is false.</param>
 		/// <returns>The index of <paramref name="key"/> in <paramref name="values"/>. Returns -1 if not found.</returns>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
-		public static int Rank(int key, int[] values, bool shouldTrace)
+		public static int Rank(int key, int[] values, bool shouldTrace, bool shouldWriteKeysExamined = false)
 		{
 			if (values is null) throw new ArgumentNullException(nameof(values));
 
 			int depth = 0;
+			int keysExamined = 0;
 			int lo = 0;
 			int hi = values.Length - 1;
 			while (lo <= hi)
 			{
+				keysExamined++;
 				if (shouldTrace) Console.WriteLine($"{new string('\t', depth)}lo:{lo} hi:{hi}");
 				int mid = lo + (hi - lo) / 2;
-				if (key < values[mid]) hi = mid - 1;
-				else if (key > values[mid]) lo = mid + 1;
-				else return mid;
+				if (key < values[mid])
+				{
+					hi = mid - 1;
+				}
+				else if (key > values[mid])
+				{
+					lo = mid + 1;
+				}
+				else
+				{
+					if (shouldWriteKeysExamined) Console.WriteLine($"Keys Examined:{keysExamined}");
+					return mid;
+				}
 				depth++;
 			}
+			if (shouldWriteKeysExamined) Console.WriteLine($"Keys Examined:{keysExamined}");
 			return -1;
 		}
 

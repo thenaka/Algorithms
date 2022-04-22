@@ -3,6 +3,7 @@ using AlgorithmExercises.Common;
 using Combinatorics.Collections;
 using NUnit.Framework;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace AlgorithmExercisesTests.Chapter1
@@ -180,6 +181,28 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(a, Is.EqualTo(originalB));
 			Assert.That(b, Is.EqualTo(originalA));
+		}
+
+		[TestCase(5, new int[] { }, -1, "Keys Examined:0\r\n", TestName = "Exercise9_Rank_WhenValuesEmpty_ConsoleWritesZero")]
+		[TestCase(5, new int[] { 2, 3, 5, 8, 9, 20, 31 }, 2, "Keys Examined:3\r\n", TestName = "Exercise9_Rank_ConsoleWritesKeysExamined")]
+		[TestCase(10, new int[] { 2, 3, 5, 8, 14, 20, 31, 55, 63 }, -1, "Keys Examined:4\r\n", TestName = "Exercise9_Rank_ConsoleWritesFour")]
+		public void Exercise9_Rank_ConsoleWritesKeysExamined(int key, int[] values, int expected, string expectedKeysExamined)
+		{
+			// Arrange
+
+			// Act
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+
+				Console.SetOut(consoleOutput);
+				var result = BinarySearch.Rank(key, values, false, true);
+
+				// Assert
+				Assert.That(result, Is.EqualTo(expected));
+				Assert.That(consoleOutput.ToString(), Is.EqualTo(expectedKeysExamined));
+			}
+			Console.SetOut(consoleOut);
 		}
 	}
 }
