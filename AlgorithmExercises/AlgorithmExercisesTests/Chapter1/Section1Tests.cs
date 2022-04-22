@@ -1,4 +1,5 @@
 ﻿using AlgorithmExercises.Chapter1;
+using AlgorithmExercises.Common;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -592,7 +593,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			{
 
 				Console.SetOut(consoleOutput);
-				var result = Section1.Rank(key, values, true);
+				var result = BinarySearch.Rank(key, values, true);
 
 				// Assert
 				Assert.That(result, Is.EqualTo(expected));
@@ -607,7 +608,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Arrange
 
 			// Act and Assert
-			Assert.Throws<ArgumentNullException>(() => Section1.Rank(1, null));
+			Assert.Throws<ArgumentNullException>(() => BinarySearch.Rank(1, null));
 		}
 
 		[TestCase("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", '+', "50\r\n99\r\n13\r\n", TestName = "Exercise23_BinarySearch_PrintsValuesNotInWhitelist")]
@@ -621,7 +622,7 @@ namespace AlgorithmExercisesTests.Chapter1
 				Console.SetOut(consoleOutput);
 
 				// Act
-				Section1.BinarySearch(whitelistFile, testFile, shouldPrint);
+				BinarySearch.FileSearch(whitelistFile, testFile, shouldPrint);
 
 				// Assert
 				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
@@ -634,11 +635,11 @@ namespace AlgorithmExercisesTests.Chapter1
 		{
 			Assert.Multiple(() =>
 			{
-				Assert.Throws<ArgumentNullException>(() => Section1.BinarySearch(null, "Chapter1\\Data\\tinyText.txt", '+'));
-				Assert.Throws<ArgumentNullException>(() => Section1.BinarySearch("Chapter1\\Data\\tinyAllowlist.txt", null, '+'));
-				Assert.Throws<ArgumentException>(() => Section1.BinarySearch("Chapter1\\Data\\NonExistentFile.txt", "Chapter1\\Data\\tinyText.txt", '+'));
-				Assert.Throws<ArgumentException>(() => Section1.BinarySearch("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\NonExistentFile.txt", '+'));
-				Assert.Throws<ArgumentException>(() => Section1.BinarySearch("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", 'x'));
+				Assert.Throws<ArgumentNullException>(() => BinarySearch.FileSearch(null, "Chapter1\\Data\\tinyText.txt", '+'));
+				Assert.Throws<ArgumentNullException>(() => BinarySearch.FileSearch("Chapter1\\Data\\tinyAllowlist.txt", null, '+'));
+				Assert.Throws<ArgumentException>(() => BinarySearch.FileSearch("Chapter1\\Data\\NonExistentFile.txt", "Chapter1\\Data\\tinyText.txt", '+'));
+				Assert.Throws<ArgumentException>(() => BinarySearch.FileSearch("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\NonExistentFile.txt", '+'));
+				Assert.Throws<ArgumentException>(() => BinarySearch.FileSearch("Chapter1\\Data\\tinyAllowlist.txt", "Chapter1\\Data\\tinyText.txt", 'x'));
 			});
 		}
 
@@ -775,7 +776,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Arrange
 
 			// Act
-			int result = Section1.RankLess(key, values);
+			int result = BinarySearch.RankLess(key, values);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
@@ -791,7 +792,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Arrange
 
 			// Act
-			int result = Section1.RankCount(key, values);
+			int result = BinarySearch.RankCount(key, values);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
@@ -1262,7 +1263,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			var bruteForceTime = sw.Elapsed;
 
 			sw.Restart();
-			Section1.Rank(value, values);
+			BinarySearch.Rank(value, values);
 			sw.Stop();
 			var binaryTime = sw.Elapsed;
 
@@ -1285,7 +1286,7 @@ namespace AlgorithmExercisesTests.Chapter1
 				var candidates = Section1.GenerateRandomCollection(n, max: 999_999).OrderBy(x => x).ToArray();
 				var list = Section1.GenerateRandomCollection(n, max: 999_999).OrderBy(x => x).ToArray();
 
-				var inList = Section1.InCollection(candidates, list);
+				var inList = BinarySearch.InCollection(candidates, list);
 				allValues.AddRange(inList);
 			}
 
