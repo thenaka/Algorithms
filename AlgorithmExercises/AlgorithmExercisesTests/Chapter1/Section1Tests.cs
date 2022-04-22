@@ -581,8 +581,8 @@ namespace AlgorithmExercisesTests.Chapter1
 		}
 
 		[TestCase(5, new int[] { }, -1, "", TestName = "Exercise22_Rank_WhenValuesEmpty_ReturnsNeg1")]
-		[TestCase(5, new int[] { 2, 3, 5, 8, 9, 20, 31 }, 2, "lo:0 hi6\r\n\tlo:0 hi2\r\n\t\tlo:2 hi2\r\n", TestName = "Exercise22_Rank_WhenKeyInValues_ReturnsIndex")]
-		[TestCase(4, new int[] { 2, 3, 5, 8, 9, 20, 31 }, -1, "lo:0 hi6\r\n\tlo:0 hi2\r\n\t\tlo:2 hi2\r\n\t\t\tlo:2 hi1\r\n", TestName = "Exercise22_Rank_WhenKeyNotInValues_ReturnsNeg1")]
+		[TestCase(5, new int[] { 2, 3, 5, 8, 9, 20, 31 }, 2, "lo:0 hi:6\r\n\tlo:0 hi:2\r\n\t\tlo:2 hi:2\r\n", TestName = "Exercise22_Rank_WhenKeyInValues_ReturnsIndex")]
+		[TestCase(4, new int[] { 2, 3, 5, 8, 9, 20, 31 }, -1, "lo:0 hi:6\r\n\tlo:0 hi:2\r\n\t\tlo:2 hi:2\r\n", TestName = "Exercise22_Rank_WhenKeyNotInValues_ReturnsNeg1")]
 		public void Exercise22_Rank_FindsKeyInValues(int key, int[] values, int expected, string expectedLoHi)
 		{
 			// Arrange
@@ -597,7 +597,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 				// Assert
 				Assert.That(result, Is.EqualTo(expected));
-				Assert.That(consoleOutput.ToString().Equals(expectedLoHi));
+				Assert.That(consoleOutput.ToString(), Is.EqualTo(expectedLoHi));
 			}
 			Console.SetOut(consoleOut);
 		}

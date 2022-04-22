@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlgorithmExercises.Common
 {
@@ -66,27 +64,21 @@ namespace AlgorithmExercises.Common
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
 		public static int Rank(int key, int[] values, bool shouldTrace)
 		{
-			if (values is null)
+			if (values is null) throw new ArgumentNullException(nameof(values));
+
+			int depth = 0;
+			int lo = 0;
+			int hi = values.Length - 1;
+			while (lo <= hi)
 			{
-				throw new ArgumentNullException(nameof(values));
+				if (shouldTrace) Console.WriteLine($"{new string('\t', depth)}lo:{lo} hi:{hi}");
+				int mid = lo + (hi - lo) / 2;
+				if (key < values[mid]) hi = mid - 1;
+				else if (key > values[mid]) lo = mid + 1;
+				else return mid;
+				depth++;
 			}
-			if (values.Length == 0)
-			{
-				return -1;
-			}
-			return Rank(key, values, 0, values.Length - 1, 0, shouldTrace);
-		}
-
-		private static int Rank(int key, int[] values, int lo, int hi, int depth = 0, bool shouldTrace = false)
-		{
-			if (shouldTrace) Console.WriteLine($"{new string('\t', depth)}lo:{lo} hi{hi}");
-
-			if (lo > hi) return -1;
-
-			int mid = lo + (hi - lo) / 2;
-			if (key < values[mid]) return Rank(key, values, lo, mid - 1, depth + 1, shouldTrace);
-			else if (key > values[mid]) return Rank(key, values, mid + 1, hi, depth + 1, shouldTrace);
-			else return mid;
+			return -1;
 		}
 
 		/// <summary>
