@@ -10,6 +10,8 @@ namespace AlgorithmExercises.Common
 		int Year { get; }
 	}
 
+	// https://artofmemory.com/blog/how-to-calculate-the-day-of-the-week/
+
 	/// <summary>
 	/// Representation of a date.
 	/// </summary>
