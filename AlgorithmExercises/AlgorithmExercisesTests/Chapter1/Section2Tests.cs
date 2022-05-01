@@ -241,5 +241,30 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(currentVal, Is.EqualTo(expected));
 		}
+
+		[TestCase(1, 15, 1999, TestName = "Exercise11_Date_AcceptsValidDate")]
+		[TestCase(2, 29, 2004, TestName = "Exercise11_Date_WhenLeapDay_AcceptsValidDate")]
+		[TestCase(6, 30, 1999, TestName = "Exercise11_Date_WhenLastDayOfMonth_AcceptsValidDate")]
+		public void Exercise11_Date_AcceptsValidDates(int month, int day, int year)
+		{
+			// Arrange
+
+			// Act
+			Date result = new(month, day, year);
+
+			// Assert
+			Assert.That(result.ToString, Is.EqualTo($"{month}/{day}/{year}"));
+		}
+
+		[TestCase(0, 15, 1999, TestName = "Exercise11_Date_ThrowsArgumentException_WhenInvalidDate")]
+		[TestCase(2, 29, 2003, TestName = "Exercise11_Date_ThrowsArgumentException_WhenLeapDay_ButNotLeapYear")]
+		[TestCase(6, 31, 1999, TestName = "Exercise11_Date_ThrowsArgumentException_WhenDayOfMonthExceeds")]
+		public void Exercise11_Date_ThrowsArgumentException_WhenInvalidDate(int month, int day, int year)
+		{
+			// Arrange
+
+			// Act and Assert
+			Assert.Throws<ArgumentException>(() => new Date(month, day, year));
+		}
 	}
 }
