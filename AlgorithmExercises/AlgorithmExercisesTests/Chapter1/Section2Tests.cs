@@ -266,5 +266,22 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Act and Assert
 			Assert.Throws<ArgumentException>(() => new Date(month, day, year));
 		}
+
+		[TestCase(7, 4, 1776, DayOfWeek.Thursday, TestName = "Exercise12_Date_ReturnsDayOfWeek")]
+		[TestCase(7, 20, 1969, DayOfWeek.Sunday, TestName = "Exercise12_Date_WhenMoonLanding_ReturnsDayOfWeek")]
+		[TestCase(11, 19, 1863, DayOfWeek.Thursday, TestName = "Exercise12_Date_WhenGettysburgAddress_ReturnsDayOfWeek")]
+		[TestCase(1, 1, 1800, DayOfWeek.Wednesday, TestName = "Exercise12_Date_WhenNotLeapYear_ReturnsDayOfWeek")]
+		[TestCase(1, 1, 2000, DayOfWeek.Saturday, TestName = "Exercise12_Date_WhenLeapYear_ReturnsDayOfWeek")]
+		public void Exercise12_Date_ReturnsDayOfWeek(int month, int day, int year, DayOfWeek expected)
+		{
+			// Arrange
+			Date date = new(month, day, year);
+
+			// Act
+			var dayOfWeek = date.DayOfWeek;
+
+			// Assert
+			Assert.That(dayOfWeek, Is.EqualTo(expected));
+		}
 	}
 }

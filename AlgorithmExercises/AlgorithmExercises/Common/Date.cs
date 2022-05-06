@@ -22,11 +22,25 @@ namespace AlgorithmExercises.Common
 		/// Year of the date.
 		/// </summary>
 		int Year { get; }
+		/// <summary>
+		/// Returns of the day of week for this date.
+		/// </summary>
+		/// <remarks>Will return the <see cref="Common.DayOfWeek"/> for a date that falls in the years 1700 - 2399.</remarks>
+		DayOfWeek DayOfWeek { get; }
 	}
 
 	/// <inheritdoc/>
 	public class Date : IDate, IComparable<Date>, IEquatable<Date>
 	{
+		/// <summary>
+		/// Minimum year <see cref="DayOfWeek"/> can be calculated.
+		/// </summary>
+		private const int MIN_YEAR = 1700;
+		/// <summary>
+		/// Maximum year <see cref="DayOfWeek"/> can be calculated.
+		/// </summary>
+		private const int MAX_YEAR = 2399;
+
 		/// <summary>
 		/// Create a date with the given month, day, and year.
 		/// </summary>
@@ -52,12 +66,11 @@ namespace AlgorithmExercises.Common
 		/// <inheritdoc/>
 		public int Year { get; init; }
 
-		/// <summary>
-		/// Compares this date against <paramref name="other"/>.
-		/// </summary>
-		/// <param name="other">The other date to compare.</param>
-		/// <returns>-1 if this date precedes <paramref name="other"/>, 1 if this date follows <paramref name="other"/>, 0 if they are equal.</returns>
-		/// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is null.</exception>
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentException">Thrown if <see cref="Year"/> is less than 1700 or greater than 2399.</exception>
+		public DayOfWeek DayOfWeek => CalculateDayOfWeek();
+
+		/// <inheritdoc/>
 		public int CompareTo(Date other)
 		{
 			if (other is null) throw new ArgumentNullException(nameof(other));
@@ -74,34 +87,21 @@ namespace AlgorithmExercises.Common
 			return 0;
 		}
 
-		/// <summary>
-		/// Determines if this is equal to <paramref name="obj"/>.
-		/// </summary>
-		/// <param name="obj">Object to determine equality.</param>
-		/// <returns>True if they are equal, otherwise false.</returns>
+		/// <inheritdoc/>
 		public override bool Equals(object obj)
 		{
 			if (obj is not Date other) return false;
 			return Equals(other);
 		}
 
-		/// <summary>
-		/// Determines if this is equal to <paramref name="other"/>.
-		/// </summary>
-		/// <param name="other">Date to determine equality.</param>
-		/// <returns>True if they are equal, otherwise false.</returns>
+		/// <inheritdoc/>
 		public bool Equals(Date other)
 		{
 			if (other is null) return false;
 			return CompareTo(other) == 0;
 		}
 
-		/// <summary>
-		/// Determine if two <see cref="Date"/> are equal.
-		/// </summary>
-		/// <param name="left">First date to determine equality.</param>
-		/// <param name="right">Second date to determine equality.</param>
-		/// <returns>True if they are equal, otherwise false.</returns>
+		/// <inheritdoc/>
 		public static bool operator ==(Date left, Date right)
 		{
 			if (left is null)
@@ -112,12 +112,7 @@ namespace AlgorithmExercises.Common
 			return left.Equals(right);
 		}
 
-		/// <summary>
-		/// Determine if two <see cref="Date"/> are not equal.
-		/// </summary>
-		/// <param name="left">First date to determine inequality.</param>
-		/// <param name="right">Second date to determine inequality.</param>
-		/// <returns>True if they are unequal, otherwise false.</returns>
+		/// <inheritdoc/>
 		public static bool operator !=(Date left, Date right)
 		{
 			if (left is null)
@@ -128,10 +123,7 @@ namespace AlgorithmExercises.Common
 			return !left.Equals(right);
 		}
 
-		/// <summary>
-		/// Get the <see cref="HashCode"/> for this <see cref="Date"/>
-		/// </summary>
-		/// <returns>The <see cref="HashCode"/> for this <see cref="Date"/>.</returns>
+		/// <inheritdoc/>
 		public override int GetHashCode()
 		{
 			return HashCode.Combine(Month, Day, Year);
@@ -165,20 +157,71 @@ namespace AlgorithmExercises.Common
 				case 11: // Nov
 					return day > 0 && day <= 30;
 				case 2: // Feb
-					bool isLeapYear = false;
-					if (Year % 4 == 0)
-					{
-						if (Year % 100 == 0)
-						{
-							isLeapYear = Year % 400 == 0;
-						}
-						isLeapYear = true;
-					}
-
+					bool isLeapYear = IsLeapYear();
 					return isLeapYear ? day > 0 && day <= 29 : day > 0 && day <= 28;
 				default:
 					return false; // should never hit this case
 			}
+		}
+
+		private bool IsLeapYear()
+		{
+			if (Year % 4 == 0)
+			{
+				if (Year % 100 == 0)
+				{
+					return Year % 400 == 0;
+				}
+				return true;
+			}
+			return false;
+		}
+
+		private DayOfWeek CalculateDayOfWeek()
+		{
+			if (Year < MIN_YEAR || Year > MAX_YEAR) throw new ArgumentException(nameof(Year));
+			// Formula from https://artofmemory.com/blog/how-to-calculate-the-day-of-the-week/
+			int lastTwoOfYear = Year % 100;
+			int yearCode = (lastTwoOfYear + (lastTwoOfYear / 4)) % 7;
+			int monthCode = GetMonthCode();
+			int century = Year / 100;
+			int centuryCode = GetCenturyCode(century);
+			int leapYearCode = IsLeapYear() && (Month == 1 || Month == 2) ? -1 : 0;
+			return (DayOfWeek)((yearCode + monthCode + centuryCode + Day + leapYearCode) % 7);
+		}
+
+		private int GetMonthCode()
+		{
+			return Month switch
+			{
+				// Jan or Oct
+				(1) or (10) => 0,
+				// Feb, Mar, or Nov
+				(2) or (3) or (11) => 3,
+				// Apr or Jul
+				(4) or (7) => 6,
+				// May
+				(5) => 1,
+				// Jun
+				(6) => 4,
+				// Aug
+				(8) => 2,
+				// Sep or Dec
+				(9) or (12) => 5,
+				_ => -1 // should not hit this case
+			};
+		}
+
+		private static int GetCenturyCode(int century)
+		{
+			return century switch
+			{
+				(17) or (21) => 4,
+				(18) or (22) => 2,
+				(19) or (23) => 0,
+				(20) => 6,
+				_ => -1 // should not hit this case
+			};
 		}
 	}
 }
