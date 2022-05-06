@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace AlgorithmExercises.Common
 {
 	/// <summary>
-	/// Represents a date with month, day, and year.
+	/// Date with month, day, and year.
 	/// </summary>
 	public interface IDate
 	{
@@ -35,26 +35,44 @@ namespace AlgorithmExercises.Common
 		/// <summary>
 		/// Minimum year <see cref="DayOfWeek"/> can be calculated.
 		/// </summary>
-		private const int MIN_YEAR = 1700;
+		public const int MIN_YEAR = 1700;
 		/// <summary>
 		/// Maximum year <see cref="DayOfWeek"/> can be calculated.
 		/// </summary>
-		private const int MAX_YEAR = 2399;
+		public const int MAX_YEAR = 2399;
 
 		/// <summary>
 		/// Create a date with the given month, day, and year.
 		/// </summary>
-		/// <param name="month">The numberical month.</param>
-		/// <param name="day">The day of the month.</param>
-		/// <param name="year">The year.</param>
-		/// <exception cref="ArgumentException">Thrown when month or day are outside a valid range.</exception>
+		/// <param name="month">The numerical month. Must be 1 to 12.</param>
+		/// <param name="day">The day of the month. Must be valid for the <paramref name="month"/> and if <paramref name="year"/> is a leap year.</param>
+		/// <param name="year">The year. Must be from <see cref="MIN_YEAR"/> to <see cref="MAX_YEAR"/>.</param>
+		/// <exception cref="ArgumentException">Thrown when month, day, or year are outside a valid range.</exception>
 		public Date(int month, int day, int year)
 		{
 			if (month < 1 || month > 12) throw new ArgumentException($"Must be 1 to 12", nameof(month));
 			Month = month;
+
+			if (Year < MIN_YEAR || year > MAX_YEAR) throw new ArgumentException($"Must be {MIN_YEAR} to {MAX_YEAR}", nameof(year));
 			Year = year;
+
 			if (!IsValidDay(day)) throw new ArgumentException($"Must be a valid day for the month", nameof(day));
 			Day = day;
+		}
+
+		/// <summary>
+		/// Create a date.
+		/// </summary>
+		/// <param name="date">Date in format mm/dd/yyyy.</param>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="date"/> is null.</exception>
+		/// <exception cref="FormatException">Thrown when <paramref name="date"/> is not in correct format mm/dd/yyyy.</exception>
+		/// <exception cref="ArgumentException">Thrown when month, day, or year are outside a valid range.</exception>
+		public Date(string date)
+		{
+			if (date is null) throw new ArgumentNullException(nameof(date));
+			var dateSplit = date.Split(new char[] { '\\' });
+			if (dateSplit.Length != 3) throw new FormatException("Given date is in invalid format. Must be mm/dd/yyyy");
+
 		}
 
 		/// <inheritdoc/>
@@ -179,7 +197,6 @@ namespace AlgorithmExercises.Common
 
 		private DayOfWeek CalculateDayOfWeek()
 		{
-			if (Year < MIN_YEAR || Year > MAX_YEAR) throw new ArgumentException(nameof(Year));
 			// Formula from https://artofmemory.com/blog/how-to-calculate-the-day-of-the-week/
 			int lastTwoOfYear = Year % 100;
 			int yearCode = (lastTwoOfYear + (lastTwoOfYear / 4)) % 7;
