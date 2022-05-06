@@ -3,18 +3,28 @@ using System.Diagnostics;
 
 namespace AlgorithmExercises.Common
 {
+	/// <summary>
+	/// Represents a date with month, day, and year.
+	/// </summary>
 	public interface IDate
 	{
+		/// <summary>
+		/// Month of the date.
+		/// </summary>
+		/// <remarks>Valid values 1-12.</remarks>
 		int Month { get; }
+		/// <summary>
+		/// Day of the date.
+		/// </summary>
+		/// <remarks>Must be valid for the given month and takes into account if it is a leap year.</remarks>
 		int Day { get; }
+		/// <summary>
+		/// Year of the date.
+		/// </summary>
 		int Year { get; }
 	}
 
-	// https://artofmemory.com/blog/how-to-calculate-the-day-of-the-week/
-
-	/// <summary>
-	/// Representation of a date.
-	/// </summary>
+	/// <inheritdoc/>
 	public class Date : IDate, IComparable<Date>, IEquatable<Date>
 	{
 		/// <summary>
@@ -33,12 +43,21 @@ namespace AlgorithmExercises.Common
 			Day = day;
 		}
 
+		/// <inheritdoc/>
 		public int Month { get; init; }
 
+		/// <inheritdoc/>
 		public int Day { get; init; }
 
+		/// <inheritdoc/>
 		public int Year { get; init; }
 
+		/// <summary>
+		/// Compares this date against <paramref name="other"/>.
+		/// </summary>
+		/// <param name="other">The other date to compare.</param>
+		/// <returns>-1 if this date precedes <paramref name="other"/>, 1 if this date follows <paramref name="other"/>, 0 if they are equal.</returns>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="other"/> is null.</exception>
 		public int CompareTo(Date other)
 		{
 			if (other is null) throw new ArgumentNullException(nameof(other));
@@ -55,18 +74,34 @@ namespace AlgorithmExercises.Common
 			return 0;
 		}
 
+		/// <summary>
+		/// Determines if this is equal to <paramref name="obj"/>.
+		/// </summary>
+		/// <param name="obj">Object to determine equality.</param>
+		/// <returns>True if they are equal, otherwise false.</returns>
 		public override bool Equals(object obj)
 		{
 			if (obj is not Date other) return false;
 			return Equals(other);
 		}
 
+		/// <summary>
+		/// Determines if this is equal to <paramref name="other"/>.
+		/// </summary>
+		/// <param name="other">Date to determine equality.</param>
+		/// <returns>True if they are equal, otherwise false.</returns>
 		public bool Equals(Date other)
 		{
 			if (other is null) return false;
 			return CompareTo(other) == 0;
 		}
 
+		/// <summary>
+		/// Determine if two <see cref="Date"/> are equal.
+		/// </summary>
+		/// <param name="left">First date to determine equality.</param>
+		/// <param name="right">Second date to determine equality.</param>
+		/// <returns>True if they are equal, otherwise false.</returns>
 		public static bool operator ==(Date left, Date right)
 		{
 			if (left is null)
@@ -77,6 +112,12 @@ namespace AlgorithmExercises.Common
 			return left.Equals(right);
 		}
 
+		/// <summary>
+		/// Determine if two <see cref="Date"/> are not equal.
+		/// </summary>
+		/// <param name="left">First date to determine inequality.</param>
+		/// <param name="right">Second date to determine inequality.</param>
+		/// <returns>True if they are unequal, otherwise false.</returns>
 		public static bool operator !=(Date left, Date right)
 		{
 			if (left is null)
@@ -87,11 +128,19 @@ namespace AlgorithmExercises.Common
 			return !left.Equals(right);
 		}
 
+		/// <summary>
+		/// Get the <see cref="HashCode"/> for this <see cref="Date"/>
+		/// </summary>
+		/// <returns>The <see cref="HashCode"/> for this <see cref="Date"/>.</returns>
 		public override int GetHashCode()
 		{
 			return HashCode.Combine(Month, Day, Year);
 		}
 
+		/// <summary>
+		/// String representation of this date.
+		/// </summary>
+		/// <returns>Date as mm/dd/yyyy.</returns>
 		public override string ToString()
 		{
 			return $"{Month}/{Day}/{Year}";
