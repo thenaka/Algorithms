@@ -267,6 +267,17 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.Throws<ArgumentException>(() => new Date(month, day, year));
 		}
 
+		[TestCase("111/1/1999", TestName = "Exercise11_Date_StringConstructor_WhenInvalidFormat_ThrowsFormatException")]
+		[TestCase("1/111/1999", TestName = "Exercise11_Date_StringConstructor_When3DigitDay_ThrowsFormatException")]
+		[TestCase("1/1/99", TestName = "Exercise11_Date_StringConstructor_When2DigitYear_ThrowsFormatException")]
+		public void Exercise11_Date_StringConstructor_WhenInvalidFormat_ThrowsFormatException(string date)
+		{
+			// Arrange
+
+			// Act and Assert
+			Assert.Throws<FormatException>(() => new Date(date));
+		}
+
 		[TestCase(7, 4, 1776, DayOfWeek.Thursday, TestName = "Exercise12_Date_ReturnsDayOfWeek")]
 		[TestCase(7, 20, 1969, DayOfWeek.Sunday, TestName = "Exercise12_Date_WhenMoonLanding_ReturnsDayOfWeek")]
 		[TestCase(11, 19, 1863, DayOfWeek.Thursday, TestName = "Exercise12_Date_WhenGettysburgAddress_ReturnsDayOfWeek")]

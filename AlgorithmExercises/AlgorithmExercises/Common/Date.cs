@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace AlgorithmExercises.Common
 {
@@ -32,6 +33,9 @@ namespace AlgorithmExercises.Common
 	/// <inheritdoc/>
 	public class Date : IDate, IComparable<Date>, IEquatable<Date>
 	{
+		private const string DATE_PATTERN = @"([1-9]|1[0-2])?/([1-9]|[1-3]\d?)/\d{4}"; // mm/dd/yyyy format
+		private Regex _dateRegex = new(DATE_PATTERN);
+
 		/// <summary>
 		/// Minimum year <see cref="DayOfWeek"/> can be calculated.
 		/// </summary>
@@ -50,14 +54,7 @@ namespace AlgorithmExercises.Common
 		/// <exception cref="ArgumentException">Thrown when month, day, or year are outside a valid range.</exception>
 		public Date(int month, int day, int year)
 		{
-			if (month < 1 || month > 12) throw new ArgumentException($"Must be 1 to 12", nameof(month));
-			Month = month;
-
-			if (Year < MIN_YEAR || year > MAX_YEAR) throw new ArgumentException($"Must be {MIN_YEAR} to {MAX_YEAR}", nameof(year));
-			Year = year;
-
-			if (!IsValidDay(day)) throw new ArgumentException($"Must be a valid day for the month", nameof(day));
-			Day = day;
+			ValidateAndConstructInstance(month, day, year);
 		}
 
 		/// <summary>
@@ -70,19 +67,31 @@ namespace AlgorithmExercises.Common
 		public Date(string date)
 		{
 			if (date is null) throw new ArgumentNullException(nameof(date));
+			if (!_dateRegex.IsMatch(date)) throw new FormatException($"{nameof(date)} must be in mm/dd/yyyy format");
 			var dateSplit = date.Split(new char[] { '\\' });
-			if (dateSplit.Length != 3) throw new FormatException("Given date is in invalid format. Must be mm/dd/yyyy");
+			ValidateAndConstructInstance(int.Parse(dateSplit[0]), int.Parse(dateSplit[1]), int.Parse(dateSplit[2]));
+		}
 
+		private void ValidateAndConstructInstance(int month, int day, int year)
+		{
+			if (month < 1 || month > 12) throw new ArgumentException($"Must be 1 to 12", nameof(month));
+			Month = month;
+
+			if (year < MIN_YEAR || year > MAX_YEAR) throw new ArgumentException($"Must be {MIN_YEAR} to {MAX_YEAR}", nameof(year));
+			Year = year;
+
+			if (!IsValidDay(day)) throw new ArgumentException($"Must be a valid day for the month", nameof(day));
+			Day = day;
 		}
 
 		/// <inheritdoc/>
-		public int Month { get; init; }
+		public int Month { get; private set; }
 
 		/// <inheritdoc/>
-		public int Day { get; init; }
+		public int Day { get; private set; }
 
 		/// <inheritdoc/>
-		public int Year { get; init; }
+		public int Year { get; private set; }
 
 		/// <inheritdoc/>
 		/// <exception cref="ArgumentException">Thrown if <see cref="Year"/> is less than 1700 or greater than 2399.</exception>
