@@ -33,6 +33,11 @@ namespace AlgorithmExercises.Common
 	/// <inheritdoc/>
 	public class Date : IDate, IComparable<Date>, IEquatable<Date>
 	{
+		/// <summary>
+		/// Required string format.
+		/// </summary>
+		public string REQUIRED_FORMAT = "mm/dd/yyyy";
+
 		private const string DATE_PATTERN = @"^([1-9]|1[0-2])\/([1-9]|[1-3]\d)\/\d{4}$"; // mm/dd/yyyy format
 		private Regex _dateRegex = new(DATE_PATTERN);
 
@@ -54,25 +59,25 @@ namespace AlgorithmExercises.Common
 		/// <exception cref="ArgumentException">Thrown when month, day, or year are outside a valid range.</exception>
 		public Date(int month, int day, int year)
 		{
-			ValidateAndConstructInstance(month, day, year);
+			ValidateAndConstruct(month, day, year);
 		}
 
 		/// <summary>
-		/// Create a date from mm/dd/yyyy.
+		/// Create a date that is in <see cref="REQUIRED_FORMAT"/>.
 		/// </summary>
-		/// <param name="date">Date in format mm/dd/yyyy.</param>
+		/// <param name="date">Date in format <see cref="REQUIRED_FORMAT"/>.</param>
 		/// <exception cref="ArgumentNullException">Thrown when <paramref name="date"/> is null.</exception>
-		/// <exception cref="FormatException">Thrown when <paramref name="date"/> is not in mm/dd/yyyy format.</exception>
+		/// <exception cref="FormatException">Thrown when <paramref name="date"/> is not in <see cref="REQUIRED_FORMAT"/> format.</exception>
 		/// <exception cref="ArgumentException">Thrown when month, day, or year are outside a valid range.</exception>
 		public Date(string date)
 		{
 			if (date is null) throw new ArgumentNullException(nameof(date));
-			if (!_dateRegex.IsMatch(date)) throw new FormatException($"{nameof(date)} must be in mm/dd/yyyy format");
-			var dateSplit = date.Split(new char[] { '/' });
-			ValidateAndConstructInstance(int.Parse(dateSplit[0]), int.Parse(dateSplit[1]), int.Parse(dateSplit[2]));
+			if (!_dateRegex.IsMatch(date)) throw new FormatException($"{nameof(date)} must be in {REQUIRED_FORMAT} format");
+			var dateSplit = date.Split('/');
+			ValidateAndConstruct(int.Parse(dateSplit[0]), int.Parse(dateSplit[1]), int.Parse(dateSplit[2]));
 		}
 
-		private void ValidateAndConstructInstance(int month, int day, int year)
+		private void ValidateAndConstruct(int month, int day, int year)
 		{
 			if (month < 1 || month > 12) throw new ArgumentException($"Must be 1 to 12", nameof(month));
 			Month = month;

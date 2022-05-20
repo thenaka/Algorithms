@@ -307,5 +307,72 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(dayOfWeek, Is.EqualTo(expected));
 		}
+
+		[TestCase("John Doe", "1/1/1999", 11.11, TestName = "Exercise13_Transaction_AcceptsValidTransaction")]
+		[TestCase("John Doe", "11/11/2011", -11.11, TestName = "Exercise13_Transaction_WhenNegativeAmount_AcceptsValidTransaction")]
+		[TestCase("John Doe", "2/29/2004", 11.11, TestName = "Exercise13_Transaction_WhenLeapYear_AcceptsValidTransaction")]
+		public void Exercise13_Transaction_AcceptsValidTransaction(string customer, string date, double amount)
+		{
+			// Arrange
+			Date d = new(date);
+
+			// Act
+			Transaction transaction = new(customer, d, amount);
+
+			// Assert
+			Assert.That(transaction.ToString(), Is.EqualTo($"{customer} {date} {amount}"));
+		}
+
+		[TestCase("John Doe", "1/1/1999", 11.111, TestName = "Exercise13_Transaction_RoundsAmountToTwoDecimalPlaces")]
+		[TestCase("John Doe", "1/1/1999", 11.115, TestName = "Exercise13_Transaction_WhenRoundAt5_RoundsAmountToTwoDecimalPlaces")]
+		[TestCase("John Doe", "1/1/1999", 11.116, TestName = "Exercise13_Transaction_WhenRoundAt6_RoundsAmountToTwoDecimalPlaces")]
+		public void Exercise13_Transaction_RoundsAmountToTwoDecimalPlaces(string customer, string date, double amount)
+		{
+			// Arrange
+			Date d = new(date);
+
+			// Act
+			Transaction transaction = new(customer, d, amount);
+
+			// Assert
+			Assert.That(transaction.ToString(), Is.EqualTo($"{customer} {date} {Math.Round(amount, 2)}"));
+		}
+
+		[Test]
+		public void Exercise13_Transaction_WhenCustomerNull_ThrowsArgumentNullException()
+		{
+			// Arrange, Act, Assert
+			Assert.Throws<ArgumentNullException>(() => new Transaction(null, new Date("1/1/1999"), 111));
+		}
+
+		[Test]
+		public void Exercise13_Transaction_WhenCustomerEmptyString_ThrowsArgumentException()
+		{
+			// Arrange, Act, Assert
+			Assert.Throws<ArgumentException>(() => new Transaction(string.Empty, new Date("1/1/1999"), 111));
+		}
+
+		[TestCase("John Doe 1/1/1999 11.11", TestName = "Exercise13_Transaction_StringConstructor_AcceptsValidTransaction")]
+		[TestCase("John Doe 11/11/2011 -11.11", TestName = "Exercise13_Transaction_StringConstructor_WhenNegativeAmount_AcceptsValidTransaction")]
+		[TestCase("John Doe 2/29/2004 11.11", TestName = "Exercise13_Transaction_StringConstructor_WhenLeapYear_AcceptsValidTransaction")]
+		public void Exercise13_Transaction_StringConstructor_AcceptsValidTransaction(string transaction)
+		{
+			// Arrange and Act
+			Transaction t = new(transaction);
+
+			// Assert
+			Assert.That(t.ToString(), Is.EqualTo(transaction));
+		}
+
+		[TestCase("John 1/1/1999 11.11", TestName = "Exercise13_Transaction_StringConstructor_WhenInvalid_ThrowsFormatException")]
+		[TestCase("John  Doe 1/1/1999 11.11", TestName = "Exercise13_Transaction_StringConstructor_WhenInvalidCustomer_ThrowsFormatException")]
+		[TestCase("John Doe  1/1/1999 11.11", TestName = "Exercise13_Transaction_StringConstructor_WhenTooManySpaces_ThrowsFormatException")]
+		[TestCase("John Doe 1/1/99 -11.11", TestName = "Exercise13_Transaction_StringConstructor_WhenInvalidDate_ThrowsFormatException")]
+		[TestCase("John Doe 1/1/1999 11.111", TestName = "Exercise13_Transaction_StringConstructor_WhenInvalidAmount_ThrowsFormatException")]
+		public void Exercise13_Transaction_StringConstructor_WhenInvalid_ThrowsFormatException(string transaction)
+		{
+			// Arrange, Act, Assert
+			Assert.Throws<FormatException>(() => new Transaction(transaction));
+		}
 	}
 }
