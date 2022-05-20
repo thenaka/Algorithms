@@ -23,7 +23,7 @@ namespace AlgorithmExercises.Common
 	}
 
 	/// <inheritdoc/>
-	public class Transaction : ITransaction
+	public class Transaction : ITransaction, IComparable<Transaction>, IEquatable<Transaction>
 	{
 		/// <summary>
 		/// Required format for a customer.
@@ -95,7 +95,64 @@ namespace AlgorithmExercises.Common
 			Amount = Math.Round(amount, 2);
 		}
 
-		// TODO Equals(), CompareTo(), and GetHashCode()
+		/// <inheritdoc/>
+		public int CompareTo(Transaction other)
+		{
+			if (other is null) throw new ArgumentNullException(nameof(other));
+
+			int customerCompare = Customer.CompareTo(other.Customer);
+			if (customerCompare != 0) return customerCompare;
+
+			int dateCompare = Date.CompareTo(other.Date);
+			if (dateCompare != 0) return dateCompare;
+
+			int amountCompare = Amount.CompareTo(other.Amount);
+			if (amountCompare != 0) return amountCompare;
+
+			return 0;
+		}
+
+		/// <inheritdoc/>
+		public override bool Equals(object obj)
+		{
+			if (obj is not Transaction other) return false;
+			return Equals(other);
+		}
+
+		/// <inheritdoc/>
+		public bool Equals(Transaction other)
+		{
+			if (other is null) return false;
+			return CompareTo(other) == 0;
+		}
+
+		/// <inheritdoc/>
+		public static bool operator ==(Transaction left, Transaction right)
+		{
+			if (left is null)
+			{
+				if (right is null) return true;
+				return false;
+			}
+			return left.Equals(right);
+		}
+
+		/// <inheritdoc/>
+		public static bool operator !=(Transaction left, Transaction right)
+		{
+			if (left is null)
+			{
+				if (right is null) return false;
+				return true;
+			}
+			return !left.Equals(right);
+		}
+
+		/// <inheritdoc/>
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Customer, Date, Amount);
+		}
 
 		/// <summary>
 		/// String representation of this Transaction.

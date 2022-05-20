@@ -107,14 +107,14 @@ namespace AlgorithmExercises.Common
 		{
 			if (other is null) throw new ArgumentNullException(nameof(other));
 
-			if (other.Year > this.Year) return 1;
-			if (other.Year < this.Year) return -1;
+			int yearCompare = Year.CompareTo(other.Year);
+			if (yearCompare != 0) return yearCompare;
 
-			if (other.Month > this.Month) return 1;
-			if (other.Month < this.Month) return -1;
+			int monthCompare = Month.CompareTo(other.Month);
+			if (monthCompare != 0) return monthCompare;
 
-			if (other.Day > this.Day) return 1;
-			if (other.Day < this.Day) return -1;
+			int dayCompare = Day.CompareTo(other.Day);
+			if (dayCompare != 0) return dayCompare;
 
 			return 0;
 		}
@@ -189,8 +189,7 @@ namespace AlgorithmExercises.Common
 				case 11: // Nov
 					return day > 0 && day <= 30;
 				case 2: // Feb
-					bool isLeapYear = IsLeapYear();
-					return isLeapYear ? day > 0 && day <= 29 : day > 0 && day <= 28;
+					return IsLeapYear() ? day > 0 && day <= 29 : day > 0 && day <= 28;
 				default:
 					return false; // should never hit this case
 			}

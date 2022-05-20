@@ -374,5 +374,42 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Arrange, Act, Assert
 			Assert.Throws<FormatException>(() => new Transaction(transaction));
 		}
+
+		[TestCase("John Doe 1/1/1999 11.11", "John Doe 1/1/1999 11.11", true, TestName = "Exercise14_Tranasaction_Equals_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1999 11.11", "John Doer 1/1/1999 11.11", false, TestName = "Exercise14_Tranasaction_Equals_WhenNameDiffers_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1998 11.11", "John Doe 1/1/1999 11.11", false, TestName = "Exercise14_Tranasaction_Equals_WhenDateDiffers_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1999 11.11", "John Doe 1/1/1999 11.12", false, TestName = "Exercise14_Tranasaction_Equals_WhenAmountDiffers_ReturnsExpected")]
+		public void Exercise14_Tranasaction_Equals_ReturnsExpected(string transaction1, string transaction2, bool expected)
+		{
+			// Arrange
+			Transaction t1 = new(transaction1);
+			Transaction t2 = new(transaction2);
+
+			// Act
+			bool equal = t1.Equals(t2);
+
+			// Assert
+			Assert.That(equal, Is.EqualTo(expected));
+		}
+
+		[TestCase("John Doe 1/1/1999 11.11", "John Doe 1/1/1999 11.11", 0, TestName = "Exercise14_Tranasaction_CompareTo_ReturnsExpected")]
+		[TestCase("Jane Doe 1/1/1999 11.11", "John Doe 1/1/1999 11.11", -1, TestName = "Exercise14_Tranasaction_CompareTo_WhenNamePrecedes_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1999 1.11", "John Doe 1/1/1999 11.11", -1, TestName = "Exercise14_Tranasaction_CompareTo_WhenAmountPrecedes_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1998 11.11", "John Doe 1/1/1999 11.11", -1, TestName = "Exercise14_Tranasaction_CompareTo_WhenDatePrecedes_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1999 11.11", "Jane Doe 1/1/1999 11.11", 1, TestName = "Exercise14_Tranasaction_CompareTo_WhenNameSucceeds_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1999 11.11", "John Doe 1/1/1998 11.11", 1, TestName = "Exercise14_Tranasaction_CompareTo_WhenDateSucceeds_ReturnsExpected")]
+		[TestCase("John Doe 1/1/1999 12.11", "John Doe 1/1/1999 11.11", 1, TestName = "Exercise14_Tranasaction_CompareTo_WhenAmountSucceeds_ReturnsExpected")]
+		public void Exercise14_Tranasaction_CompareTo_ReturnsExpected(string transaction1, string transaction2, int expected)
+		{
+			// Arrange
+			Transaction t1 = new(transaction1);
+			Transaction t2 = new(transaction2);
+
+			// Act
+			int compareTo = t1.CompareTo(t2);
+
+			// Assert
+			Assert.That(compareTo, Is.EqualTo(expected));
+		}
 	}
 }
