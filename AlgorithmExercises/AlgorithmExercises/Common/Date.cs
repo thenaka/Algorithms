@@ -33,7 +33,7 @@ namespace AlgorithmExercises.Common
 	/// <inheritdoc/>
 	public class Date : IDate, IComparable<Date>, IEquatable<Date>
 	{
-		private const string DATE_PATTERN = @"([1-9]|1[0-2])?/([1-9]|[1-3]\d?)/\d{4}"; // mm/dd/yyyy format
+		private const string DATE_PATTERN = @"^([1-9]|1[0-2])\/([1-9]|[1-3]\d)\/\d{4}$"; // mm/dd/yyyy format
 		private Regex _dateRegex = new(DATE_PATTERN);
 
 		/// <summary>
@@ -58,17 +58,17 @@ namespace AlgorithmExercises.Common
 		}
 
 		/// <summary>
-		/// Create a date.
+		/// Create a date from mm/dd/yyyy.
 		/// </summary>
 		/// <param name="date">Date in format mm/dd/yyyy.</param>
 		/// <exception cref="ArgumentNullException">Thrown when <paramref name="date"/> is null.</exception>
-		/// <exception cref="FormatException">Thrown when <paramref name="date"/> is not in correct format mm/dd/yyyy.</exception>
+		/// <exception cref="FormatException">Thrown when <paramref name="date"/> is not in mm/dd/yyyy format.</exception>
 		/// <exception cref="ArgumentException">Thrown when month, day, or year are outside a valid range.</exception>
 		public Date(string date)
 		{
 			if (date is null) throw new ArgumentNullException(nameof(date));
 			if (!_dateRegex.IsMatch(date)) throw new FormatException($"{nameof(date)} must be in mm/dd/yyyy format");
-			var dateSplit = date.Split(new char[] { '\\' });
+			var dateSplit = date.Split(new char[] { '/' });
 			ValidateAndConstructInstance(int.Parse(dateSplit[0]), int.Parse(dateSplit[1]), int.Parse(dateSplit[2]));
 		}
 

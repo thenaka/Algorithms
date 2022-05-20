@@ -270,12 +270,25 @@ namespace AlgorithmExercisesTests.Chapter1
 		[TestCase("111/1/1999", TestName = "Exercise11_Date_StringConstructor_WhenInvalidFormat_ThrowsFormatException")]
 		[TestCase("1/111/1999", TestName = "Exercise11_Date_StringConstructor_When3DigitDay_ThrowsFormatException")]
 		[TestCase("1/1/99", TestName = "Exercise11_Date_StringConstructor_When2DigitYear_ThrowsFormatException")]
+		[TestCase("0/1/1999", TestName = "Exercise11_Date_StringConstructor_WhenMonthOutOfRange_ThrowsFormatException")]
+		[TestCase("1/0/1999", TestName = "Exercise11_Date_StringConstructor_WhenDayOutOfRange_ThrowsFormatException")]
 		public void Exercise11_Date_StringConstructor_WhenInvalidFormat_ThrowsFormatException(string date)
 		{
 			// Arrange
 
 			// Act and Assert
 			Assert.Throws<FormatException>(() => new Date(date));
+		}
+
+		[TestCase("1/32/1999", TestName = "Exercise11_Date_StringConstructor_WhenDateOutOfRange_ThrowsArgumentException")]
+		[TestCase("1/3/1699", TestName = "Exercise11_Date_StringConstructor_WhenYearTooSmall_ThrowsArgumentException")]
+		[TestCase("1/3/2400", TestName = "Exercise11_Date_StringConstructor_WhenYearTooLarge_ThrowsArgumentException")]
+		public void Exercise11_Date_StringConstructor_WhenDateOutOfRange_ThrowsArgumentException(string date)
+		{
+			// Arrange
+
+			// Act and Assert
+			Assert.Throws<ArgumentException>(() => new Date(date));
 		}
 
 		[TestCase(7, 4, 1776, DayOfWeek.Thursday, TestName = "Exercise12_Date_ReturnsDayOfWeek")]
