@@ -1,6 +1,7 @@
 ﻿using AlgorithmExercises.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace AlgorithmExercises.Chapter1
@@ -92,6 +93,36 @@ namespace AlgorithmExercises.Chapter1
 			{
 				yield return _random.Next(int.MinValue, int.MaxValue);
 			}
+		}
+
+		/// <summary>
+		/// Read all integers from a file.
+		/// </summary>
+		/// <param name="fileName">Path and name of file to read integers from.</param>
+		/// <returns>The array of integers in the file.</returns>
+		/// <exception cref="ArgumentNullException"><paramref name="fileName"/> is null.</exception>
+		/// <exception cref="ArgumentException"><paramref name="fileName"/> is an empty string.</exception>
+		/// <inheritdoc cref="File.ReadAllText(string)" select="Exception"/>
+		/// <inheritdoc cref="int.Parse(string)" select="Exception"/>
+		public static int[] ReadAllInts(string fileName)
+		{
+			if (fileName is null)
+			{
+				throw new ArgumentNullException(nameof(fileName));
+			}
+			if (fileName.Length == 0)
+			{
+				throw new ArgumentException("Must be path and name to a file of integers", nameof(fileName));
+			}
+
+			string fileContents = File.ReadAllText(fileName);
+			string[] values = fileContents.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+			int[] intValues = new int[values.Length];
+			for (int i = 0; i < values.Length; i++)
+			{
+				intValues[i] = int.Parse(values[i]);
+			}
+			return intValues;
 		}
 	}
 }

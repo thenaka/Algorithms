@@ -411,5 +411,18 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(compareTo, Is.EqualTo(expected));
 		}
+
+		[Test]
+		public void Exercise15_ReadAllInts_ReturnsExpected()
+		{
+			// Arrange
+			string intFile = "Chapter1\\Data\\ints.txt";
+
+			// Act
+			int[] values = Section2.ReadAllInts(intFile);
+
+			// Assert
+			Assert.That(values.Length, Is.EqualTo(100));
+		}
 	}
 }

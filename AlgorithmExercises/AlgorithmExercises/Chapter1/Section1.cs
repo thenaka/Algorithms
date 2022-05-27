@@ -380,34 +380,6 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
-		/// Returns the greatest common denominator of <paramref name="p"/> and <paramref name="q"/>.
-		/// </summary>
-		/// <param name="p">First value.</param>
-		/// <param name="q">Second value.</param>
-		/// <returns>The greatest common denominator</returns>
-		/// <remarks>Uses Euclid's algorithm.</remarks>
-		public static int Euclid(int p, int q)
-		{
-			return Euclid(p, q, false);
-		}
-
-		/// <summary>
-		/// Returns the greatest common denominator of <paramref name="p"/> and <paramref name="q"/>.
-		/// </summary>
-		/// <param name="p">First value.</param>
-		/// <param name="q">Second value.</param>
-		/// <param name="shouldPrint">True if should write to Console <paramref name="p"/>, <paramref name="q"/>, and remainder values.</param>
-		/// <returns>The greatest common denominator</returns>
-		/// <remarks>Uses Euclid's algorithm.</remarks>
-		public static int Euclid(int p, int q, bool shouldPrint)
-		{
-			if (q == 0) return p;
-			int candidate = p % q;
-			if (shouldPrint) Console.WriteLine($"High {p} Low {q} Remainder {candidate}");
-			return Euclid(q, candidate, shouldPrint);
-		}
-
-		/// <summary>
 		/// Sorts the three given integers in ascending order.
 		/// </summary>
 		/// <param name="a">First value to sort.</param>
@@ -470,7 +442,7 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
-		/// Returns a two dimensional boolean array where each i,j is true if the only common factor is one for the i and j positions.
+		/// Returns a two dimensional boolean array where each i, j is true if the only common factor is one for the i and j positions.
 		/// </summary>
 		/// <param name="dimension">The dimensions of the array.</param>
 		/// <returns>A two dimensional boolean array where each i,j is true if the only common factor is one for the i and j positions.</returns>
@@ -481,7 +453,7 @@ namespace AlgorithmExercises.Chapter1
 			{
 				for (int j = 0; j < dimension; j++)
 				{
-					if (Euclid(i, j) == 1)
+					if (Algorithms.Euclid(i, j) == 1)
 					{
 						areRelativelyPrime[i, j] = true;
 					}
@@ -980,7 +952,7 @@ namespace AlgorithmExercises.Chapter1
 		/// <param name="min">Minimum value to generate. Default is 100,000.</param>
 		/// <param name="max">Maximum value to generate. Defualt is 100,000.</param>
 		/// <returns>Random collection of values within the <paramref name="min"/> and <paramref name="max"/>.</returns>
-		public static IEnumerable<int> GenerateRandomCollection(int n, int min = 100_000, int max = 100_000 )
+		public static IEnumerable<int> GenerateRandomCollection(int n, int min = 100_000, int max = 100_000)
 		{
 			List<int> values = new(n);
 			for (int i = 0; i < n; i++)
