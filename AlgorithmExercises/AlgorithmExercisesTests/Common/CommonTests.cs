@@ -167,5 +167,17 @@ namespace AlgorithmExercisesTests.Common
 				Assert.Throws<ArgumentNullException>(() => new Interval2D(new Interval1D(1, 2), null));
 			});
 		}
+
+		[TestCase(5, 7, 35, TestName ="LeastCommonMultiple_ReturnsExpected")]
+		[TestCase(5, 10, 10, TestName ="LeastCommonMultiple_WhenSecondNumber_ReturnsExpected")]
+		[TestCase(4, 6, 12, TestName ="LeastCommonMultiple_WhenMutipleOfBoth_ReturnsExpected")]
+		public void LeastCommonMultiple_ReturnsExpected(long p, long q, long expected)
+		{
+			// Arrange, Act
+			long actual = Algorithms.LeastCommonMultiple(p, q);
+
+			// Assert
+			Assert.That(actual, Is.EqualTo(expected));
+		}
 	}
 }

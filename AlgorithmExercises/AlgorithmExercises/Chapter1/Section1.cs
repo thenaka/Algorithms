@@ -453,7 +453,7 @@ namespace AlgorithmExercises.Chapter1
 			{
 				for (int j = 0; j < dimension; j++)
 				{
-					if (Algorithms.Euclid(i, j) == 1)
+					if (Algorithms.GreatestCommonDenominator(i, j) == 1)
 					{
 						areRelativelyPrime[i, j] = true;
 					}

@@ -650,7 +650,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Arrange
 
 			// Act
-			int result = Algorithms.Euclid(high, low);
+			int result = Algorithms.GreatestCommonDenominator(high, low);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
@@ -665,7 +665,7 @@ namespace AlgorithmExercisesTests.Chapter1
 				Console.SetOut(consoleOutput);
 
 				// Act
-				int result = Algorithms.Euclid(1234567, 1111111, true);
+				int result = Algorithms.GreatestCommonDenominator(1234567, 1111111, true);
 
 				// Assert
 				Assert.That(result, Is.EqualTo(1));
@@ -686,21 +686,21 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Part a. (a, b) = (b, a)
 			int a = 16;
 			int b = 24;
-			Assert.That(Algorithms.Euclid(a, b), Is.EqualTo(Algorithms.Euclid(b, a)), "Prove that GCD(a,b) is equal to GCD(b,a)");
+			Assert.That(Algorithms.GreatestCommonDenominator(a, b), Is.EqualTo(Algorithms.GreatestCommonDenominator(b, a)), "Prove that GCD(a,b) is equal to GCD(b,a)");
 
 			// Part b. if a > 0 and a | b then(a, b) = a
 			a = 8;
 			b = 24;
 			Assert.That(a > 0, "Prove a is greater than 0");
 			Assert.That(b % a, Is.EqualTo(0), "Prove b is evenly divisible by a");
-			Assert.That(a, Is.EqualTo(Algorithms.Euclid(a, b)), "Prove the GCD(a,b) is equal to a");
+			Assert.That(a, Is.EqualTo(Algorithms.GreatestCommonDenominator(a, b)), "Prove the GCD(a,b) is equal to a");
 
 			// Part c. if a ≡ c (mod b), then(a, b) = (c, b).
 			a = 12;
 			b = 24;
 			int c = 60;
 			Assert.That(a, Is.EqualTo(c % b), "Prove that a is equal to c mod b");
-			Assert.That(Algorithms.Euclid(a, b), Is.EqualTo(Algorithms.Euclid(c, b)), "Prove that GCD(a,b) is equal to GCD(c,b)");
+			Assert.That(Algorithms.GreatestCommonDenominator(a, b), Is.EqualTo(Algorithms.GreatestCommonDenominator(c, b)), "Prove that GCD(a,b) is equal to GCD(c,b)");
 		}
 
 		[TestCase(3, 2, 1, new[] { 1, 2, 3 }, TestName = "Exercise26_Sort_SortDescendingToAscending")]

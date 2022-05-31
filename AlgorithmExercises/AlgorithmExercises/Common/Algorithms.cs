@@ -11,9 +11,9 @@ namespace AlgorithmExercises.Common
 		/// <param name="q">Second value.</param>
 		/// <returns>The greatest common denominator</returns>
 		/// <remarks>Uses Euclid's algorithm.</remarks>
-		public static int Euclid(int p, int q)
+		public static int GreatestCommonDenominator(int p, int q)
 		{
-			return Euclid(p, q, false);
+			return GreatestCommonDenominator(p, q, false);
 		}
 
 		/// <summary>
@@ -24,12 +24,12 @@ namespace AlgorithmExercises.Common
 		/// <param name="shouldPrint">True if should write to Console <paramref name="p"/>, <paramref name="q"/>, and remainder values.</param>
 		/// <returns>The greatest common denominator</returns>
 		/// <remarks>Uses Euclid's algorithm.</remarks>
-		public static int Euclid(int p, int q, bool shouldPrint)
+		public static int GreatestCommonDenominator(int p, int q, bool shouldPrint)
 		{
 			if (q == 0) return p;
 			int candidate = p % q;
 			if (shouldPrint) Console.WriteLine($"High {p} Low {q} Remainder {candidate}");
-			return Euclid(q, candidate, shouldPrint);
+			return GreatestCommonDenominator(q, candidate, shouldPrint);
 		}
 
 		/// <summary>
@@ -39,11 +39,22 @@ namespace AlgorithmExercises.Common
 		/// <param name="q">Second value.</param>
 		/// <returns>The greatest common denominator</returns>
 		/// <remarks>Uses Euclid's algorithm.</remarks>
-		public static long Euclid(long p, long q)
+		public static long GreatestCommonDenominator(long p, long q)
 		{
 			if (q == 0) return p;
 			(_, long remainder) = Math.DivRem(p, q);
-			return Euclid(q, remainder);
+			return GreatestCommonDenominator(q, remainder);
+		}
+
+		/// <summary>
+		/// Finds the least common multiple (LCM) for <paramref name="p"/> and <paramref name="q"/>.
+		/// </summary>
+		/// <param name="p">First number to find LCM.</param>
+		/// <param name="q">Second number to find LCM.</param>
+		/// <returns>The LCM for <paramref name="p"/> and <paramref name="q"/>.</returns>
+		public static long LeastCommonMultiple(long p, long q)
+		{
+			return (p / GreatestCommonDenominator(p, q)) * q;
 		}
 	}
 }

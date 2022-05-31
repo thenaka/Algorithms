@@ -424,5 +424,77 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(values.Length, Is.EqualTo(100));
 		}
+
+		[TestCase(13, 3, 5, 6, 31, 6, TestName = "Exercise16_RationalNumber_Plus_ReturnsExpected")]
+		[TestCase(4, 3, 1, 3, 5, 3, TestName = "Exercise16_RationalNumber_Plus_WhenSameDenominator_ReturnsExpected")]
+		[TestCase(1, 2, 1, 2, 1, 1, TestName = "Exercise16_RationalNumber_Plus_WhenResultCanBeSimplified_ReturnsExpected")]
+		[TestCase(-4, 3, 1, 5, -17, 15, TestName = "Exercise16_RationalNumber_Plus_WhenNegative_ReturnsExpected")]
+		public void Exercise16_RationalNumber_Plus_ReturnsExpected(long numerator1, long denominator1, long numerator2, long denominator2,
+			long expectedNumerator, long expectedDenominator)
+		{
+			// Arrange
+			Rational r1 = new(numerator1, denominator1);
+			Rational r2 = new(numerator2, denominator2);
+			Rational expected = new(expectedNumerator, expectedDenominator);
+
+			// Act
+			Rational result = r1.Plus(r2);
+
+			// Assert
+			Assert.That(result.Equals(expected), Is.True);
+		}
+
+		[TestCase(13, 3, 5, 6, 21, 6, TestName = "Exercise16_RationalNumber_Minus_ReturnsExpected")]
+		[TestCase(5, 3, 1, 3, 4, 3, TestName = "Exercise16_RationalNumber_Minus_WhenSameDenominator_ReturnsExpected")]
+		[TestCase(3, 2, 1, 2, 1, 1, TestName = "Exercise16_RationalNumber_Minus_WhenResultCanBeSimplified_ReturnsExpected")]
+		[TestCase(-4, 3, 1, 5, -23, 15, TestName = "Exercise16_RationalNumber_Minus_WhenNegative_ReturnsExpected")]
+		public void Exercise16_RationalNumber_Minus_ReturnsExpected(long numerator1, long denominator1, long numerator2, long denominator2,
+			long expectedNumerator, long expectedDenominator)
+		{
+			// Arrange
+			Rational r1 = new(numerator1, denominator1);
+			Rational r2 = new(numerator2, denominator2);
+			Rational expected = new(expectedNumerator, expectedDenominator);
+
+			// Act
+			Rational result = r1.Minus(r2);
+
+			// Assert
+			Assert.That(result.Equals(expected), Is.True);
+		}
+
+		[TestCase(1, 3, 5, 6, 5, 18, TestName = "Exercise16_RationalNumber_Multiply_ReturnsExpected")]
+		[TestCase(-4, 3, 1, 5, -4, 15, TestName = "Exercise16_RationalNumber_Multiply_WhenNegative_ReturnsExpected")]
+		public void Exercise16_RationalNumber_Multiply_ReturnsExpected(long numerator1, long denominator1, long numerator2, long denominator2,
+			long expectedNumerator, long expectedDenominator)
+		{
+			// Arrange
+			Rational r1 = new(numerator1, denominator1);
+			Rational r2 = new(numerator2, denominator2);
+			Rational expected = new(expectedNumerator, expectedDenominator);
+
+			// Act
+			Rational result = r1.Multiply(r2);
+
+			// Assert
+			Assert.That(result.Equals(expected), Is.True);
+		}
+
+		[TestCase(1, 3, 5, 6, 2, 5, TestName = "Exercise16_RationalNumber_Divide_ReturnsExpected")]
+		[TestCase(-4, 3, 1, 5, -20, 3, TestName = "Exercise16_RationalNumber_Divide_WhenNegative_ReturnsExpected")]
+		public void Exercise16_RationalNumber_Divide_ReturnsExpected(long numerator1, long denominator1, long numerator2, long denominator2,
+			long expectedNumerator, long expectedDenominator)
+		{
+			// Arrange
+			Rational r1 = new(numerator1, denominator1);
+			Rational r2 = new(numerator2, denominator2);
+			Rational expected = new(expectedNumerator, expectedDenominator);
+
+			// Act
+			Rational result = r1.Divide(r2);
+
+			// Assert
+			Assert.That(result.Equals(expected), Is.True);
+		}
 	}
 }
