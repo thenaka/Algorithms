@@ -551,5 +551,11 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(expectedVar, Is.EqualTo(accumulator.Var));
 			Assert.That(expectedStdDev, Is.EqualTo(accumulator.StdDev));
 		}
+
+		[Test]
+		public void Exercise19_DateAndTransactionStringConstructors_Done()
+		{
+			Assert.Pass("Already implemented and validated with Exercise 11 and 13 tests.");
+		}
 	}
 }
