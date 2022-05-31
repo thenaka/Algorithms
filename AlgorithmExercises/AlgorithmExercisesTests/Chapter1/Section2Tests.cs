@@ -496,5 +496,41 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result.Equals(expected), Is.True);
 		}
+
+		[Test]
+		public void Exercise17_RationalNumber_Addition_ThrowsOverflowException()
+		{
+			// Arrange: Numerator overflow
+			Rational r1 = new(long.MaxValue, 1);
+			Rational r2 = new(1, 1);
+
+			// Act and Assert
+			Assert.Throws<OverflowException>(() => r1.Plus(r2));
+
+			// Arrange: Denominator overflow
+			r1 = new(1, 1);
+			r2 = new(1, long.MaxValue);
+
+			// Act and Assert
+			Assert.Throws<OverflowException>(() => r1.Plus(r2));
+		}
+
+		[Test]
+		public void Exercise17_RationalNumber_Multiplication_ThrowsOverflowException()
+		{
+			// Arrange: Numerator overflow
+			Rational r1 = new(long.MaxValue, 1);
+			Rational r2 = new(2, 1);
+
+			// Act and Assert
+			Assert.Throws<OverflowException>(() => r1.Multiply(r2));
+
+			// Arrange: Denominator overflow
+			r1 = new(1, 2);
+			r2 = new(1, long.MaxValue);
+
+			// Act and Assert
+			Assert.Throws<OverflowException>(() => r1.Multiply(r2));
+		}
 	}
 }

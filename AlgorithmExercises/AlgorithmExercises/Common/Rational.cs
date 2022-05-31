@@ -46,6 +46,7 @@ namespace AlgorithmExercises.Common
 		/// <remarks>This rational number is unchanged. The rational number returned is a new object.</remarks>
 		public Rational Plus(Rational other)
 		{
+			CheckAdditionOverflow(other);
 			return AddOrSubtract(other, Operation.Add);
 		}
 
@@ -67,6 +68,7 @@ namespace AlgorithmExercises.Common
 		/// <returns>This rational number multiplied by <paramref name="other"/></returns>
 		public Rational Multiply(Rational other)
 		{
+			CheckMultiplyOverflow(other);
 			return new Rational(_numerator * other._numerator, _denominator * other._denominator);
 		}
 
@@ -119,6 +121,38 @@ namespace AlgorithmExercises.Common
 				Operation.Subtract => new Rational((_numerator * multiplier) - (other._numerator * otherMultiplier), lcm),
 				_ => throw new InvalidOperationException($"Must be valid {nameof(Operation)}")
 			};
+		}
+
+		private void CheckAdditionOverflow(Rational other)
+		{
+			long numerator = Math.Abs(_numerator);
+			long otherNumerator = Math.Abs(other._numerator);
+			if (numerator > long.MaxValue - otherNumerator)
+			{
+				throw new OverflowException("Adding numerators results in overflow");
+			}
+			long denominator = Math.Abs(_denominator);
+			long otherDenominator = Math.Abs(other._denominator);
+			if (denominator > long.MaxValue - otherDenominator)
+			{
+				throw new OverflowException("Adding denominators results in overflow");
+			}
+		}
+
+		private void CheckMultiplyOverflow(Rational other)
+		{
+			long numerator = Math.Abs(_numerator);
+			long otherNumerator = Math.Abs(other._numerator);
+			if (numerator > long.MaxValue / otherNumerator)
+			{
+				throw new OverflowException("Multiplying numerators results in overflow");
+			}
+			long denominator = Math.Abs(_denominator);
+			long otherDenominator = Math.Abs(other._denominator);
+			if (denominator > long.MaxValue / otherDenominator)
+			{
+				throw new OverflowException("Multiplying denominators results in overflow");
+			}
 		}
 	}
 }
