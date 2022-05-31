@@ -532,5 +532,24 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Act and Assert
 			Assert.Throws<OverflowException>(() => r1.Multiply(r2));
 		}
+
+		[TestCase(new double[] { 1, 2, 3, 4, 5 }, 3, 2.5, 1.5811388300841898, TestName = "Exercise18_Accumulator_ReturnsExpected")]
+		[TestCase(new double[] { 6, 57, 9, 64, 87 }, 44.6, 1271.3000000000002, 35.655294137056281, TestName = "Exercise18_Accumulator_WhenRandom_ReturnsExpected")]
+		public void Exercise18_Accumulator_ReturnsExpected(double[] values, double expectedMean, double expectedVar, double expectedStdDev)
+		{
+			// Arrange
+			Accumulator accumulator = new();
+
+			// Act
+			foreach (double value in values)
+			{
+				accumulator.AddDataValue(value);
+			}
+
+			// Assert
+			Assert.That(expectedMean, Is.EqualTo(accumulator.Mean));
+			Assert.That(expectedVar, Is.EqualTo(accumulator.Var));
+			Assert.That(expectedStdDev, Is.EqualTo(accumulator.StdDev));
+		}
 	}
 }
