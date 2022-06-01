@@ -43,6 +43,15 @@ namespace AlgorithmExercises.Common.Collections
 			return item;
 		}
 
+		/// <summary>
+		/// Returns the last item pushed onto the stack without removing it.
+		/// </summary>
+		/// <returns>The most recently pushed item.</returns>
+		public T Peek()
+		{
+			return _first.Item;
+		}
+
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();

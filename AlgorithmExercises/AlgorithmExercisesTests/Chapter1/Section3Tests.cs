@@ -124,5 +124,25 @@ namespace AlgorithmExercisesTests.Chapter1
 				Assert.That(s, Is.EqualTo(originalItems[--count]));
 			}
 		}
+
+		[TestCase(new string[] {"frog", "cat", "dog"}, "dog", 3, TestName ="Exercise7_Peek_DoesExpected")]
+		[TestCase(new string[] { "frog" }, "frog", 1, TestName ="Exercise7_Peek_WhenOneItem_DoesExpected")]
+		public void Exercise7_Peek_DoesExpected(string[] items, string expectedItem, int expectedCount)
+		{
+			// Arrange
+			Stack<string> stack = new();
+			foreach(string s in items)
+			{
+				stack.Push(s);
+			}
+
+			// Act
+			string peekedItem = stack.Peek();
+
+			// Assert
+			Assert.That(peekedItem, Is.EqualTo(expectedItem));
+			Assert.That(stack.Size, Is.EqualTo(expectedCount));
+		}
+
 	}
 }
