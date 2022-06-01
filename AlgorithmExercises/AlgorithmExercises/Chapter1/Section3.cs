@@ -168,5 +168,36 @@ namespace AlgorithmExercises.Chapter1
 				q.Enqueue(stack.Pop());
 			}
 		}
+
+		/// <summary>
+		/// Given an <paramref name="equation"/> with right parens this method returns the equation with left parens added.
+		/// </summary>
+		/// <param name="equation">Equation with right parens that needs left parens added.</param>
+		/// <returns>Equation with left parens added.</returns>
+		public static string InfixEquation(string equation)
+		{
+			char[] validOperators = new[] { '+', '-', '*', '/' };
+			Common.Collections.Stack<char> operators = new();
+			Common.Collections.Stack<string> operands = new();
+
+			foreach (char equationPart in equation)
+			{
+				if (validOperators.Contains(equationPart))
+				{
+					operators.Push(equationPart);
+					continue;
+				}
+				if (equationPart.Equals(')'))
+				{
+					string rightOperand = operands.Pop();
+					char operation = operators.Pop();
+					string leftOperand = operands.Pop();
+					operands.Push($"({leftOperand}{operation}{rightOperand})");
+					continue;
+				}
+				operands.Push(equationPart.ToString());
+			}
+			return operands.Pop();
+		}
 	}
 }
