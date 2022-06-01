@@ -96,5 +96,33 @@ namespace AlgorithmExercisesTests.Chapter1
 			}
 			Console.SetOut(consoleOut);
 		}
+
+		[Test]
+		public void Exercise6_Reverse_ReversesQueueOrder()
+		{
+			// Arrange
+			int items = 10;
+			Queue<string> queue = new();
+			for (int i = 0; i < items; i++)
+			{
+				queue.Enqueue(Path.GetRandomFileName());
+			}
+
+			string[] originalItems = new string[items];
+			int count = 0;
+			foreach(string s in queue)
+			{
+				originalItems[count++] = s;
+			}
+
+			// Act
+			Section3.Reverse(queue);
+
+			// Assert
+			foreach(string s in queue)
+			{
+				Assert.That(s, Is.EqualTo(originalItems[--count]));
+			}
+		}
 	}
 }

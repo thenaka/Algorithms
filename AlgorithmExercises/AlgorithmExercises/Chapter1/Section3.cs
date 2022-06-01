@@ -6,6 +6,12 @@ namespace AlgorithmExercises.Chapter1
 {
 	public class Section3
 	{
+		/// <summary>
+		/// Iterates each character in <paramref name="testString"/>. Each character is added to the stack except for '-'.
+		/// When a '-' is encountered the last character pushed is popped and printed. At the end the number of characters
+		/// remaining are printed.
+		/// </summary>
+		/// <param name="testString">String of characters to print.</param>
 		public static void TestStack(string testString)
 		{
 			Common.Collections.Stack<string> stack = new();
@@ -69,7 +75,7 @@ namespace AlgorithmExercises.Chapter1
 			char[] rightParens = { ')', ']', '}' };
 			Common.Collections.Stack<char> stack = new();
 
-			foreach(char paren in parentheses)
+			foreach (char paren in parentheses)
 			{
 				if (leftParens.Contains(paren))
 				{
@@ -106,6 +112,10 @@ namespace AlgorithmExercises.Chapter1
 			return true;
 		}
 
+		/// <summary>
+		/// Prints the binary representation of <paramref name="n"/>.
+		/// </summary>
+		/// <param name="n">Number to print in binary.</param>
 		public static void PrintBinary(int n)
 		{
 			Common.Collections.Stack<int> stack = new();
@@ -116,6 +126,23 @@ namespace AlgorithmExercises.Chapter1
 			}
 			foreach (int value in stack) Console.Write(value);
 			Console.WriteLine();
+		}
+
+		/// <summary>
+		/// Reverses the order of items in <paramref name="q"/>.
+		/// </summary>
+		/// <param name="q"><see cref="Common.Collections.Queue{T}"/> to reverse.</param>
+		public static void Reverse(Common.Collections.Queue<string> q)
+		{
+			Common.Collections.Stack<string> stack = new();
+			while (!q.IsEmpty)
+			{
+				stack.Push(q.Dequeue());
+			}
+			while (!stack.IsEmpty)
+			{
+				q.Enqueue(stack.Pop());
+			}
 		}
 	}
 }

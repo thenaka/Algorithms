@@ -4,23 +4,14 @@ using System.Collections.Generic;
 namespace AlgorithmExercises.Common.Collections
 {
 	/// <summary>
-	/// Stack collection of <typeparamref name="T"/>.
+	/// Stack (LIFO) collection of <typeparamref name="T"/>.
 	/// </summary>
 	/// <remarks>From Chapter 1 Section 3.</remarks>
 	public class Stack<T> :  IEnumerable<T>, IEnumerable
 	{
-		private Node _first;  // top of stack (most recently added node)
-		private Node _current; // used for iterating
+		private Node<T> _first;    // top of stack (most recently added node)
+		private Node<T> _current;  // used for iterating
 		private int _currentSize;  // number of items
-
-		/// <summary>
-		/// A node in the stack.
-		/// </summary>
-		private class Node
-		{
-			internal T Item;
-			internal Node Next;
-		}
 
 		public bool IsEmpty => _first is null;
 		public int Size => _currentSize;
@@ -31,8 +22,8 @@ namespace AlgorithmExercises.Common.Collections
 		/// <param name="item">Item to add.</param>
 		public void Push(T item)
 		{
-			Node oldfirst = _first;
-			_first = new Node
+			Node<T> oldfirst = _first;
+			_first = new Node<T>
 			{
 				Item = item,
 				Next = oldfirst
