@@ -105,5 +105,17 @@ namespace AlgorithmExercises.Chapter1
 			}
 			return true;
 		}
+
+		public static void PrintBinary(int n)
+		{
+			Common.Collections.Stack<int> stack = new();
+			while (n > 0)
+			{
+				stack.Push(n % 2);
+				n /= 2;
+			}
+			foreach (int value in stack) Console.Write(value);
+			Console.WriteLine();
+		}
 	}
 }

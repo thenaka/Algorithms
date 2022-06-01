@@ -70,12 +70,31 @@ namespace AlgorithmExercisesTests.Chapter1
 		public void Exercise4_AreParenthesesBalanaced_ReturnsExpected(string parentheses, bool expected)
 		{
 			// Arrange
-			
+
 			// Act
 			bool result = Section3.AreParenthesesBalanced(parentheses);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[TestCase(50, "110010\r\n", TestName = "Exercise5_PrintBinary_ReturnsExpected")]
+		[TestCase(1234, "10011010010\r\n", TestName = "Exercise5_PrintBinary_ReturnsExpected")]
+		[TestCase(255, "11111111\r\n", TestName = "Exercise5_PrintBinary_ReturnsExpected")]
+		public void Exercise5_PrintBinary_ReturnsExpected(int n, string expected)
+		{
+			// Act
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+
+				Console.SetOut(consoleOutput);
+				Section3.PrintBinary(n);
+
+				// Assert
+				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
+			}
+			Console.SetOut(consoleOut);
 		}
 	}
 }

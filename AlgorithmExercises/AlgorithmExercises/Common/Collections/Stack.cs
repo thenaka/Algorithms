@@ -1,12 +1,16 @@
-﻿namespace AlgorithmExercises.Common.Collections
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace AlgorithmExercises.Common.Collections
 {
 	/// <summary>
 	/// Stack collection of <typeparamref name="T"/>.
 	/// </summary>
 	/// <remarks>From Chapter 1 Section 3.</remarks>
-	public class Stack<T>
+	public class Stack<T> :  IEnumerable<T>, IEnumerable
 	{
 		private Node _first;  // top of stack (most recently added node)
+		private Node _current; // used for iterating
 		private int _currentSize;  // number of items
 
 		/// <summary>
@@ -14,8 +18,8 @@
 		/// </summary>
 		private class Node
 		{
-			internal T item;
-			internal Node next;
+			internal T Item;
+			internal Node Next;
 		}
 
 		public bool IsEmpty => _first is null;
@@ -30,8 +34,8 @@
 			Node oldfirst = _first;
 			_first = new Node
 			{
-				item = item,
-				next = oldfirst
+				Item = item,
+				Next = oldfirst
 			};
 			_currentSize++;
 		}
@@ -42,10 +46,25 @@
 		/// <returns>The removed item.</returns>
 		public T Pop()
 		{
-			T item = _first.item;
-			_first = _first.next;
+			T item = _first.Item;
+			_first = _first.Next;
 			_currentSize--;
 			return item;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			_current = _first;
+			while (_current is not null)
+			{
+				yield return _current.Item;
+				_current = _current.Next;
+			}
 		}
 	}
 }
