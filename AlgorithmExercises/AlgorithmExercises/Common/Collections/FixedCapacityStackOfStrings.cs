@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlgorithmExercises.Common.Collections
+﻿namespace AlgorithmExercises.Common.Collections
 {
+	/// <summary>
+	/// Fixed capacity collection of strings.
+	/// </summary>
+	/// <remarks>From Chapter 1 Section 3.</remarks>
 	public class FixedCapacityStackOfStrings
 	{
 		private string[] _items;
 		private int _currentSize;
-		
+
 		public FixedCapacityStackOfStrings(int capacity)
 		{
 			_items = new string[capacity];
 		}
 
+		public bool IsFull => _currentSize == _items.Length;
 		public bool IsEmpty => _currentSize == 0;
 		public int Size => _currentSize;
 
