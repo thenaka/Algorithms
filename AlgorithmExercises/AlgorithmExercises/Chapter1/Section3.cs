@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlgorithmExercises.Common.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,6 +32,29 @@ namespace AlgorithmExercises.Chapter1
 		}
 
 		/// <summary>
+		/// Iterates each character in <paramref name="testString"/>. Each character is added to the stack except for '-'.
+		/// When a '-' is encountered the last character pushed is popped and printed. At the end the number of characters
+		/// remaining are printed.
+		/// </summary>
+		/// <param name="stack">Stack to push and pop characters to.</param>
+		/// <param name="testString">String of characters to print.</param>
+		public static void TestResizingArrayStack(ResizingArrayStack<string> stack, string testString)
+		{
+			foreach (char testChar in testString)
+			{
+				if (!testChar.Equals('-'))
+				{
+					stack.Push(testChar.ToString());
+				}
+				else if (!stack.IsEmpty)
+				{
+					Console.Write($"{stack.Pop()} ");
+				}
+			}
+			Console.WriteLine($"({stack.Size} left on stack)");
+		}
+
+		/// <summary>
 		/// Suppose that a client performs an intermixed sequence of (stack) push and pop operations. The push operations put the 
 		/// integers 0 through 9 in order onto the stack; the pop operations print out the return values. This method validates if
 		/// the given <paramref name="outputToValidate"/> is valid.
@@ -43,7 +67,7 @@ namespace AlgorithmExercises.Chapter1
 		/// </remarks>
 		public static bool ValidateStackOutput(int[] outputToValidate)
 		{
-			Stack<int> alreadySeen = new();
+			System.Collections.Generic.Stack<int> alreadySeen = new();
 			foreach (int currentOutput in outputToValidate)
 			{
 				if (alreadySeen.TryPeek(out int lastSeen))

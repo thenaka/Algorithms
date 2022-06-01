@@ -110,7 +110,7 @@ namespace AlgorithmExercisesTests.Chapter1
 
 			string[] originalItems = new string[items];
 			int count = 0;
-			foreach(string s in queue)
+			foreach (string s in queue)
 			{
 				originalItems[count++] = s;
 			}
@@ -119,19 +119,19 @@ namespace AlgorithmExercisesTests.Chapter1
 			Section3.Reverse(queue);
 
 			// Assert
-			foreach(string s in queue)
+			foreach (string s in queue)
 			{
 				Assert.That(s, Is.EqualTo(originalItems[--count]));
 			}
 		}
 
-		[TestCase(new string[] {"frog", "cat", "dog"}, "dog", 3, TestName ="Exercise7_Peek_DoesExpected")]
-		[TestCase(new string[] { "frog" }, "frog", 1, TestName ="Exercise7_Peek_WhenOneItem_DoesExpected")]
+		[TestCase(new string[] { "frog", "cat", "dog" }, "dog", 3, TestName = "Exercise7_Peek_DoesExpected")]
+		[TestCase(new string[] { "frog" }, "frog", 1, TestName = "Exercise7_Peek_WhenOneItem_DoesExpected")]
 		public void Exercise7_Peek_DoesExpected(string[] items, string expectedItem, int expectedCount)
 		{
 			// Arrange
 			Stack<string> stack = new();
-			foreach(string s in items)
+			foreach (string s in items)
 			{
 				stack.Push(s);
 			}
@@ -144,5 +144,28 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(stack.Size, Is.EqualTo(expectedCount));
 		}
 
+		[Test]
+		public void Exercise8_ResizingArrayStack_ReturnsExpected()
+		{
+			// Arrange
+			ResizingArrayStack<string> stack = new();
+			string testString = "it was-the best-of times---it was-the--";
+			string expected = "s t s e m s e h (23 left on stack)\r\n";
+			int expectedArrayLength = 32;
+
+			// Act
+			var consoleOut = Console.Out;
+			using (StringWriter consoleOutput = new())
+			{
+
+				Console.SetOut(consoleOutput);
+				Section3.TestResizingArrayStack(stack, testString);
+
+				// Assert
+				Assert.That(consoleOutput.ToString(), Is.EqualTo(expected));
+				Assert.That(stack.ArraySize, Is.EqualTo(expectedArrayLength));
+			}
+			Console.SetOut(consoleOut);
+		}
 	}
 }
