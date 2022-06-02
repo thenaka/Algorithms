@@ -337,5 +337,25 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(convertedTransactions[1].Equals(new AlgorithmExercises.Common.Transaction(transaction2)));
 			Assert.That(convertedTransactions[2].Equals(new AlgorithmExercises.Common.Transaction(transaction3)));
 		}
+
+		[Test]
+		public void Exercise18_LinkedListNode_Dereference()
+		{
+			// Arrange
+			Node<string> nodeX = new Node<string> { Item = "x" };
+			Node<string> nodeY = new Node<string> { Item = "y" };
+			Node<string> nodeZ = new Node<string> { Item = "z" };
+
+			nodeX.Next = nodeY; // setup linked list
+			nodeY.Next = nodeZ; // so each node references the next
+
+			// Act
+			nodeX.Next = nodeX.Next.Next; // this dereferences nodeY so nothing points to it
+
+			// Assert
+			Assert.That(nodeX.Next, Is.Not.EqualTo(nodeY));
+			Assert.That(nodeY.Next, Is.Not.EqualTo(nodeY));
+			Assert.That(nodeZ.Next, Is.Not.EqualTo(nodeY));
+		}
 	}
 }
