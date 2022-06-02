@@ -7,6 +7,8 @@ namespace AlgorithmExercises.Chapter1
 {
 	public class Section3
 	{
+		private static string[] _validOperators = new[] { "+", "-", "*", "/" };
+
 		/// <summary>
 		/// Iterates each character in <paramref name="testString"/>. Each character is added to the stack except for '-'.
 		/// When a '-' is encountered the last character pushed is popped and printed. At the end the number of characters
@@ -174,30 +176,41 @@ namespace AlgorithmExercises.Chapter1
 		/// </summary>
 		/// <param name="equation">Equation with right parens that needs left parens added.</param>
 		/// <returns>Equation with left parens added.</returns>
+		/// <remarks>Each part of the equation must be separated by spaces. For example: 1 + 2 ) * 3 - 4 ) * 5 - 6 ) ) )</remarks>
 		public static string InfixEquation(string equation)
 		{
-			char[] validOperators = new[] { '+', '-', '*', '/' };
-			Common.Collections.Stack<char> operators = new();
+			Common.Collections.Stack<string> operators = new();
 			Common.Collections.Stack<string> operands = new();
 
-			foreach (char equationPart in equation)
+			foreach (string equationPart in equation.Split(' ', StringSplitOptions.RemoveEmptyEntries))
 			{
-				if (validOperators.Contains(equationPart))
+				if (_validOperators.Contains(equationPart))
 				{
 					operators.Push(equationPart);
 					continue;
 				}
-				if (equationPart.Equals(')'))
+				if (equationPart.Equals(")"))
 				{
 					string rightOperand = operands.Pop();
-					char operation = operators.Pop();
+					string operation = operators.Pop();
 					string leftOperand = operands.Pop();
-					operands.Push($"({leftOperand}{operation}{rightOperand})");
+					operands.Push($"( {leftOperand} {operation} {rightOperand} )");
 					continue;
 				}
 				operands.Push(equationPart.ToString());
 			}
 			return operands.Pop();
+		}
+
+		/// <summary>
+		/// Given an infix <paramref name="equation"/> this method converts it to postfix notation.
+		/// </summary>
+		/// <param name="equation">Infix equation to convert to postfix notation.</param>
+		/// <returns>Postfix notation equation.</returns>
+		/// <remarks>Only accepts single digit values in the equation.</remarks>
+		public static string InfixToPostfixEquation(string equation)
+		{
+			return "";
 		}
 	}
 }

@@ -168,9 +168,10 @@ namespace AlgorithmExercisesTests.Chapter1
 			Console.SetOut(consoleOut);
 		}
 
-		[TestCase("1+2)*3-4)*5-6)))", "((1+2)*((3-4)*(5-6)))", TestName = "Exercise9_InfixEquation_ReturnsExpected")]
-		[TestCase("1+2)", "(1+2)", TestName = "Exercise9_InfixEquation_WhenOneExpression_ReturnsExpected")]
-		[TestCase("1+2)*3-4))", "((1+2)*(3-4))", TestName = "Exercise9_InfixEquation_WhenTwoExpressions_ReturnsExpected")]
+		[TestCase("1 + 2 ) * 3 - 4 ) * 5 - 6 ) ) )", "( ( 1 + 2 ) * ( ( 3 - 4 ) * ( 5 - 6 ) ) )", TestName = "Exercise9_InfixEquation_ReturnsExpected")]
+		[TestCase("111 + 25 ) * 83 - 64 ) * 1235 - 60 ) ) )", "( ( 111 + 25 ) * ( ( 83 - 64 ) * ( 1235 - 60 ) ) )", TestName = "Exercise9_InfixEquation_WhenMultiDigitValues_ReturnsExpected")]
+		[TestCase("1 + 2 )", "( 1 + 2 )", TestName = "Exercise9_InfixEquation_WhenOneExpression_ReturnsExpected")]
+		[TestCase("1 + 2 ) * 3 - 4 ) )", "( ( 1 + 2 ) * ( 3 - 4 ) )", TestName = "Exercise9_InfixEquation_WhenTwoExpressions_ReturnsExpected")]
 		public void Exercise9_InfixEquation_ReturnsExpected(string equation, string expected)
 		{
 			// Arrange
