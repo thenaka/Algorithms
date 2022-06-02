@@ -301,5 +301,41 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
 		}
+
+		[Test]
+		public void Exercise16_ReadAllDates_ReturnsExpected()
+		{
+			// Arrange
+			string date1 = "11/1/1911";
+			string date2 = "2/22/2022";
+			string date3 = "3/3/1933";
+			string[] dates = { date1, date2, date3 };
+
+			// Act
+			AlgorithmExercises.Common.Date[] convertedDates = Section3.ReadAllDates(dates);
+
+			// Assert
+			Assert.That(convertedDates[0].Equals(new AlgorithmExercises.Common.Date(date1)));
+			Assert.That(convertedDates[1].Equals(new AlgorithmExercises.Common.Date(date2)));
+			Assert.That(convertedDates[2].Equals(new AlgorithmExercises.Common.Date(date3)));
+		}
+
+		[Test]
+		public void Exercise17_ReadAllTransactions_ReturnsExpected()
+		{
+			// Arrange
+			string transaction1 = "John Smith 11/1/1911 1.11";
+			string transaction2 = "Jane Doe 2/22/2022 222.22";
+			string transaction3 = "Fred Rogers 3/3/1933 3033.33";
+			string[] transactions = { transaction1, transaction2, transaction3 };
+
+			// Act
+			AlgorithmExercises.Common.Transaction[] convertedTransactions = Section3.ReadAllTransactions(transactions);
+
+			// Assert
+			Assert.That(convertedTransactions[0].Equals(new AlgorithmExercises.Common.Transaction(transaction1)));
+			Assert.That(convertedTransactions[1].Equals(new AlgorithmExercises.Common.Transaction(transaction2)));
+			Assert.That(convertedTransactions[2].Equals(new AlgorithmExercises.Common.Transaction(transaction3)));
+		}
 	}
 }

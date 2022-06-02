@@ -1,5 +1,6 @@
 ﻿using AlgorithmExercises.Common.Collections;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AlgorithmExercises.Chapter1
@@ -350,7 +351,7 @@ namespace AlgorithmExercises.Chapter1
 		/// <param name="queue">Queue to get the element from.</param>
 		/// <param name="k">Kth element from the last. One-based indexing.</param>
 		/// <returns>The kth from the last string of this queue.</returns>
-		public static string KthElement(Queue<string> queue, int k)
+		public static string KthElement(Common.Collections.Queue<string> queue, int k)
 		{
 			int positionToReturn = queue.Size - k;
 			int count = 0;
@@ -363,6 +364,36 @@ namespace AlgorithmExercises.Chapter1
 				count++;
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// Given an array of string-based dates in the format mm/dd/yyyy returns an array of <see cref="Common.Date"/>
+		/// </summary>
+		/// <param name="dates">Array of string-based dates in the format mm/dd/yyyy.</param>
+		/// <returns>Array of <see cref="Common.Date"/>.</returns>
+		public static Common.Date[] ReadAllDates(string[] dates)
+		{
+			List<Common.Date> convertedDates = new();
+			foreach (string date in dates)
+			{
+				convertedDates.Add(new Common.Date(date));
+			}
+			return convertedDates.ToArray();
+		}
+
+		/// <summary>
+		/// Given an array of string-based transactions in the format first last mm/dd/yyyy amount returns an array of <see cref="Common.Transaction"/>
+		/// </summary>
+		/// <param name="dates">Array of string-based transactions in the format first last mm/dd/yyyy amount.</param>
+		/// <returns>Array of <see cref="Common.Transaction"/>.</returns>
+		public static Common.Transaction[] ReadAllTransactions(string[] transactions)
+		{
+			List<Common.Transaction> convertedTransactions = new();
+			foreach (string transaction in transactions)
+			{
+				convertedTransactions.Add(new Common.Transaction(transaction));
+			}
+			return convertedTransactions.ToArray();
 		}
 	}
 }
