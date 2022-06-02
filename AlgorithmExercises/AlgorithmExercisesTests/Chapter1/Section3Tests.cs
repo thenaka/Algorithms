@@ -357,5 +357,113 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(nodeY.Next, Is.Not.EqualTo(nodeY));
 			Assert.That(nodeZ.Next, Is.Not.EqualTo(nodeY));
 		}
+
+		[Test]
+		public void Exercise19_LinkedList_Remove_DeletesLastNode()
+		{
+			// Arrange
+			LinkedList<int> linkedList = new();
+			int capacity = 10;
+			for (int i = 0; i < capacity; i++)
+			{
+				linkedList.Add(i);
+			}
+
+			// Act
+			linkedList.Remove();
+
+			// Assert
+			Assert.That(linkedList.Size, Is.EqualTo(capacity - 1));
+			Assert.That(linkedList.Last, Is.EqualTo(8));
+		}
+
+		[TestCase(1, 0, TestName = "Exercise20_LinkedList_RemoveAtN_DeletesThatNode")]
+		[TestCase(3, 2, TestName = "Exercise20_LinkedList_RemoveAt3_DeletesThatNode")]
+		[TestCase(5, 4, TestName = "Exercise20_LinkedList_RemoveAt5_DeletesThatNode")]
+		[TestCase(7, 6, TestName = "Exercise20_LinkedList_RemoveAt7_DeletesThatNode")]
+		[TestCase(9, 8, TestName = "Exercise20_LinkedList_RemoveAt9_DeletesThatNode")]
+		public void Exercise20_LinkedList_RemoveAtN_DeletesThatNode(int nodeToDelete, int shouldBeDeleted)
+		{
+			// Arrange
+			LinkedList<int> linkedList = new();
+			int capacity = 10;
+			for (int i = 0; i < capacity; i++)
+			{
+				linkedList.Add(i);
+			}
+
+			// Act
+			linkedList.Remove(nodeToDelete);
+
+			// Assert
+			foreach (int item in linkedList)
+			{
+				Assert.That(item, Is.Not.EqualTo(shouldBeDeleted));
+			}
+		}
+
+		[TestCase(0, 1, TestName = "Exercise21_LinkedList_FindAtN_ReturnsFoundIndex")]
+		[TestCase(2, 3, TestName = "Exercise21_LinkedList_FindAt3_ReturnsFoundIndex")]
+		[TestCase(4, 5, TestName = "Exercise21_LinkedList_FindAt5_ReturnsFoundIndex")]
+		[TestCase(6, 7, TestName = "Exercise21_LinkedList_FindAt7_ReturnsFoundIndex")]
+		[TestCase(8, 9, TestName = "Exercise21_LinkedList_FindAt9_ReturnsFoundIndex")]
+		public void Exercise21_LinkedList_FindAtN_ReturnsFoundIndex(int searchTerm, int expectedIndex)
+		{
+			// Arrange
+			LinkedList<int> linkedList = new();
+			int capacity = 10;
+			for (int i = 0; i < capacity; i++)
+			{
+				linkedList.Add(i);
+			}
+
+			// Act
+			int foundIndex = linkedList.Find(searchTerm);
+
+			// Assert
+			Assert.That(foundIndex, Is.EqualTo(expectedIndex));
+		}
+
+		[Test]
+		public void Exercise22_LinkedList_Insert_Validate()
+		{
+			// Arrange
+			Node<char> t = new() { Item = 't' };
+			Node<char> x = new() { Item = 'x' };
+			Node<char> z = new() { Item = 'z' };
+
+			t.Next = x;
+			x.Next = z;
+			z.Next = null;
+
+			// Act
+			t.Next = x.Next;
+			x.Next = t;
+
+			// Assert
+			Assert.That(x.Next.Item, Is.EqualTo(t.Item));
+			Assert.That(t.Next.Item, Is.EqualTo(z.Item));
+		}
+
+		[Test]
+		public void Exercise23_LinkedList_Insert_Validate()
+		{
+			// Arrange
+			Node<char> t = new() { Item = 't' };
+			Node<char> x = new() { Item = 'x' };
+			Node<char> z = new() { Item = 'z' };
+
+			t.Next = x;
+			x.Next = z;
+			z.Next = null;
+
+			// Act
+			x.Next = t;
+			t.Next = x.Next;
+
+			// Assert
+			Assert.That(x.Next.Item, Is.EqualTo(t.Item));
+			Assert.That(t.Next.Item, Is.Not.EqualTo(z.Item));
+		}
 	}
 }
