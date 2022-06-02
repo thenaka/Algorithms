@@ -310,5 +310,39 @@ namespace AlgorithmExercises.Chapter1
 
 			return copy;
 		}
+
+		/// <summary>
+		/// Suppose that a client performs an intermixed sequence of (queue) enqueue and dequeue operations. The enqueue operations 
+		/// put the integers 0 through 9 in order onto the queue; the dequeue operations print out the return value. This method 
+		/// validates if the given <paramref name="outputToValidate"/> is valid.
+		/// </summary>
+		/// <param name="outputToValidate">Output to validate</param>
+		/// <remarks>
+		/// This solution is similar to https://stackoverflow.com/questions/10445364/intermixed-sequence-of-push-and-pop-operations-why-is-this-sequence-not-possible
+		/// For any decreasing sub-sequence in the output sequence, you can not have [a1, ..., an] such that, there exist k, where
+		/// ak &gt; a1 and ak &lt; an and ak has not come before in the output and ak is not part of the sub-sequence [a1, ..., an].
+		/// </remarks>
+		public static bool ValidateQueueOutput(int[] outputToValidate)
+		{
+			System.Collections.Generic.Stack<int> alreadySeen = new();
+			foreach (int currentOutput in outputToValidate)
+			{
+				if (alreadySeen.TryPeek(out int lastSeen))
+				{
+					// For every increasing sequence ...
+					if (currentOutput > lastSeen)
+					{
+						// we must validate we have already seen the intervening numbers
+						for (int i = lastSeen + 1; i < currentOutput; i++)
+						{
+							if (!alreadySeen.Contains(i)) return false;
+						}
+					}
+				}
+
+				alreadySeen.Push(currentOutput);
+			}
+			return true;
+		}
 	}
 }

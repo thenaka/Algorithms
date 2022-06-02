@@ -230,5 +230,19 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(copy, Is.EqualTo(originalStack));
 		}
+		[TestCase(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, true, TestName = "Exercise13_ValidateQueueOutput_ReturnsExpected")]
+		[TestCase(new int[] { 4, 6, 8, 7, 5, 3, 2, 9, 0, 1 }, false, TestName = "Exercise13_ValidateQueueOutput1_ReturnsExpected")]
+		[TestCase(new int[] { 2, 5, 6, 7, 4, 8, 9, 3, 1, 0 }, false, TestName = "Exercise13_ValidateQueueOutput2_ReturnsExpected")]
+		[TestCase(new int[] { 4, 3, 2, 1, 0, 5, 6, 7, 8, 9 }, true, TestName = "Exercise13_ValidateQueueOutput3_ReturnsExpected")]
+		public void Exercise13_ValidateQueueOutput_ReturnsExpected(int[] validation, bool expected)
+		{
+			// Arrange
+
+			// Act
+			bool result = Section3.ValidateQueueOutput(validation);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
 	}
 }
