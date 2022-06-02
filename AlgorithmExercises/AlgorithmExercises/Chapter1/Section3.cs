@@ -207,10 +207,34 @@ namespace AlgorithmExercises.Chapter1
 		/// </summary>
 		/// <param name="equation">Infix equation to convert to postfix notation.</param>
 		/// <returns>Postfix notation equation.</returns>
-		/// <remarks>Only accepts single digit values in the equation.</remarks>
+		/// <remarks>Each part of the equation must be separated by spaces. For example: ( ( 1 + 2 ) * ( ( 3 - 4 ) * ( 5 - 6 ) ) )</remarks>
 		public static string InfixToPostfixEquation(string equation)
 		{
-			return "";
+			Common.Collections.Stack<string> operators = new();
+			Common.Collections.Stack<string> operands = new();
+
+			foreach (string equationPart in equation.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+			{
+				if (_validOperators.Contains(equationPart))
+				{
+					operators.Push(equationPart);
+					continue;
+				}
+				if (equationPart.Equals("("))
+				{
+					continue; // skip left parens
+				}
+				if (equationPart.Equals(")"))
+				{
+					string rightOperand = operands.Pop();
+					string operation = operators.Pop();
+					string leftOperand = operands.Pop();
+					operands.Push($"{leftOperand} {rightOperand} {operation}");
+					continue;
+				}
+				operands.Push(equationPart.ToString());
+			}
+			return operands.Pop();
 		}
 	}
 }

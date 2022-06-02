@@ -182,5 +182,20 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
 		}
+
+		[TestCase("( ( 1 + 2 ) * ( ( 3 - 4 ) * ( 5 - 6 ) ) )", "1 2 + 3 4 - 5 6 - * *", TestName = "Exercise10_InfixToPostfixEquation_ReturnsExpected")]
+		[TestCase("( ( 111 + 25 ) * ( ( 83 - 64 ) * ( 1235 - 60 ) ) )", "111 25 + 83 64 - 1235 60 - * *", TestName = "Exercise10_InfixEquation_WhenMultiDigitValues_ReturnsExpected")]
+		[TestCase("( 1 + 2 )", "1 2 +", TestName = "Exercise10_InfixEquation_WhenOneExpression_ReturnsExpected")]
+		[TestCase("( ( 1 + 2 ) * ( 3 - 4 ) )", "1 2 + 3 4 - *", TestName = "Exercise10_InfixEquation_WhenTwoExpressions_ReturnsExpected")]
+		public void Exercise10_InfixToPostfixEquation_ReturnsExpected(string equation, string expected)
+		{
+			// Arrange
+
+			// Act
+			string result = Section3.InfixToPostfixEquation(equation);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
 	}
 }
