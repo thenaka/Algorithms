@@ -53,6 +53,10 @@ namespace AlgorithmExercises.Common.Collections
 			return new StackEnumerator(this);
 		}
 
+		/// <summary>
+		/// Enumerator for <see cref="ResizingArrayStack{T}"/>.
+		/// </summary>
+		/// <remarks>Implementation taken from .NET source code browser for Stack (https://source.dot.net/#System.Collections.NonGeneric/System/Collections/Stack.cs,e8782a99ce9d55c5).</remarks>
 		private sealed class StackEnumerator : IEnumerator<T>, ICloneable
 		{
 			private readonly ResizingArrayStack<T> _stack;
