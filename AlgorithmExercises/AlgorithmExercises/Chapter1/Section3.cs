@@ -1,6 +1,5 @@
 ﻿using AlgorithmExercises.Common.Collections;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace AlgorithmExercises.Chapter1
@@ -297,13 +296,13 @@ namespace AlgorithmExercises.Chapter1
 			//    Bottom                    Top                   Bottom
 
 			Common.Collections.Stack<T> tempStack = new();
-			foreach(T item in originalStack)
+			foreach (T item in originalStack)
 			{
 				tempStack.Push(item);
 			}
 
 			Common.Collections.Stack<T> copy = new();
-			foreach(T item in tempStack)
+			foreach (T item in tempStack)
 			{
 				copy.Push(item);
 			}
@@ -343,6 +342,27 @@ namespace AlgorithmExercises.Chapter1
 				alreadySeen.Push(currentOutput);
 			}
 			return true;
+		}
+
+		/// <summary>
+		/// Returns the kth from the last string of <paramref name="queue"/>. One-based indexing.
+		/// </summary>
+		/// <param name="queue">Queue to get the element from.</param>
+		/// <param name="k">Kth element from the last. One-based indexing.</param>
+		/// <returns>The kth from the last string of this queue.</returns>
+		public static string KthElement(Queue<string> queue, int k)
+		{
+			int positionToReturn = queue.Size - k;
+			int count = 0;
+			foreach (string element in queue)
+			{
+				if (positionToReturn == count)
+				{
+					return element;
+				}
+				count++;
+			}
+			return null;
 		}
 	}
 }

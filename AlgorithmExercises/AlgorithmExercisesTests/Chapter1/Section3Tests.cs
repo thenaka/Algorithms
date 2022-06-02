@@ -282,5 +282,24 @@ namespace AlgorithmExercisesTests.Chapter1
 				Assert.That(queue.Dequeue(), Is.EqualTo(i));
 			}
 		}
+
+		[TestCase(new string[] { "a", "b", "c", "d", "e", "f", "g" }, 3, "c", TestName = "Exercise15_Queue_KthElement_ReturnsExpected")]
+		[TestCase(new string[] { "a", "b", "c", "d", "e", "f", "g" }, 1, "a", TestName = "Exercise15_Queue_KthElement_When1_ReturnsExpected")]
+		[TestCase(new string[] { "a", "b", "c", "d", "e", "f", "g" }, 7, "g", TestName = "Exercise15_Queue_KthElement_When7_ReturnsExpected")]
+		public void Exercise15_Queue_KthElement_ReturnsExpected(string[] values, int k, string expected)
+		{
+			// Arrange
+			Queue<string> queue = new();
+			for (int i = values.Length - 1; i >= 0; i--)
+			{ // iterate backwards to queue these correctly
+				queue.Enqueue(values[i]);
+			}
+
+			// Act
+			string result = Section3.KthElement(queue, k);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
 	}
 }
