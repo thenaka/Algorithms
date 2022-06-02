@@ -244,5 +244,43 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
 		}
+
+		[Test]
+		public void Exercise14_ResizingArrayQueue_Resizes()
+		{
+			// Arrange
+			ResizingArrayQueue<int> queue = new();
+			int initalCapacity = 32;
+			Assert.That(initalCapacity, Is.EqualTo(queue.ArraySize));
+
+			// Act
+			for (int i = 0; i < initalCapacity + 1; i++)
+			{
+				queue.Enqueue(i);
+			}
+
+			// Assert
+			Assert.That(initalCapacity * 2, Is.EqualTo(queue.ArraySize));
+		}
+
+		[Test]
+		public void Exercise14_ResizingArrayQueue_QueuesAndDequeues()
+		{
+			// Arrange
+			ResizingArrayQueue<int> queue = new();
+			int count = 32;
+
+			// Act
+			for (int i = 0; i < count; i++)
+			{
+				queue.Enqueue(i);
+			}
+
+			// Assert
+			for (int i = 0; i < count; i++)
+			{
+				Assert.That(queue.Dequeue(), Is.EqualTo(i));
+			}
+		}
 	}
 }
