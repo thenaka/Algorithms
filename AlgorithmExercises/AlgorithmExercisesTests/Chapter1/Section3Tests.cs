@@ -197,5 +197,20 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(result, Is.EqualTo(expected));
 		}
+
+		[TestCase("1 2 + 3 4 - 5 6 - * *", 3, TestName = "Exercise11_EvaluatePostfix_ReturnsExpected")]
+		[TestCase("111 25 + 83 64 - 1235 60 - * *", 3036200,TestName = "Exercise11_EvaluatePostfix_WhenMultiDigitValues_ReturnsExpected")]
+		[TestCase("1 2 +",3, TestName = "Exercise11_EvaluatePostfix_WhenOneExpression_ReturnsExpected")]
+		[TestCase("1 2 + 3 4 - *", -3, TestName = "Exercise11_EvaluatePostfix_WhenTwoExpressions_ReturnsExpected")]
+		public void Exercise11_EvaluatePostfix_ReturnsExpected(string equation, int expected)
+		{
+			// Arrange
+
+			// Act
+			int result = Section3.EvaluatePostfix(equation);
+
+			// Assert
+			Assert.That(result, Is.EqualTo(expected));
+		}
 	}
 }

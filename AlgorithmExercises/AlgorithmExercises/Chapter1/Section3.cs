@@ -236,5 +236,49 @@ namespace AlgorithmExercises.Chapter1
 			}
 			return operands.Pop();
 		}
+
+		/// <summary>
+		/// Evaluates the given postfix <paramref name="equation"/> and returns the value.
+		/// </summary>
+		/// <param name="equation">Postfix equation to evaluate.</param>
+		/// <returns>Evaluated result of the postfix equation.</returns>
+		/// <remarks>Each part of the equation must be separated by spaces. For example: 1 2 + 3 4 - 5 6 - * *</remarks>
+		/// <inheritdoc cref="int.Parse(string)" select="exception"/>
+		public static int EvaluatePostfix(string equation)
+		{
+			Common.Collections.Stack<string> operators = new();
+			Common.Collections.Stack<int> operands = new();
+
+			foreach (string equationPart in equation.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+			{
+				if (!_validOperators.Contains(equationPart))
+				{ // if it's not an operator it must be a number
+					operands.Push(int.Parse(equationPart));
+					continue;
+				}
+
+				int rightNumber = operands.Pop();
+				int leftNumber = operands.Pop();
+
+				switch (equationPart)
+				{
+					case "+":
+						operands.Push(leftNumber + rightNumber);
+						break;
+					case "-":
+						operands.Push(leftNumber - rightNumber);
+						break;
+					case "*":
+						operands.Push(leftNumber * rightNumber);
+						break;
+					case "/":
+						operands.Push(leftNumber / rightNumber);
+						break;
+					default:
+						throw new InvalidOperationException();
+				}
+			}
+			return operands.Pop();
+		}
 	}
 }
