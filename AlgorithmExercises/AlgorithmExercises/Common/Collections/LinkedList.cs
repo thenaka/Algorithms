@@ -10,11 +10,22 @@ namespace AlgorithmExercises.Common.Collections
 		private Node<T> _current; // for iterating the collection
 		private int _currentSize;  // number of items on the queue
 
+		/// <summary>
+		/// Get if this linked list is empty.
+		/// </summary>
 		public bool IsEmpty => _first is null;
+		/// <summary>
+		/// The number of items in this linked list.
+		/// </summary>
 		public int Size => _currentSize;
-		public T First => _first.Item;
-		public T Last => _last.Item;
-
+		/// <summary>
+		/// The first item in this linked list.
+		/// </summary>
+		public T FirstItem => _first.Item;
+		/// <summary>
+		/// The last item in this linked list.
+		/// </summary>
+		public T LastItem => _last.Item;
 
 		/// <summary>
 		/// Adds an item to the end of the list.
