@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace AlgorithmExercises.Common.Collections
 {
-	public class LinkedList<T> : IEnumerable<T>, IEnumerable
+	public class LinkedList<T> : IEnumerable<T>, IEnumerable where T : IComparable<T>
 	{
 		private Node<T> _first; // link to least recently added node
 		private Node<T> _last;  // link to most recently added node

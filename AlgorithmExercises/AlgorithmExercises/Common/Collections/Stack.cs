@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AlgorithmExercises.Common.Collections
@@ -7,7 +8,7 @@ namespace AlgorithmExercises.Common.Collections
 	/// Stack (LIFO) collection of <typeparamref name="T"/>.
 	/// </summary>
 	/// <remarks>From Chapter 1 Section 3.</remarks>
-	public class Stack<T> :  IEnumerable<T>, IEnumerable
+	public class Stack<T> :  IEnumerable<T>, IEnumerable where T : IComparable<T>
 	{
 		private Node<T> _first;    // top of stack (most recently added node)
 		private Node<T> _current;  // used for iterating

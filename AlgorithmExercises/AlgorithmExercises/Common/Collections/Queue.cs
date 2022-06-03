@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AlgorithmExercises.Common.Collections
@@ -7,7 +8,7 @@ namespace AlgorithmExercises.Common.Collections
 	/// Queue (FIFO) collection of <typeparamref name="T"/>.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class Queue<T> : IEnumerable<T>, IEnumerable
+	public class Queue<T> : IEnumerable<T>, IEnumerable where T : IComparable<T>
 	{
 		private Node<T> _first; // link to least recently added node
 		private Node<T> _last;  // link to most recently added node

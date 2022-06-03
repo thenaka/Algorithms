@@ -287,7 +287,7 @@ namespace AlgorithmExercises.Chapter1
 		/// <typeparam name="T">Type of the stack.</typeparam>
 		/// <param name="originalStack">Stack to copy.</param>
 		/// <returns>Copy of the stack.</returns>
-		public static Common.Collections.Stack<T> Copy<T>(Common.Collections.Stack<T> originalStack)
+		public static Common.Collections.Stack<T> Copy<T>(Common.Collections.Stack<T> originalStack) where T: IComparable<T>
 		{
 			// To maintain the order of the stack we have to use a temp stack and copy twice as the stack iterates LIFO
 			// Original Stack            Temp Stack            Stack Copy

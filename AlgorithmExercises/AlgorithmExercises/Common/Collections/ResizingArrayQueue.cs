@@ -39,12 +39,12 @@ namespace AlgorithmExercises.Common.Collections
 			_size++;
 		}
 
-		public virtual object? Dequeue()
+		public virtual object Dequeue()
 		{
 			if (_size == 0)
 				throw new InvalidOperationException("Queue empty");
 
-			object? removed = _array[_head];
+			object removed = _array[_head];
 			_array[_head] = null;
 			_head = (_head + 1) % _array.Length;
 			_size--;
