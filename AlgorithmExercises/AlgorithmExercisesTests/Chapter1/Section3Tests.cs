@@ -491,7 +491,36 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(linkedList.Size, Is.EqualTo(11));
 			Assert.That(linkedList.Find(before.Item), Is.EqualTo(indexToInsertAfter));
 			Assert.That(linkedList.Find(after.Item), Is.EqualTo(indexToInsertAfter + 1));
+		}
 
+		[TestCase(1, 4, 9, TestName = "Exercise26_LinkedList_RemoveKey_Validate")]
+		[TestCase(5, 10, 9, TestName = "Exercise26_LinkedList_WhenMidPointKey_RemoveKey_Validate")]
+		[TestCase(9, 15, 9, TestName = "Exercise26_LinkedList_WhenEndPointKey_RemoveKey_Validate")]
+		[TestCase(4, 0, 9, TestName = "Exercise26_LinkedList_RemoveKey_WhenZeroDuplicates_Validate")]
+		[TestCase(20, 0, 10, TestName = "Exercise26_LinkedList_RemoveKey_WhenKeyNotInList_Validate")]
+		public void Exercise26_LinkedList_RemoveKey_Validate(int keyToRemove, int keyDuplicates, int expectedSize)
+		{
+			// Arrange
+			LinkedList<int> linkedList = new();
+			int capacity = 10;
+			for (int i = 0; i < capacity; i++)
+			{
+				linkedList.Add(i);
+			}
+			for (int i = 0; i < keyDuplicates; i++)
+			{
+				linkedList.Add(keyToRemove);
+			}
+
+			// Act
+			linkedList.RemoveKey(keyToRemove);
+
+			// Assert
+			Assert.That(linkedList.Size, Is.EqualTo(expectedSize));
+			foreach (int i in linkedList)
+			{
+				Assert.That(i, Is.Not.EqualTo(keyToRemove));
+			}
 		}
 	}
 }

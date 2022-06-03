@@ -100,6 +100,26 @@ namespace AlgorithmExercises.Common.Collections
 		}
 
 		/// <summary>
+		/// Remove all nodes where <see cref="Node{T}.Item"/> is equal to <paramref name="key"/>.
+		/// </summary>
+		/// <param name="key">Remove all nodes with this given key.</param>
+		public void RemoveKey(T key)
+		{
+			Stack<int> indicesToDelete = new(); // use stack so indices will be popped out largest to smallest
+			Node<T> current = _first;
+			for (int i = 1; i <= _currentSize; i++)
+			{
+				if (key.Equals(current.Item)) indicesToDelete.Push(i);
+				current = current.Next;
+			}
+
+			while (!indicesToDelete.IsEmpty)
+			{
+				Remove(indicesToDelete.Pop());
+			}
+		}
+
+		/// <summary>
 		/// Finds the index of the first occurence of <paramref name="searchItem"/> in this linked list.
 		/// </summary>
 		/// <param name="searchItem">Item to find.</param>
