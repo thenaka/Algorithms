@@ -467,5 +467,31 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(x.Next.Item, Is.EqualTo(t.Item));
 			Assert.That(t.Next.Item, Is.Not.EqualTo(z.Item));
 		}
+
+		[TestCase(1, TestName = "Exercise25_LinkedList_InsertAfter_Validate")]
+		[TestCase(5, TestName = "Exercise25_LinkedList_InsertAfter_WhenMiddle_Validate")]
+		[TestCase(10, TestName = "Exercise25_LinkedList_InsertAfter_WhenLast_Validate")]
+		public void Exercise25_LinkedList_InsertAfter_Validate(int indexToInsertAfter)
+		{
+			// Arrange
+			LinkedList<int> linkedList = new();
+			int capacity = 10;
+			for (int i = 0; i < capacity; i++)
+			{
+				linkedList.Add(i);
+			}
+
+			Node<int> before = linkedList.GetNode(indexToInsertAfter);
+			Node<int> after = new() { Item = 10 };
+
+			// Act
+			linkedList.InsertAfter(before, after);
+
+			// Assert
+			Assert.That(linkedList.Size, Is.EqualTo(11));
+			Assert.That(linkedList.Find(before.Item), Is.EqualTo(indexToInsertAfter));
+			Assert.That(linkedList.Find(after.Item), Is.EqualTo(indexToInsertAfter + 1));
+
+		}
 	}
 }

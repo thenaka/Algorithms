@@ -125,12 +125,38 @@ namespace AlgorithmExercises.Common.Collections
 			if (before is null) throw new ArgumentNullException(nameof(before));
 			if (after is null) throw new ArgumentNullException(nameof(after));
 
-			// Simple case, before is the last node
+			// Special case, before is the last node
 			if (before.Next is null)
 			{
 				before.Next = after;
 				_last = after;
+				_currentSize++;
+				return;
 			}
+
+			after.Next = before.Next;
+			before.Next = after;
+			_currentSize++;
+		}
+
+		/// <summary>
+		/// Get the node at <paramref name="index"/>.
+		/// </summary>
+		/// <param name="index">One-based index to get the node at.</param>
+		/// <returns>The node at the given index.</returns>
+		/// <exception cref="ArgumentException"><paramref name="index"/> is less than one or greater than <see cref="Size"/>.</exception>
+		public Node<T> GetNode(int index)
+		{
+			if (_currentSize == 0) throw new InvalidOperationException("Linked list is empty");
+			if (index < 1 || index > _currentSize) throw new ArgumentException("Must be one or greater or less ore equal to Size", nameof(index));
+
+			Node<T> current = _first;
+			for (int i = 1; i <= _currentSize; i++)
+			{
+				if (i == index) return current;
+				current = current.Next;
+			}
+			return current;
 		}
 
 		/// <summary>
