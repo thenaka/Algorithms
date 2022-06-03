@@ -93,13 +93,6 @@ namespace AlgorithmExercises.Common.Collections
 				if (i + 1 == deleteIndex) // the next node is being deleted
 				{
 					RemoveAfter(currentNode);
-
-					if (deleteIndex == _currentSize) // last node was deleted
-					{
-						_last = currentNode;
-					}
-
-					_currentSize--;
 					break;
 				}
 				currentNode = currentNode.Next;
@@ -123,11 +116,29 @@ namespace AlgorithmExercises.Common.Collections
 		}
 
 		/// <summary>
+		/// Insert <paramref name="after"/> after <paramref name="before"/>.
+		/// </summary>
+		/// <param name="before">Node that is before after.</param>
+		/// <param name="after">Node that is after before.</param>
+		public void InsertAfter(Node<T> before, Node<T> after)
+		{
+			if (before is null) throw new ArgumentNullException(nameof(before));
+			if (after is null) throw new ArgumentNullException(nameof(after));
+
+			// Simple case, before is the last node
+			if (before.Next is null)
+			{
+				before.Next = after;
+				_last = after;
+			}
+		}
+
+		/// <summary>
 		/// Removes the node after <paramref name="node"/> if it exists and points <paramref name="node"/> to the one after.
 		/// </summary>
 		/// <param name="node">Node to reference removing the next one.</param>
 		/// <exception cref="ArgumentNullException"><paramref name="node"/> is null.</exception>
-		public static void RemoveAfter(Node<T> node)
+		private void RemoveAfter(Node<T> node)
 		{
 			if (node is null) throw new ArgumentNullException(nameof(node));
 
@@ -136,6 +147,13 @@ namespace AlgorithmExercises.Common.Collections
 			{
 				// dereference the next node by skipping it
 				node.Next = node.Next.Next;
+
+				if (node.Next is null)
+				{ // the last node was deleted
+					_last = node;
+				}
+
+				_currentSize--;
 
 				ResetNode(nodeToDelete);
 			}

@@ -375,6 +375,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			// Assert
 			Assert.That(linkedList.Size, Is.EqualTo(capacity - 1));
 			Assert.That(linkedList.LastItem, Is.EqualTo(8));
+			Assert.That(linkedList.Size, Is.EqualTo(9));
 		}
 
 		[TestCase(1, 0, TestName = "Exercise20And24_LinkedList_RemoveAtN_DeletesThatNode")]
@@ -400,6 +401,7 @@ namespace AlgorithmExercisesTests.Chapter1
 			{
 				Assert.That(item, Is.Not.EqualTo(shouldBeDeleted));
 			}
+			Assert.That(linkedList.Size, Is.EqualTo(9));
 		}
 
 		[TestCase(0, 1, TestName = "Exercise21_LinkedList_FindAtN_ReturnsFoundIndex")]
