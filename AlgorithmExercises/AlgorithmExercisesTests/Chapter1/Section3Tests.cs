@@ -377,12 +377,12 @@ namespace AlgorithmExercisesTests.Chapter1
 			Assert.That(linkedList.LastItem, Is.EqualTo(8));
 		}
 
-		[TestCase(1, 0, TestName = "Exercise20_LinkedList_RemoveAtN_DeletesThatNode")]
-		[TestCase(3, 2, TestName = "Exercise20_LinkedList_RemoveAt3_DeletesThatNode")]
-		[TestCase(5, 4, TestName = "Exercise20_LinkedList_RemoveAt5_DeletesThatNode")]
-		[TestCase(7, 6, TestName = "Exercise20_LinkedList_RemoveAt7_DeletesThatNode")]
-		[TestCase(9, 8, TestName = "Exercise20_LinkedList_RemoveAt9_DeletesThatNode")]
-		public void Exercise20_LinkedList_RemoveAtN_DeletesThatNode(int nodeToDelete, int shouldBeDeleted)
+		[TestCase(1, 0, TestName = "Exercise20And24_LinkedList_RemoveAtN_DeletesThatNode")]
+		[TestCase(3, 2, TestName = "Exercise20And24_LinkedList_RemoveAt3_DeletesThatNode")]
+		[TestCase(5, 4, TestName = "Exercise20And24_LinkedList_RemoveAt5_DeletesThatNode")]
+		[TestCase(7, 6, TestName = "Exercise20And24_LinkedList_RemoveAt7_DeletesThatNode")]
+		[TestCase(9, 8, TestName = "Exercise20And24_LinkedList_RemoveAt9_DeletesThatNode")]
+		public void Exercise20And24_LinkedList_RemoveAtN_DeletesThatNode(int nodeToDelete, int shouldBeDeleted)
 		{
 			// Arrange
 			LinkedList<int> linkedList = new();

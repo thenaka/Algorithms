@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AlgorithmExercises.Common.Collections
 {
@@ -54,8 +56,10 @@ namespace AlgorithmExercises.Common.Collections
 		/// <summary>
 		/// Removes the last node from the list.
 		/// </summary>
+		/// <exception cref="InvalidOperationException">No items in the linked list.</exception>
 		public void Remove()
 		{
+			if (_currentSize == 0) throw new InvalidOperationException("No items in linked list");
 			Remove(_currentSize);
 		}
 
@@ -63,9 +67,12 @@ namespace AlgorithmExercises.Common.Collections
 		/// Removes the node at the <paramref name="deleteIndex"/>.
 		/// </summary>
 		/// <param name="deleteIndex">One-based index to delete.</param>
+		/// <exception cref="ArgumentException"><paramref name="deleteIndex"/> is less than one or greater than <see cref="Size"/>.</exception>
+		/// <exception cref="InvalidOperationException">No items in the linked list.</exception>
 		public void Remove(int deleteIndex)
 		{
-			if (deleteIndex < 1 || deleteIndex > _currentSize) throw new System.ArgumentException("Must be one or greater and no greater than the current size", nameof(deleteIndex));
+			if (_currentSize == 0) throw new InvalidOperationException("No items in linked list");
+			if (deleteIndex < 1 || deleteIndex > _currentSize) throw new ArgumentException("Must be one or greater and no greater than the current size", nameof(deleteIndex));
 
 			if (deleteIndex == 1)
 			{ // handle special case where the first node is being deleted
@@ -85,13 +92,7 @@ namespace AlgorithmExercises.Common.Collections
 			{
 				if (i + 1 == deleteIndex) // the next node is being deleted
 				{
-					Node<T> deletedNode = currentNode.Next;
-
-					// dereference the next node by skipping it
-					currentNode.Next = currentNode.Next.Next;
-
-					deletedNode.Item = default;
-					deletedNode.Next = null;
+					RemoveAfter(currentNode);
 
 					if (deleteIndex == _currentSize) // last node was deleted
 					{
@@ -106,7 +107,7 @@ namespace AlgorithmExercises.Common.Collections
 		}
 
 		/// <summary>
-		/// Tries to find <paramref name="searchItem"/> in this linked list.
+		/// Finds the index of the first occurence of <paramref name="searchItem"/> in this linked list.
 		/// </summary>
 		/// <param name="searchItem">Item to find.</param>
 		/// <returns>The index of the item if it is found, otherwise -1.</returns>
@@ -121,11 +122,42 @@ namespace AlgorithmExercises.Common.Collections
 			return -1;
 		}
 
+		/// <summary>
+		/// Removes the node after <paramref name="node"/> if it exists and points <paramref name="node"/> to the one after.
+		/// </summary>
+		/// <param name="node">Node to reference removing the next one.</param>
+		/// <exception cref="ArgumentNullException"><paramref name="node"/> is null.</exception>
+		public static void RemoveAfter(Node<T> node)
+		{
+			if (node is null) throw new ArgumentNullException(nameof(node));
+
+			Node<T> nodeToDelete = node.Next;
+			if (nodeToDelete is not null)
+			{
+				// dereference the next node by skipping it
+				node.Next = node.Next.Next;
+
+				ResetNode(nodeToDelete);
+			}
+		}
+
+		/// <summary>
+		/// Set node to delete to default and unlink it from the linked list.
+		/// </summary>
+		/// <param name="node"></param>
+		private static void ResetNode(Node<T> node)
+		{
+			Debug.Assert(node is not null, "Node must not be null");
+			node.Item = default;
+			node.Next = null;
+		}
+
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
 		}
 
+		/// <inheritdoc/>
 		public IEnumerator<T> GetEnumerator()
 		{
 			_current = _first;
