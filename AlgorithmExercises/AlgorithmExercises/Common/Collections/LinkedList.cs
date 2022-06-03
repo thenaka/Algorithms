@@ -180,6 +180,26 @@ namespace AlgorithmExercises.Common.Collections
 		}
 
 		/// <summary>
+		/// Gets the max item in this list.
+		/// </summary>
+		/// <returns>The max item in this list.</returns>
+		/// <exception cref="InvalidOperationException">Empty list</exception>
+		public T Max()
+		{
+			if (_currentSize == 0) throw new InvalidOperationException("Empty list");
+
+			T maxItem = _first.Item;
+			foreach(T item in this)
+			{
+				if (item.CompareTo(maxItem) > 0)
+				{
+					maxItem = item;
+				}
+			}
+			return maxItem;
+		}
+
+		/// <summary>
 		/// Removes the node after <paramref name="node"/> if it exists and points <paramref name="node"/> to the one after.
 		/// </summary>
 		/// <param name="node">Node to reference removing the next one.</param>

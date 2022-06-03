@@ -522,5 +522,24 @@ namespace AlgorithmExercisesTests.Chapter1
 				Assert.That(i, Is.Not.EqualTo(keyToRemove));
 			}
 		}
+
+		[TestCase(10, TestName = "Exercise27_LinkedList_Max_ReturnsExpected")]
+		[TestCase(100, TestName = "Exercise27_LinkedList_Max_When100Values_ReturnsExpected")]
+		[TestCase(1000, TestName = "Exercise27_LinkedList_Max_When1000Values_ReturnsExpected")]
+		public void Exercise27_LinkedList_Max_ReturnsExpected(int capacity)
+		{
+			// Arrange
+			LinkedList<int> linkedList = new();
+			for (int i = 0; i < capacity; i++)
+			{
+				linkedList.Add(i);
+			}
+
+			// Act
+			int max = linkedList.Max();
+
+			// Assert
+			Assert.That(max, Is.EqualTo(capacity - 1));
+		}
 	}
 }
